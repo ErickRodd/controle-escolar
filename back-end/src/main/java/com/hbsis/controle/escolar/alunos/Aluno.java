@@ -2,13 +2,8 @@ package com.hbsis.controle.escolar.alunos;
 
 import com.hbsis.controle.escolar.boletim.Boletim;
 import com.hbsis.controle.escolar.turmas.Turma;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Entity
 @Table(name = "alunos")
@@ -30,23 +25,18 @@ public class Aluno {
     private String telefone;
 
     @ManyToOne
-    @JoinColumn(name = "boletim", referencedColumnName = "id")
-    private Boletim boletim;
-
-    @ManyToMany
-    @JoinTable(name = "aluno_turma", joinColumns = @JoinColumn(name = "id_aluno"), inverseJoinColumns = @JoinColumn(name = "id_turma"))
-    private List<Turma> turmaList;
+    @JoinColumn(name = "turma", referencedColumnName = "id")
+    private Turma turma;
 
     public Aluno() {
     }
 
-    public Aluno(String nome, String cpf, String email, String telefone, Boletim boletim, List<Turma> turmaList) {
+    public Aluno(String nome, String cpf, String email, String telefone, Turma turma) {
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
         this.telefone = telefone;
-        this.boletim = boletim;
-        this.turmaList = turmaList;
+        this.turma = turma;
     }
 
     public Long getId() {
@@ -89,20 +79,12 @@ public class Aluno {
         this.telefone = telefone;
     }
 
-    public Boletim getBoletim() {
-        return boletim;
+    public Turma getTurma() {
+        return turma;
     }
 
-    public void setBoletim(Boletim boletim) {
-        this.boletim = boletim;
-    }
-
-    public List<Turma> getTurmaList() {
-        return turmaList;
-    }
-
-    public void setTurmaList(List<Turma> turmaList) {
-        this.turmaList = turmaList;
+    public void setTurma(Turma turma) {
+        this.turma = turma;
     }
 
     @Override
@@ -113,8 +95,7 @@ public class Aluno {
                 ", cpf='" + cpf + '\'' +
                 ", email='" + email + '\'' +
                 ", telefone='" + telefone + '\'' +
-                ", boletim=" + boletim +
-                ", turmaList=" + turmaList +
+                ", turma=" + turma +
                 '}';
     }
 }

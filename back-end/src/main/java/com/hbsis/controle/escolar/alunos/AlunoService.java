@@ -1,6 +1,7 @@
 package com.hbsis.controle.escolar.alunos;
 
 import com.hbsis.controle.escolar.turmas.Turma;
+import com.hbsis.controle.escolar.turmas.TurmaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -11,16 +12,18 @@ import java.util.Optional;
 @Service
 public class AlunoService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AlunoService.class);
-    private IAlunoRepository iAlunoRepository;
+    private final IAlunoRepository iAlunoRepository;
+    private final TurmaService turmaService;
 
-    public AlunoService(IAlunoRepository iAlunoRepository) {
+    public AlunoService(IAlunoRepository iAlunoRepository, TurmaService turmaService) {
         this.iAlunoRepository = iAlunoRepository;
+        this.turmaService = turmaService;
     }
 
-    /*public AlunoDTO save(AlunoDTO alunoDTO) {
-        this.validate(alunoDTO);
+    public AlunoDTO save(AlunoDTO alunoDTO) {
         this.validateExistencia(alunoDTO.getCpf());
 
+        LOGGER.info("\n");
         LOGGER.info("Cadastrando novo aluno...");
 
         Aluno aluno = new Aluno(
@@ -28,35 +31,36 @@ public class AlunoService {
                 alunoDTO.getCpf(),
                 alunoDTO.getEmail(),
                 alunoDTO.getTelefone(),
-                alunoDTO.getBoletim(),
-                alunoDTO.getTurmaList()
+                findTurma(alunoDTO.getTurmaId())
         );
 
         aluno = this.iAlunoRepository.save(aluno);
 
+        LOGGER.info("Aluno cadastrado com sucesso.\n");
+
         return AlunoDTO.of(aluno);
-    }*/
+    }
 
     public AlunoDTO update(AlunoDTO alunoDTO) {
-        this.validate(alunoDTO);
+        LOGGER.info("\n");
+        LOGGER.info("Atualizando aluno de ID [{}]...", alunoDTO.getId());
 
-        LOGGER.info("Atualizando aluno de ID [{}]", alunoDTO.getId());
-
-        Optional<Aluno> alunoExistente = this.iAlunoRepository.findById(alunoDTO.getId());
-
-        Aluno alunoNovo = alunoExistente.get();
+        Aluno alunoNovo = findAluno(alunoDTO.getId());
         alunoNovo.setNome(alunoDTO.getNome());
         alunoNovo.setCpf(alunoDTO.getCpf());
         alunoNovo.setEmail(alunoDTO.getEmail());
         alunoNovo.setTelefone(alunoDTO.getTelefone());
+        alunoNovo.setTurma(findTurma(alunoDTO.getTurmaId()));
 
         alunoNovo = this.iAlunoRepository.save(alunoNovo);
+
+        LOGGER.info("Aluno atualizado com sucesso.\n");
 
         return AlunoDTO.of(alunoNovo);
     }
 
     public AlunoDTO get(Long id) {
-        LOGGER.info("Procurand por aluno de ID [{}]", id);
+        LOGGER.info("Procurando por aluno de ID [{}]", id);
 
         Optional<Aluno> alunoOptional = this.iAlunoRepository.findById(id);
 
@@ -64,7 +68,19 @@ public class AlunoService {
             return AlunoDTO.of(alunoOptional.get());
         }
 
-        throw new IllegalArgumentException(String.format("Aluno de ID [{}] não existe.", id));
+        throw new IllegalArgumentException(String.format("Aluno de ID [%s] não existe.", id));
+    }
+
+    public Optional<Aluno> getOptional(Long id) {
+        LOGGER.info("Procurand por aluno de ID [{}]", id);
+
+        Optional<Aluno> alunoOptional = this.iAlunoRepository.findById(id);
+
+        if (alunoOptional.isPresent()) {
+            return alunoOptional;
+        }
+
+        throw new IllegalArgumentException(String.format("Aluno de ID [%s] não existe.", id));
     }
 
     public List<Aluno> getAll() {
@@ -80,15 +96,7 @@ public class AlunoService {
             this.iAlunoRepository.deleteById(id);
         } else {
 
-            throw new IllegalArgumentException(String.format("Aluno de ID {} não existe.", id));
-        }
-    }
-
-    private void validate(AlunoDTO alunoDTO) {
-        LOGGER.info("Validando novo aluno...");
-
-        if (alunoDTO == null) {
-            throw new IllegalArgumentException("Objeto está nulo.");
+            throw new IllegalArgumentException(String.format("Aluno de ID [%s] não existe.", id));
         }
     }
 
@@ -98,7 +106,11 @@ public class AlunoService {
         }
     }
 
-/*    private Turma findTurma(Long id){
-        Optional<Turma> turmaOptional;
-    }*/
+    private Aluno findAluno(Long id) {
+        return iAlunoRepository.findById(id).get();
+    }
+
+    private Turma findTurma(Long id) {
+        return turmaService.get(id).get();
+    }
 }

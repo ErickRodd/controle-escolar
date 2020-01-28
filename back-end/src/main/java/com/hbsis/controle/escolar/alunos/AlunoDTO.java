@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class AlunoDTO {
@@ -29,23 +30,19 @@ public class AlunoDTO {
     @Length(min = 10, max = 11)
     private String telefone;
 
-    @NotBlank
-    private Long boletim;
-
-    @NotBlank
-    private List<Turma> turmaList;
+    @NotNull
+    private Long turmaId;
 
     public AlunoDTO() {
     }
 
-    public AlunoDTO(Long id, @NotBlank @Length(min = 5, max = 100) String nome, @CPF @NotBlank @Length(min = 11, max = 11) String cpf, @Email @NotBlank @Length(min = 5, max = 50) String email, @NotBlank @Length(min = 10, max = 11) String telefone, @NotBlank Long boletim, @NotBlank List<Turma> turmaList) {
+    public AlunoDTO(Long id, @NotBlank @Length(min = 5, max = 100) String nome, @CPF @NotBlank @Length(min = 11, max = 11) String cpf, @Email @NotBlank @Length(min = 5, max = 50) String email, @NotBlank @Length(min = 10, max = 11) String telefone, @NotBlank Long turmaId) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
         this.telefone = telefone;
-        this.boletim = boletim;
-        this.turmaList = turmaList;
+        this.turmaId = turmaId;
     }
 
     public static AlunoDTO of(Aluno aluno) {
@@ -55,8 +52,7 @@ public class AlunoDTO {
                 aluno.getCpf(),
                 aluno.getEmail(),
                 aluno.getTelefone(),
-                aluno.getBoletim().getId(),
-                aluno.getTurmaList()
+                aluno.getTurma().getId()
         );
     }
 
@@ -100,20 +96,12 @@ public class AlunoDTO {
         this.telefone = telefone;
     }
 
-    public Long getBoletim() {
-        return boletim;
+    public Long getTurmaId() {
+        return turmaId;
     }
 
-    public void setBoletim(Long boletim) {
-        this.boletim = boletim;
-    }
-
-    public List<Turma> getTurmaList() {
-        return turmaList;
-    }
-
-    public void setTurmaList(List<Turma> turmaList) {
-        this.turmaList = turmaList;
+    public void setTurmaId(Long turmaId) {
+        this.turmaId = turmaId;
     }
 
     @Override
@@ -124,8 +112,7 @@ public class AlunoDTO {
                 ", cpf='" + cpf + '\'' +
                 ", email='" + email + '\'' +
                 ", telefone='" + telefone + '\'' +
-                ", boletim=" + boletim +
-                ", turmaList=" + turmaList +
+                ", turmaId=" + turmaId +
                 '}';
     }
 }
