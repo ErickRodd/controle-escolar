@@ -27,7 +27,8 @@ public class BoletimService {
         Boletim boletim = new Boletim(
                 findBimestre(boletimDTO.getBimestreId()),
                 findAluno(boletimDTO.getAlunoId()),
-                boletimDTO.getDisciplinaList()
+                boletimDTO.getDisciplinaList(),
+                boletimDTO.getNotaList()
         );
 
         boletim = this.iBoletimRepository.save(boletim);
@@ -43,6 +44,7 @@ public class BoletimService {
         boletimNovo.setBimestre(findBimestre(boletimDTO.getBimestreId()));
         boletimNovo.setAluno(findAluno(boletimDTO.getAlunoId()));
         boletimNovo.setDisciplinaList(boletimDTO.getDisciplinaList());
+        boletimNovo.setNotaList(boletimDTO.getNotaList());
 
         boletimNovo = this.iBoletimRepository.save(boletimNovo);
 
