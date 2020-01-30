@@ -1,9 +1,91 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
-            <h1 class="text-center">
-                Aluno
-            </h1>
+        <div class="col-md-3 ml-auto mt-4 rounded-left bg-light border-left border-top border-bottom">
+            <h4 class="mt-2">Cadastro de alunos</h4>
+            <div ng-controller="cadastroAluno">
+                <form name="form" novalidate>
+                    <!-- Nome -->
+                    <div class="form-group">
+                        <label for="nome">Nome</label>
+                        <input required ng-model="aluno.nome" ng-model-options="{ updateOn: 'blur' }" type="text" class="form-control" id="nome" name="nome"
+                            aria-describedby="infoNome" placeholder="Digite seu nome...">
+                        <small id="infoNome" class="form-text text-muted">Insira seu nome completo.</small>
+                    </div>
+                    <div ng-show="form.$submitted || form.nome.$touched">
+                        <div ng-show="form.nome.$error.required" class="alert alert-danger">Por favor informe um nome.</div>
+                    </div>
+
+                    <!-- CPF -->
+                    <div class="form-group">
+                        <label for="cpf">CPF</label>
+                        <input required ng-model="aluno.cpf" type="text" class="form-control" id="cpf" name="cpf"
+                            minlength="11" maxlength="11" placeholder="Digite seu CPF..." onkeypress="return campoNumerico(event)">
+                    </div>
+                    <div ng-show="form.$submitted || form.cpf.$touched">
+                        <div ng-show="form.cpf.$error.required" class="alert alert-danger">Por favor informe um CPF.</div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input required ng-model="aluno.email" ng-model-options="{ updateOn: 'blur' }" type="email" class="form-control" id="email" name="email"
+                            aria-describedby="infoEmail" placeholder="Digite seu e-mail..." minlength="3"
+                            maxlength="50">
+                        <small id="infoEmail" class="form-text text-muted">Insira um e-mail válido.</small>
+                    </div>
+                    <div ng-show="form.$submitted || form.email.$touched">
+                        <div ng-show="form.email.$error.required" class="alert alert-danger">Por favor informe um e-mail.</div>
+                        <div ng-show="form.email.$error.email" class="alert alert-danger">Por favor informe um e-mail válido.</div>
+                        <div ng-show="form.email.$error.maxlength" class="alert alert-danger">E-mail excede o limite de caracteres.</div>
+                    </div>
+
+                    <!-- Telefone -->
+                    <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input ng-model="aluno.telefone" type="text" class="form-control" id="telefone" name="telefone">
+                    </div>
+                    <button ng-click="update(aluno)" class="btn btn-dark w-100 mb-3" type="submit">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6 mr-auto mt-4 rounded-right bg-light border">
+            <h4 class="mt-2">Consultar</h4>
+            <div class="table-responsive-sm  rounded border">
+                <table class="table table-light table-bordered table-hover">
+                    <thead>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>E-mail</th>
+                        <th>Telefone</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Aluno</td>
+                            <td>040.040.040-40</td>
+                            <td>Aluno.email@gmail.com</td>
+                            <td>47 91234578</td>
+                        </tr>
+                        <tr>
+                            <td>Aluno</td>
+                            <td>040.040.040-40</td>
+                            <td>Aluno.email@gmail.com</td>
+                            <td>47 91234578</td>
+                        </tr>
+                        <tr>
+                            <td>Aluno</td>
+                            <td>040.040.040-40</td>
+                            <td>Aluno.email@gmail.com</td>
+                            <td>47 91234578</td>
+                        </tr>
+                        <tr>
+                            <td>Aluno</td>
+                            <td>040.040.040-40</td>
+                            <td>Aluno.email@gmail.com</td>
+                            <td>47 91234578</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
