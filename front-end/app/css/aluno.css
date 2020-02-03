@@ -1,0 +1,16 @@
+.submitted .ng-invalid{
+    border-color: red;
+}
+
+.form-control:focus{
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.input-border{
+    border-color: #343a40;
+}
+
+.lupa{
+    cursor: text;
+}

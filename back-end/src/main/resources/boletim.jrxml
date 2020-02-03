@@ -1,225 +1,256 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="91049c7e-6a11-475d-b80a-07ce2b4035ae">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-	<queryString>
-		<![CDATA[]]>
-	</queryString>
-	<field name="bimestre" class="java.lang.String">
-		<property name="net.sf.jasperreports.javabean.field.property" value="bimestre.bimestre"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20"
+              topMargin="20" bottomMargin="20" uuid="91049c7e-6a11-475d-b80a-07ce2b4035ae">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    <queryString>
+        <![CDATA[]]>
+    </queryString>
+    <field name="bimestre" class="java.lang.String">
+        <property name="net.sf.jasperreports.javabean.field.property" value="bimestre.bimestre"/>
+    </field>
+    <field name="nome" class="java.lang.String">
+        <property name="net.sf.jasperreports.javabean.field.property" value="aluno.nome"/>
+    </field>
+    <field name="sobrenome" class="java.lang.String">
+        <property name="net.sf.jasperreports.javabean.field.property" value="aluno.sobrenome"/>
+    </field>
+	<field name="valor" class="java.lang.Double">
+		<property name="net.sf.jasperreports.javabean.field.property" value="notaList[0].getValor"/>
 	</field>
-	<field name="nome" class="java.lang.String">
-		<property name="net.sf.jasperreports.javabean.field.property" value="aluno.nome"/>
-	</field>
-	<field name="sobrenome" class="java.lang.String">
-		<property name="net.sf.jasperreports.javabean.field.property" value="aluno.sobrenome"/>
-	</field>
-	<field name="notaList" class="java.util.List"/>
-	<group name="myGroup">
-		<groupExpression><![CDATA[$F{nome} + $F{sobrenome}]]></groupExpression>
-		<groupHeader>
-			<band height="20"/>
-		</groupHeader>
-	</group>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
-	<title>
-		<band height="84" splitType="Stretch"/>
-	</title>
-	<detail>
-		<band height="410" splitType="Stretch">
-			<staticText>
-				<reportElement mode="Opaque" x="467" y="-40" width="68" height="20" backcolor="#E8E8E8" uuid="c7f107ca-5092-4957-9bea-7718a53d02c1"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Média Geral]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="170" y="-40" width="76" height="20" backcolor="#E8E8E8" uuid="72da1c05-65fc-4073-bdea-a00b49c8745a"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[1º Bimestre]]></text>
-			</staticText>
+    <field name="notaList" class="java.util.List"/>
+    <group name="myGroup">
+        <groupExpression><![CDATA[$F{nome} + $F{sobrenome}]]></groupExpression>
+        <groupHeader>
+            <band height="20"/>
+        </groupHeader>
+    </group>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="84" splitType="Stretch"/>
+    </title>
+    <detail>
+        <band height="410" splitType="Stretch">
+            <staticText>
+                <reportElement mode="Opaque" x="467" y="-40" width="68" height="20" backcolor="#E8E8E8"
+                               uuid="c7f107ca-5092-4957-9bea-7718a53d02c1"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Média Geral]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="170" y="-40" width="76" height="20" backcolor="#E8E8E8"
+                               uuid="72da1c05-65fc-4073-bdea-a00b49c8745a"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[1º Bimestre]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="17" y="250" width="192" height="70" uuid="d760a650-45e0-4b12-9dfd-873c9cbbe64e"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{notaList}.get(0)]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement mode="Opaque" x="17" y="-60" width="153" height="40" backcolor="#E8E8E8"
+                               uuid="49efc57d-78f3-444e-af28-a02a279f3c7f"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Disciplinas]]></text>
+            </staticText>
+            <line>
+                <reportElement x="170" y="-59" width="1" height="279" uuid="c2b2b44d-2f62-4064-861b-69487885fe0a"/>
+            </line>
+            <staticText>
+                <reportElement mode="Opaque" x="246" y="-40" width="74" height="20" backcolor="#E8E8E8"
+                               uuid="1917d24d-e4d8-4f25-98a9-5a4a1b84a512"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[2º Bimestre]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="320" y="-40" width="76" height="20" backcolor="#E8E8E8"
+                               uuid="b293f37f-c4af-4b16-8621-3a2b675e3d03"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[3º Bimestre]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="397" y="-40" width="70" height="20" backcolor="#E8E8E8"
+                               uuid="f48a5d2b-e63f-4bc4-be8a-58ebecb6f790"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[4º Bimestre]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="18" y="-20" width="152" height="20" backcolor="#E8E8E8"
+                               uuid="51ad2f66-025a-42b3-b3d1-e6c79339efe7"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                <text><![CDATA[   Artes]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="18" y="0" width="152" height="20" backcolor="#E8E8E8"
+                               uuid="4f72d1fe-bb72-43e5-bf37-77280a70c461"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                <text><![CDATA[   Biologia]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="18" y="20" width="152" height="20" backcolor="#E8E8E8"
+                               uuid="9377e307-4b66-4b9e-a2af-3298f0bc6800"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                <text><![CDATA[   Ed. Física]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="18" y="41" width="152" height="20" backcolor="#E8E8E8"
+                               uuid="b710dc09-61ef-4c49-ad37-f1a0639ee091"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                <text><![CDATA[   Filosofia]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="18" y="61" width="152" height="20" backcolor="#E8E8E8"
+                               uuid="173db674-f5aa-4f59-a16d-d38c1dc25800"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                <text><![CDATA[   Física]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="18" y="81" width="152" height="20" backcolor="#E8E8E8"
+                               uuid="d200b512-0990-4685-94f4-d5052a318554"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                <text><![CDATA[   Geografia]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="18" y="100" width="152" height="20" backcolor="#E8E8E8"
+                               uuid="8078f3d5-7a5f-47ab-9895-6e628ee7c52d"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                <text><![CDATA[   História]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="18" y="120" width="152" height="20" backcolor="#E8E8E8"
+                               uuid="211b07f8-0c59-4d61-85ce-28f7fc7055a7"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                <text><![CDATA[   Língua Estrangeira Inglês]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="18" y="140" width="152" height="20" backcolor="#E8E8E8"
+                               uuid="66d597c8-60fb-43a6-9a9a-795872f77466"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                <text><![CDATA[   Língua Portuguesa]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="18" y="159" width="152" height="22" backcolor="#E8E8E8"
+                               uuid="cfca89f6-f565-4e19-b4bc-4c09c3103d97"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                <text><![CDATA[   Matemática]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="18" y="181" width="152" height="20" backcolor="#E8E8E8"
+                               uuid="439256b1-7376-4787-9b1f-3b9afe5ce6e3"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                <text><![CDATA[   Química]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="18" y="201" width="152" height="20" backcolor="#E8E8E8"
+                               uuid="9f02640c-2dc0-4234-ad37-36639c65ce89"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                <text><![CDATA[   Sociologia]]></text>
+            </staticText>
+            <line>
+                <reportElement x="17" y="-60" width="1" height="301" uuid="2f69c2c6-e149-4f4d-9160-de3508b5a9bf"/>
+            </line>
+            <line>
+                <reportElement x="246" y="-39" width="1" height="280" uuid="c453d48d-f294-4a2b-9c7a-d2763a50be0f"/>
+            </line>
+            <line>
+                <reportElement x="319" y="-39" width="1" height="259" uuid="271c35d1-6c96-44a7-8721-c6ecbe270e11"/>
+            </line>
+            <line>
+                <reportElement x="396" y="-39" width="1" height="279" uuid="482c8de6-e710-431e-a9b8-43b8f5d08ff8"/>
+            </line>
+            <line>
+                <reportElement x="467" y="-39" width="1" height="259" uuid="d2b8d700-8f59-4cd0-b0b9-2e8183d661d5"/>
+            </line>
+            <line>
+                <reportElement x="18" y="-20" width="517" height="1" uuid="f48ed58b-4bca-4b04-b503-0b52fab6e4ef"/>
+            </line>
+            <line>
+                <reportElement x="18" y="200" width="517" height="1" uuid="1f1e4a39-f99e-45e3-a53f-bae490cf1d1d"/>
+            </line>
+            <line>
+                <reportElement x="18" y="180" width="517" height="1" uuid="c84189fa-c4f9-4f80-9578-31894819fbad"/>
+            </line>
+            <line>
+                <reportElement x="18" y="220" width="517" height="1" uuid="5ee7d0db-92d8-424c-ad64-f1c2b0e698fd"/>
+            </line>
+            <line>
+                <reportElement x="171" y="-40" width="364" height="1" uuid="04d02349-f3f7-4eb7-aa0b-bc71d9b682cf"/>
+            </line>
+            <staticText>
+                <reportElement mode="Opaque" x="171" y="-60" width="364" height="20" backcolor="#E8E8E8"
+                               uuid="586f3b7f-d66e-419f-8a08-722d1eac1fb8"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Notas]]></text>
+            </staticText>
+            <line>
+                <reportElement x="18" y="-60" width="517" height="1" uuid="5e7817e5-588c-4f78-a56d-0089717a2fc6"/>
+            </line>
+            <line>
+                <reportElement x="535" y="-60" width="1" height="301" uuid="39cb9828-6725-438f-b408-1569081fdbd8"/>
+            </line>
+            <line>
+                <reportElement x="18" y="159" width="517" height="1" uuid="1353fcd4-12d2-4144-bc8d-8ffb92b70a51"/>
+            </line>
+            <line>
+                <reportElement x="18" y="0" width="517" height="1" uuid="a77a033b-c336-4a34-af5d-62e00d1050d3"/>
+            </line>
+            <line>
+                <reportElement x="18" y="20" width="517" height="1" uuid="055f815a-5ef3-4c2c-a576-31c4974345c7"/>
+            </line>
+            <line>
+                <reportElement x="18" y="40" width="517" height="1" uuid="2a3ed7c0-f19f-46ab-a9e8-1cb0eb924876"/>
+            </line>
+            <line>
+                <reportElement x="18" y="60" width="518" height="1" uuid="92318dfb-4e7c-4e08-9446-cc17683fc991"/>
+            </line>
+            <line>
+                <reportElement x="18" y="81" width="517" height="1" uuid="c549ab56-c602-442b-802a-926152cdf0bb"/>
+            </line>
+            <line>
+                <reportElement x="18" y="101" width="518" height="1" uuid="ba9cedce-1da0-42cb-a78c-9e22354890ba"/>
+            </line>
+            <line>
+                <reportElement x="19" y="119" width="516" height="1" uuid="acf6c206-3675-4550-91b7-cef135c3e0e2"/>
+            </line>
+            <line>
+                <reportElement x="19" y="140" width="516" height="1" uuid="d20e73f2-8bc4-4721-9892-4cf896048cd5"/>
+            </line>
+            <staticText>
+                <reportElement x="247" y="220" width="73" height="20" uuid="0ad44d78-4fbc-4a45-aaf5-2315c106abca"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Turma:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="396" y="220" width="73" height="20" uuid="e249c1e1-df49-4125-a0b4-fd616cbbdd7f"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Turno:]]></text>
+            </staticText>
+            <line>
+                <reportElement x="18" y="240" width="517" height="1" uuid="ec693dbc-036f-4b68-a433-4ff46e219187"/>
+            </line>
+            <staticText>
+                <reportElement x="18" y="-90" width="100" height="30" uuid="2b82ebf7-ece1-4b52-ae5f-e4ed86abc2c7"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="14"/>
+                </textElement>
+                <text><![CDATA[Boletim Escolar]]></text>
+            </staticText>
+            <textField>
+                <reportElement mode="Transparent" x="30" y="220" width="216" height="20" forecolor="#000000"
+                               uuid="b3f3381f-26c1-48d5-953e-ddd017fbf7cf"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA["Aluno: " + $F{nome} + " " + $F{sobrenome}]]></textFieldExpression>
+            </textField>
 			<textField>
-				<reportElement x="77" y="250" width="390" height="160" uuid="d760a650-45e0-4b12-9dfd-873c9cbbe64e"/>
-				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA[$F{notaList}]]></textFieldExpression>
+				<reportElement x="220" y="250" width="176" height="80" uuid="493df54c-1ad6-4744-a517-8b859e730675"/>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement mode="Opaque" x="17" y="-60" width="153" height="40" backcolor="#E8E8E8" uuid="49efc57d-78f3-444e-af28-a02a279f3c7f"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Disciplinas]]></text>
-			</staticText>
-			<line>
-				<reportElement x="170" y="-59" width="1" height="279" uuid="c2b2b44d-2f62-4064-861b-69487885fe0a"/>
-			</line>
-			<staticText>
-				<reportElement mode="Opaque" x="246" y="-40" width="74" height="20" backcolor="#E8E8E8" uuid="1917d24d-e4d8-4f25-98a9-5a4a1b84a512"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[2º Bimestre]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="320" y="-40" width="76" height="20" backcolor="#E8E8E8" uuid="b293f37f-c4af-4b16-8621-3a2b675e3d03"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[3º Bimestre]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="397" y="-40" width="70" height="20" backcolor="#E8E8E8" uuid="f48a5d2b-e63f-4bc4-be8a-58ebecb6f790"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[4º Bimestre]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="18" y="-20" width="152" height="20" backcolor="#E8E8E8" uuid="51ad2f66-025a-42b3-b3d1-e6c79339efe7"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<text><![CDATA[   Artes]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="18" y="0" width="152" height="20" backcolor="#E8E8E8" uuid="4f72d1fe-bb72-43e5-bf37-77280a70c461"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<text><![CDATA[   Biologia]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="18" y="20" width="152" height="20" backcolor="#E8E8E8" uuid="9377e307-4b66-4b9e-a2af-3298f0bc6800"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<text><![CDATA[   Ed. Física]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="18" y="41" width="152" height="20" backcolor="#E8E8E8" uuid="b710dc09-61ef-4c49-ad37-f1a0639ee091"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<text><![CDATA[   Filosofia]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="18" y="61" width="152" height="20" backcolor="#E8E8E8" uuid="173db674-f5aa-4f59-a16d-d38c1dc25800"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<text><![CDATA[   Física]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="18" y="81" width="152" height="20" backcolor="#E8E8E8" uuid="d200b512-0990-4685-94f4-d5052a318554"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<text><![CDATA[   Geografia]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="18" y="100" width="152" height="20" backcolor="#E8E8E8" uuid="8078f3d5-7a5f-47ab-9895-6e628ee7c52d"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<text><![CDATA[   História]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="18" y="120" width="152" height="20" backcolor="#E8E8E8" uuid="211b07f8-0c59-4d61-85ce-28f7fc7055a7"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<text><![CDATA[   Língua Estrangeira Inglês]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="18" y="140" width="152" height="20" backcolor="#E8E8E8" uuid="66d597c8-60fb-43a6-9a9a-795872f77466"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<text><![CDATA[   Língua Portuguesa]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="18" y="159" width="152" height="22" backcolor="#E8E8E8" uuid="cfca89f6-f565-4e19-b4bc-4c09c3103d97"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<text><![CDATA[   Matemática]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="18" y="181" width="152" height="20" backcolor="#E8E8E8" uuid="439256b1-7376-4787-9b1f-3b9afe5ce6e3"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<text><![CDATA[   Química]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="18" y="201" width="152" height="20" backcolor="#E8E8E8" uuid="9f02640c-2dc0-4234-ad37-36639c65ce89"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<text><![CDATA[   Sociologia]]></text>
-			</staticText>
-			<line>
-				<reportElement x="17" y="-60" width="1" height="301" uuid="2f69c2c6-e149-4f4d-9160-de3508b5a9bf"/>
-			</line>
-			<line>
-				<reportElement x="246" y="-39" width="1" height="280" uuid="c453d48d-f294-4a2b-9c7a-d2763a50be0f"/>
-			</line>
-			<line>
-				<reportElement x="319" y="-39" width="1" height="259" uuid="271c35d1-6c96-44a7-8721-c6ecbe270e11"/>
-			</line>
-			<line>
-				<reportElement x="396" y="-39" width="1" height="279" uuid="482c8de6-e710-431e-a9b8-43b8f5d08ff8"/>
-			</line>
-			<line>
-				<reportElement x="467" y="-39" width="1" height="259" uuid="d2b8d700-8f59-4cd0-b0b9-2e8183d661d5"/>
-			</line>
-			<line>
-				<reportElement x="18" y="-20" width="517" height="1" uuid="f48ed58b-4bca-4b04-b503-0b52fab6e4ef"/>
-			</line>
-			<line>
-				<reportElement x="18" y="200" width="517" height="1" uuid="1f1e4a39-f99e-45e3-a53f-bae490cf1d1d"/>
-			</line>
-			<line>
-				<reportElement x="18" y="180" width="517" height="1" uuid="c84189fa-c4f9-4f80-9578-31894819fbad"/>
-			</line>
-			<line>
-				<reportElement x="18" y="220" width="517" height="1" uuid="5ee7d0db-92d8-424c-ad64-f1c2b0e698fd"/>
-			</line>
-			<line>
-				<reportElement x="171" y="-40" width="364" height="1" uuid="04d02349-f3f7-4eb7-aa0b-bc71d9b682cf"/>
-			</line>
-			<staticText>
-				<reportElement mode="Opaque" x="171" y="-60" width="364" height="20" backcolor="#E8E8E8" uuid="586f3b7f-d66e-419f-8a08-722d1eac1fb8"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Notas]]></text>
-			</staticText>
-			<line>
-				<reportElement x="18" y="-60" width="517" height="1" uuid="5e7817e5-588c-4f78-a56d-0089717a2fc6"/>
-			</line>
-			<line>
-				<reportElement x="535" y="-60" width="1" height="301" uuid="39cb9828-6725-438f-b408-1569081fdbd8"/>
-			</line>
-			<line>
-				<reportElement x="18" y="159" width="517" height="1" uuid="1353fcd4-12d2-4144-bc8d-8ffb92b70a51"/>
-			</line>
-			<line>
-				<reportElement x="18" y="0" width="517" height="1" uuid="a77a033b-c336-4a34-af5d-62e00d1050d3"/>
-			</line>
-			<line>
-				<reportElement x="18" y="20" width="517" height="1" uuid="055f815a-5ef3-4c2c-a576-31c4974345c7"/>
-			</line>
-			<line>
-				<reportElement x="18" y="40" width="517" height="1" uuid="2a3ed7c0-f19f-46ab-a9e8-1cb0eb924876"/>
-			</line>
-			<line>
-				<reportElement x="18" y="60" width="518" height="1" uuid="92318dfb-4e7c-4e08-9446-cc17683fc991"/>
-			</line>
-			<line>
-				<reportElement x="18" y="81" width="517" height="1" uuid="c549ab56-c602-442b-802a-926152cdf0bb"/>
-			</line>
-			<line>
-				<reportElement x="18" y="101" width="518" height="1" uuid="ba9cedce-1da0-42cb-a78c-9e22354890ba"/>
-			</line>
-			<line>
-				<reportElement x="19" y="119" width="516" height="1" uuid="acf6c206-3675-4550-91b7-cef135c3e0e2"/>
-			</line>
-			<line>
-				<reportElement x="19" y="140" width="516" height="1" uuid="d20e73f2-8bc4-4721-9892-4cf896048cd5"/>
-			</line>
-			<staticText>
-				<reportElement x="247" y="220" width="73" height="20" uuid="0ad44d78-4fbc-4a45-aaf5-2315c106abca"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Turma:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="396" y="220" width="73" height="20" uuid="e249c1e1-df49-4125-a0b4-fd616cbbdd7f"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Turno:]]></text>
-			</staticText>
-			<line>
-				<reportElement x="18" y="240" width="517" height="1" uuid="ec693dbc-036f-4b68-a433-4ff46e219187"/>
-			</line>
-			<staticText>
-				<reportElement x="18" y="-90" width="100" height="30" uuid="2b82ebf7-ece1-4b52-ae5f-e4ed86abc2c7"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14"/>
-				</textElement>
-				<text><![CDATA[Boletim Escolar]]></text>
-			</staticText>
-			<textField>
-				<reportElement mode="Transparent" x="30" y="220" width="216" height="20" forecolor="#000000" uuid="b3f3381f-26c1-48d5-953e-ddd017fbf7cf"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA["Aluno: " + $F{nome} + " " + $F{sobrenome}]]></textFieldExpression>
-			</textField>
-		</band>
-	</detail>
+        </band>
+    </detail>
 </jasperReport>

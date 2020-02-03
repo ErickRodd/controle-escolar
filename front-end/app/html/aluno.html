@@ -1,87 +1,148 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-3 ml-auto mt-4 rounded-left bg-light border-left border-top border-bottom">
-            <h4 class="mt-2">Cadastro de alunos</h4>
-            <div ng-controller="cadastroAluno">
-                <form name="form" novalidate>
+    <div class="row" ng-controller="aluno" ng-init="listarAlunos(); mostrarCadastrar= true; mostrarAtualizar=false;">
+
+        <!-- Formulário -->
+        <div class="col-md-3 ml-auto mt-4 rounded-left bg-light border-dark border-left border-top border-bottom">
+            <h5 class="my-3">Cadastro de aluno</h5>
+            <div class="form">
+                <form name="form" id="formAluno" novalidate ng-class="{'submitted': submitted}"
+                    ng-submit="submitted=true;">
+
                     <!-- Nome -->
                     <div class="form-group">
                         <label for="nome">Nome</label>
-                        <input required ng-model="aluno.nome" ng-model-options="{ updateOn: 'blur' }" type="text" class="form-control" id="nome" name="nome"
-                            aria-describedby="infoNome" placeholder="Digite seu nome...">
-                        <small id="infoNome" class="form-text text-muted">Insira seu nome completo.</small>
-                    </div>
-                    <div ng-show="form.$submitted || form.nome.$touched">
-                        <div ng-show="form.nome.$error.required" class="alert alert-danger">Por favor informe um nome.</div>
+                        <input required ng-model="aluno.nome"
+                            ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
+                            type="text" class="form-control input-border" id="nome" name="nome" minlength="1"
+                            maxlength="20" autocomplete="off" aria-describedby="erro">
+                        <small id="erro" class="text-white bg-danger" ng-show="form.nome.$error.minlength">Informe
+                            um
+                            nome.</small>
                     </div>
 
-                    <!-- CPF -->
+                    <!-- Sobrenome -->
                     <div class="form-group">
-                        <label for="cpf">CPF</label>
-                        <input required ng-model="aluno.cpf" type="text" class="form-control" id="cpf" name="cpf"
-                            minlength="11" maxlength="11" placeholder="Digite seu CPF..." onkeypress="return campoNumerico(event)">
+                        <label for="sobrenome">Sobrenome</label>
+                        <input required ng-model="aluno.sobrenome"
+                            ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
+                            type="text" class="form-control input-border" id="sobrenome" name="sobrenome" minlength="1"
+                            maxlength="60" autocomplete="off" aria-describedby="erro">
+                        <small id="erro" class="text-white bg-danger" ng-show="form.sobrenome.$error.minlength">Informe
+                            um
+                            nome.</small>
                     </div>
-                    <div ng-show="form.$submitted || form.cpf.$touched">
-                        <div ng-show="form.cpf.$error.required" class="alert alert-danger">Por favor informe um CPF.</div>
+
+                    <div class="form-row">
+                        <!-- CPF -->
+                        <div class="form-group col-md-6">
+                            <label for="cpf">CPF</label>
+                            <input required ng-model="aluno.cpf"
+                                ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
+                                type="text" class="form-control input-border" id="cpf" name="cpf" minlength="11"
+                                maxlength="11" onkeypress="return campoNumerico(event)" autocomplete="off"
+                                aria-describedby="erro">
+                            <small id="erro" class="text-white bg-danger" ng-show="form.cpf.$error.minlength">Informe
+                                um
+                                CPF
+                                válido.</small>
+                        </div>
+
+                        <!-- Telefone -->
+                        <div class="form-group col-md-6">
+                            <label for="telefone">Telefone</label>
+                            <input required ng-model="aluno.telefone"
+                                ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
+                                type="text" class="form-control input-border" id="telefone" name="telefone"
+                                minlength="10" maxlength="11" onkeypress="return campoNumerico(event)"
+                                autocomplete="off" aria-describedby="erro">
+                            <small id="erro" class="text-white bg-danger"
+                                ng-show="form.telefone.$error.minlength">Informe
+                                um
+                                telefone
+                                válido.</small>
+                        </div>
                     </div>
 
                     <!-- Email -->
-                    <div class="form-group">
+                    <div class="form-group mb-4">
                         <label for="email">E-mail</label>
-                        <input required ng-model="aluno.email" ng-model-options="{ updateOn: 'blur' }" type="email" class="form-control" id="email" name="email"
-                            aria-describedby="infoEmail" placeholder="Digite seu e-mail..." minlength="3"
-                            maxlength="50">
-                        <small id="infoEmail" class="form-text text-muted">Insira um e-mail válido.</small>
-                    </div>
-                    <div ng-show="form.$submitted || form.email.$touched">
-                        <div ng-show="form.email.$error.required" class="alert alert-danger">Por favor informe um e-mail.</div>
-                        <div ng-show="form.email.$error.email" class="alert alert-danger">Por favor informe um e-mail válido.</div>
-                        <div ng-show="form.email.$error.maxlength" class="alert alert-danger">E-mail excede o limite de caracteres.</div>
+                        <input required ng-model="aluno.email"
+                            ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
+                            type="email" class="form-control input-border" id="email" name="email" minlength="3"
+                            maxlength="50" autocomplete="off" aria-describedby="erro">
+                        <small id="erro" class="text-light bg-danger" ng-show="form.email.$error.email">Informe
+                            um e-mail válido.</small>
                     </div>
 
-                    <!-- Telefone -->
-                    <div class="form-group">
-                        <label for="telefone">Telefone</label>
-                        <input ng-model="aluno.telefone" type="text" class="form-control" id="telefone" name="telefone">
+                    <!-- Cadastrar -->
+                    <button class="btn btn-secondary w-100 mb-3" ng-if="mostrarCadastrar" ng-click="cadastrar(aluno)"
+                        type="submit">Cadastrar</button>
+
+
+                    <!-- Atualizar -->
+                    <div class="form-row" ng-if="mostrarAtualizar">
+                        <div class="form-group col-md-9">
+                            <button class="btn btn-secondary w-100" ng-click="submitted=true; atualizar(aluno);"
+                                type="submit">Atualizar</button>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <button class="btn btn-danger w-100" ng-click="cancelarAtualizar()">
+                                Cancelar
+                            </button>
+                        </div>
                     </div>
-                    <button ng-click="update(aluno)" class="btn btn-dark w-100 mb-3" type="submit">Cadastrar</button>
+
                 </form>
-            </div>
+            </div class="form">
         </div>
-        <div class="col-md-6 mr-auto mt-4 rounded-right bg-light border">
-            <h4 class="mt-2">Consultar</h4>
-            <div class="table-responsive-sm  rounded border">
-                <table class="table table-light table-bordered table-hover">
-                    <thead>
-                        <th>Nome</th>
-                        <th>CPF</th>
-                        <th>E-mail</th>
-                        <th>Telefone</th>
+
+        <!-- Consultar -->
+        <div class="col-md-6 mr-auto mt-4 rounded-right bg-light border border-dark">
+            <h5 class="my-3">Busca</h5>
+
+            <!-- Busca -->
+            <div class="form-group">
+                <label for="busca">Pesquisar</label>
+                <div id="busca" class="bg-white rounded input-group mb-2" title="Pesquisar...">
+                    <input ng-model="busca"
+                        ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }" type="text"
+                        class="border-right-0 form-control input-border" id="busca">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text rounded-right border-dark input-border lupa"><img
+                                src="app\imgs\search.svg" width="15" alt="Pesquisar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive-sm table-borderless border-left border-right border-top border-dark rounded">
+                <!-- Tabela -->
+                <table class="text-center mx-auto table-sm table table-hover mb-3">
+                    <thead class="bg-secondary text-white rounded">
+                        <th class="border-right border-bottom border-dark">Nome</th>
+                        <th class="border-right border-left border-bottom border-dark">CPF</th>
+                        <th class="border-right border-left border-bottom border-dark">E-mail</th>
+                        <th class="border-right border-left border-bottom border-dark">Telefone</th>
+                        <th class="border-left border-bottom border-dark">Ações</th>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Aluno</td>
-                            <td>040.040.040-40</td>
-                            <td>Aluno.email@gmail.com</td>
-                            <td>47 91234578</td>
-                        </tr>
-                        <tr>
-                            <td>Aluno</td>
-                            <td>040.040.040-40</td>
-                            <td>Aluno.email@gmail.com</td>
-                            <td>47 91234578</td>
-                        </tr>
-                        <tr>
-                            <td>Aluno</td>
-                            <td>040.040.040-40</td>
-                            <td>Aluno.email@gmail.com</td>
-                            <td>47 91234578</td>
-                        </tr>
-                        <tr>
-                            <td>Aluno</td>
-                            <td>040.040.040-40</td>
-                            <td>Aluno.email@gmail.com</td>
-                            <td>47 91234578</td>
+                    <tbody class="table">
+                        <tr multiple ng-repeat="aluno in alunoLista | orderBy: 'nome' | filter: busca">
+                            <td class="align-middle border-right border-bottom  border-dark">
+                                {{aluno.nome + ' ' + aluno.sobrenome}}
+                            </td>
+                            <td class="align-middle border-left border-right border-bottom  border-dark">{{aluno.cpf}}
+                            </td class="align-middle">
+                            <td class="align-middle border-left border-right border-bottom  border-dark">{{aluno.email}}
+                            </td>
+                            <td class="align-middle border-left border-right border-bottom  border-dark">
+                                {{aluno.telefone}}</td>
+                            <td class="align-middle border-left border-bottom  border-dark">
+                                <div>
+                                    <a title="Editar" class="btn" ng-click="buscarAluno(aluno.id)"><img
+                                            src="app\imgs\pencil.svg" alt="Editar" width="22"></a>
+                                    <a title="Excluir" class="btn" ng-click="excluir(aluno.id)"><img
+                                            src="app\imgs\remove.svg" alt="Excluir" width="22"></a>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

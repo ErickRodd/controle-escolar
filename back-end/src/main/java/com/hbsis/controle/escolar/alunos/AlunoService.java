@@ -93,6 +93,8 @@ public class AlunoService {
         if (this.iAlunoRepository.existsById(id)) {
             LOGGER.info("Excluindo aluno de ID [{}]", id);
 
+            turmaService.deleteAluno(id);
+
             this.iAlunoRepository.deleteById(id);
         } else {
 
