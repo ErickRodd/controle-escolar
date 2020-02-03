@@ -7,14 +7,19 @@ import org.hibernate.validator.constraints.br.CPF;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.util.List;
 
 public class AlunoDTO {
     private Long id;
 
     @NotBlank
-    @Length(min = 5, max = 100)
+    @Length(min = 2, max = 20)
     private String nome;
+
+    @NotBlank
+    @Length(min = 2, max = 60)
+    private String sobrenome;
 
     @CPF
     @NotBlank
@@ -27,32 +32,29 @@ public class AlunoDTO {
     private String email;
 
     @NotBlank
-    @Length(min = 10, max = 11)
+    @Length(min = 10, max = 11, message = "Telefone deve ter de 10 a 11 caracteres.")
     private String telefone;
-
-    @NotNull
-    private Long turmaId;
 
     public AlunoDTO() {
     }
 
-    public AlunoDTO(Long id, @NotBlank @Length(min = 5, max = 100) String nome, @CPF @NotBlank @Length(min = 11, max = 11) String cpf, @Email @NotBlank @Length(min = 5, max = 50) String email, @NotBlank @Length(min = 10, max = 11) String telefone, @NotBlank Long turmaId) {
+    public AlunoDTO(Long id, @NotBlank @Length(min = 2, max = 20) String nome, @NotBlank @Length(min = 2, max = 60) String sobrenome, @CPF @NotBlank @Length(min = 11, max = 11) String cpf, @Email @NotBlank @Length(min = 5, max = 50) String email, @NotBlank @Length(min = 10, max = 11) String telefone) {
         this.id = id;
         this.nome = nome;
+        this.sobrenome = sobrenome;
         this.cpf = cpf;
         this.email = email;
         this.telefone = telefone;
-        this.turmaId = turmaId;
     }
 
     public static AlunoDTO of(Aluno aluno) {
         return new AlunoDTO(
                 aluno.getId(),
                 aluno.getNome(),
+                aluno.getSobrenome(),
                 aluno.getCpf(),
                 aluno.getEmail(),
-                aluno.getTelefone(),
-                aluno.getTurma().getId()
+                aluno.getTelefone()
         );
     }
 
@@ -70,6 +72,14 @@ public class AlunoDTO {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
     }
 
     public String getCpf() {
@@ -96,23 +106,15 @@ public class AlunoDTO {
         this.telefone = telefone;
     }
 
-    public Long getTurmaId() {
-        return turmaId;
-    }
-
-    public void setTurmaId(Long turmaId) {
-        this.turmaId = turmaId;
-    }
-
     @Override
     public String toString() {
         return "AlunoDTO{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
                 ", cpf='" + cpf + '\'' +
                 ", email='" + email + '\'' +
                 ", telefone='" + telefone + '\'' +
-                ", turmaId=" + turmaId +
                 '}';
     }
 }

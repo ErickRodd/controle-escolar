@@ -1,7 +1,8 @@
 package com.hbsis.controle.escolar.notas;
 
 import com.hbsis.controle.escolar.alunos.AlunoService;
-import org.aspectj.weaver.ast.Not;
+import com.hbsis.controle.escolar.bimestres.BimestreService;
+import com.hbsis.controle.escolar.disciplinas.DisciplinaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -14,19 +15,27 @@ public class NotaService {
     private static final Logger LOGGER = LoggerFactory.getLogger(NotaService.class);
     private final INotaRepository iNotaRepository;
     private final AlunoService alunoService;
+    private final BimestreService bimestreService;
+    private final DisciplinaService disciplinaService;
 
-    public NotaService(INotaRepository iNotaRepository, AlunoService alunoService) {
+    public NotaService(INotaRepository iNotaRepository, AlunoService alunoService, BimestreService bimestreService, DisciplinaService disciplinaService) {
         this.iNotaRepository = iNotaRepository;
         this.alunoService = alunoService;
+        this.bimestreService = bimestreService;
+        this.disciplinaService = disciplinaService;
     }
 
     public NotaDTO save(NotaDTO notaDTO){
         Nota nota = new Nota(
                 notaDTO.getValor(),
-                alunoService.getOptional(notaDTO.getAlunoId()).get()
+                alunoService.getOptional(notaDTO.getAlunoId()).get(),
+                disciplinaService.findById(notaDTO.getDisciplinaId()),
+                bimestreService.findByIdOptional(notaDTO.getBimestreId()).get()
         );
 
         nota = iNotaRepository.save(nota);
+
+        LOGGER.info("Notas por aluno :" + iNotaRepository.findByAluno_Id(notaDTO.getAlunoId()));
 
         return NotaDTO.of(nota);
     }
@@ -35,6 +44,8 @@ public class NotaService {
         Nota notaExistente = findById(notaDTO.getId());
         notaExistente.setValor(notaDTO.getValor());
         notaExistente.setAluno(alunoService.getOptional(notaDTO.getAlunoId()).get());
+        notaExistente.setDisciplina(disciplinaService.findById(notaDTO.getDisciplinaId()));
+        notaExistente.setBimestre(bimestreService.findByIdOptional(notaDTO.getBimestreId()).get());
 
         notaExistente = iNotaRepository.save(notaExistente);
 
@@ -62,5 +73,9 @@ public class NotaService {
 
     public List<Nota> findAll(){
         return iNotaRepository.findAll();
+    }
+
+    public List<Nota> findAllById(Long id){
+        return iNotaRepository.findByAluno_Id(id);
     }
 }

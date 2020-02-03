@@ -10,40 +10,32 @@ import java.util.Optional;
 @Service
 public class DisciplinaService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DisciplinaService.class);
-    private IDisciplinaRepository iDisciplinaRepository;
+    private final IDisciplinaRepository iDisciplinaRepository;
 
     public DisciplinaService(IDisciplinaRepository iDisciplinaRepository) {
         this.iDisciplinaRepository = iDisciplinaRepository;
     }
 
-    public DisciplinaDTO save(DisciplinaDTO disciplinaDTO) {
-        this.validarExistencia(disciplinaDTO.getNome());
+    public DisciplinaDTO save(DisciplinaDTO disciplinaDTO){
+        validarExistencia(disciplinaDTO.getNome());
 
-        Disciplina disciplina = new Disciplina(
+        Disciplina novaD = new Disciplina(
                 disciplinaDTO.getNome()
         );
 
-        disciplina = iDisciplinaRepository.save(disciplina);
+        novaD = iDisciplinaRepository.save(novaD);
 
-        return DisciplinaDTO.of(disciplina);
+        return DisciplinaDTO.of(novaD);
     }
 
-    public DisciplinaDTO update(DisciplinaDTO disciplinaDTO) {
-        Disciplina disciplinaNova = findById(disciplinaDTO.getId());
+    public DisciplinaDTO update(DisciplinaDTO disciplinaDTO){
+        Disciplina existenteD = findById(disciplinaDTO.getId());
 
-        disciplinaNova.setNome(disciplinaDTO.getNome());
-        disciplinaNova = iDisciplinaRepository.save(disciplinaNova);
+        existenteD.setNome(disciplinaDTO.getNome());
 
-        return DisciplinaDTO.of(disciplinaNova);
-    }
+        existenteD = iDisciplinaRepository.save(existenteD);
 
-    public void delete(Long id){
-        if(iDisciplinaRepository.existsById(id)){
-            this.iDisciplinaRepository.deleteById(id);
-        }
-        else{
-            throw new IllegalArgumentException(String.format("Disciplina de ID [%s] não encontrada.", id));
-        }
+        return DisciplinaDTO.of(existenteD);
     }
 
     public Disciplina findById(Long id) {
@@ -58,6 +50,15 @@ public class DisciplinaService {
 
     public List<Disciplina> findAll() {
         return iDisciplinaRepository.findAll();
+    }
+
+    public void delete(Long id){
+        if(iDisciplinaRepository.existsById(id)){
+            this.iDisciplinaRepository.deleteById(id);
+        }
+        else{
+            throw new IllegalArgumentException("Disciplina não existente.");
+        }
     }
 
     private void validarExistencia(String nome) {

@@ -28,10 +28,10 @@ public class AlunoService {
 
         Aluno aluno = new Aluno(
                 alunoDTO.getNome(),
+                alunoDTO.getSobrenome(),
                 alunoDTO.getCpf(),
                 alunoDTO.getEmail(),
-                alunoDTO.getTelefone(),
-                findTurma(alunoDTO.getTurmaId())
+                alunoDTO.getTelefone()
         );
 
         aluno = this.iAlunoRepository.save(aluno);
@@ -47,10 +47,10 @@ public class AlunoService {
 
         Aluno alunoNovo = findAluno(alunoDTO.getId());
         alunoNovo.setNome(alunoDTO.getNome());
+        alunoNovo.setSobrenome(alunoDTO.getSobrenome());
         alunoNovo.setCpf(alunoDTO.getCpf());
         alunoNovo.setEmail(alunoDTO.getEmail());
         alunoNovo.setTelefone(alunoDTO.getTelefone());
-        alunoNovo.setTurma(findTurma(alunoDTO.getTurmaId()));
 
         alunoNovo = this.iAlunoRepository.save(alunoNovo);
 
@@ -108,9 +108,5 @@ public class AlunoService {
 
     private Aluno findAluno(Long id) {
         return iAlunoRepository.findById(id).get();
-    }
-
-    private Turma findTurma(Long id) {
-        return turmaService.get(id).get();
     }
 }

@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/notas")
 public class NotaRest {
     private final NotaService notaService;
@@ -37,5 +38,10 @@ public class NotaRest {
     @GetMapping("/list")
     public List<Nota> list(){
         return notaService.findAll();
+    }
+
+    @GetMapping("/list/{id}")
+    public List<Nota> listById(@PathVariable("id") Long id){
+        return notaService.findAllById(id);
     }
 }

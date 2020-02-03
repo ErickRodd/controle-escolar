@@ -1,6 +1,8 @@
 package com.hbsis.controle.escolar.notas;
 
 import com.hbsis.controle.escolar.alunos.Aluno;
+import com.hbsis.controle.escolar.bimestres.Bimestre;
+import com.hbsis.controle.escolar.disciplinas.Disciplina;
 
 import javax.persistence.*;
 
@@ -18,12 +20,22 @@ public class Nota {
     @JoinColumn(name = "aluno", referencedColumnName = "id")
     private Aluno aluno;
 
+    @ManyToOne
+    @JoinColumn(name = "disciplina", referencedColumnName = "id")
+    private Disciplina disciplina;
+
+    @ManyToOne
+    @JoinColumn(name = "bimestre", referencedColumnName = "id")
+    private Bimestre bimestre;
+
     public Nota() {
     }
 
-    public Nota(Double valor, Aluno aluno) {
+    public Nota(Double valor, Aluno aluno, Disciplina disciplina, Bimestre bimestre) {
         this.valor = valor;
         this.aluno = aluno;
+        this.disciplina = disciplina;
+        this.bimestre = bimestre;
     }
 
     public Long getId() {
@@ -50,12 +62,30 @@ public class Nota {
         this.aluno = aluno;
     }
 
+    public Disciplina getDisciplina() {
+        return disciplina;
+    }
+
+    public void setDisciplina(Disciplina disciplina) {
+        this.disciplina = disciplina;
+    }
+
+    public Bimestre getBimestre() {
+        return bimestre;
+    }
+
+    public void setBimestre(Bimestre bimestre) {
+        this.bimestre = bimestre;
+    }
+
     @Override
     public String toString() {
         return "Nota{" +
                 "id=" + id +
                 ", valor=" + valor +
                 ", aluno=" + aluno +
+                ", disciplina=" + disciplina +
+                ", bimestre=" + bimestre +
                 '}';
     }
 }

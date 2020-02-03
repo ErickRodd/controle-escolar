@@ -1,10 +1,13 @@
 package com.hbsis.controle.escolar.boletim;
 
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.FileNotFoundException;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/boletins")
 public class BoletimRest {
     private final BoletimService boletimService;
@@ -21,6 +24,11 @@ public class BoletimRest {
     @PutMapping("/update")
     public BoletimDTO update(@Valid @RequestBody BoletimDTO boletimDTO){
         return this.boletimService.update(boletimDTO);
+    }
+
+    @GetMapping("/export/{id}")
+    public void export(@PathVariable("id") Long id) throws FileNotFoundException, JRException {
+        this.boletimService.exportarJR(id);
     }
 
     @GetMapping("/{id}")

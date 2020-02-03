@@ -1,11 +1,11 @@
 package com.hbsis.controle.escolar.turnos;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/turnos")
 public class TurnoRest {
     private TurnoService turnoService;
@@ -17,5 +17,10 @@ public class TurnoRest {
     @GetMapping("/{id}")
     public TurnoDTO get(@PathVariable("id") Long id){
         return this.turnoService.get(id);
+    }
+
+    @GetMapping("/list")
+    public List<Turno> listar(){
+        return turnoService.listar();
     }
 }

@@ -10,8 +10,12 @@ public class ProfessorDTO {
     private Long id;
 
     @NotBlank
-    @Length(min = 5, max = 100)
+    @Length(min = 2, max = 100)
     private String nome;
+
+    @NotBlank
+    @Length(min = 2, max = 60)
+    private String sobrenome;
 
     @CPF
     @NotBlank
@@ -30,9 +34,10 @@ public class ProfessorDTO {
     public ProfessorDTO() {
     }
 
-    public ProfessorDTO(Long id, String nome, String cpf, String email, String telefone) {
+    public ProfessorDTO(Long id, @NotBlank @Length(min = 2, max = 100) String nome, @NotBlank @Length(min = 2, max = 60) String sobrenome, @CPF @NotBlank @Length(min = 11, max = 11) String cpf, @Email @NotBlank @Length(min = 5, max = 50) String email, @NotBlank @Length(min = 10, max = 11) String telefone) {
         this.id = id;
         this.nome = nome;
+        this.sobrenome = sobrenome;
         this.cpf = cpf;
         this.email = email;
         this.telefone = telefone;
@@ -42,6 +47,7 @@ public class ProfessorDTO {
         return new ProfessorDTO(
                 professor.getId(),
                 professor.getNome(),
+                professor.getSobrenome(),
                 professor.getCpf(),
                 professor.getEmail(),
                 professor.getTelefone()
@@ -62,6 +68,14 @@ public class ProfessorDTO {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
     }
 
     public String getCpf() {
@@ -93,6 +107,7 @@ public class ProfessorDTO {
         return "ProfessorDTO{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
                 ", cpf='" + cpf + '\'' +
                 ", email='" + email + '\'' +
                 ", telefone='" + telefone + '\'' +

@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/professor")
 public class ProfessorRest {
     private final ProfessorService professorService;

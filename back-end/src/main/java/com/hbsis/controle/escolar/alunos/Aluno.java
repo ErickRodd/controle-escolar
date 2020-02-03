@@ -12,8 +12,11 @@ public class Aluno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome", length = 100, nullable = false)
+    @Column(name = "nome", length = 20, nullable = false)
     private String nome;
+
+    @Column(name = "sobrenome", length = 60, nullable = false)
+    private String sobrenome;
 
     @Column(name = "cpf", length = 11, nullable = false, unique = true)
     private String cpf;
@@ -24,19 +27,15 @@ public class Aluno {
     @Column(name = "telefone", length = 11, nullable = false)
     private String telefone;
 
-    @ManyToOne
-    @JoinColumn(name = "turma", referencedColumnName = "id")
-    private Turma turma;
-
     public Aluno() {
     }
 
-    public Aluno(String nome, String cpf, String email, String telefone, Turma turma) {
+    public Aluno(String nome, String sobrenome, String cpf, String email, String telefone) {
         this.nome = nome;
+        this.sobrenome = sobrenome;
         this.cpf = cpf;
         this.email = email;
         this.telefone = telefone;
-        this.turma = turma;
     }
 
     public Long getId() {
@@ -53,6 +52,14 @@ public class Aluno {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
     }
 
     public String getCpf() {
@@ -79,23 +86,15 @@ public class Aluno {
         this.telefone = telefone;
     }
 
-    public Turma getTurma() {
-        return turma;
-    }
-
-    public void setTurma(Turma turma) {
-        this.turma = turma;
-    }
-
     @Override
     public String toString() {
         return "Aluno{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
                 ", cpf='" + cpf + '\'' +
                 ", email='" + email + '\'' +
                 ", telefone='" + telefone + '\'' +
-                ", turma=" + turma +
                 '}';
     }
 }

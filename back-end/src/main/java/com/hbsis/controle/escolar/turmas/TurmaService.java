@@ -24,7 +24,8 @@ public class TurmaService {
 
         Turma turma = new Turma(
                 turmaDTO.getCodigo(),
-                getTurno(turmaDTO.getTurnoId())
+                getTurno(turmaDTO.getTurnoId()),
+                turmaDTO.getAlunos()
         );
 
         turma = this.iTurmaRepository.save(turma);
@@ -39,6 +40,7 @@ public class TurmaService {
 
         turmaNova.setCodigo(turmaExistente.get().getCodigo());
         turmaNova.setTurno(turmaExistente.get().getTurno());
+        turmaNova.setAlunoList(turmaExistente.get().getAlunoList());
 
         turmaNova = this.iTurmaRepository.save(turmaNova);
 
@@ -56,15 +58,7 @@ public class TurmaService {
     }
 
     public Optional<Turma> get(Long id) {
-        Optional<Turma> turmaOptional = iTurmaRepository.findById(id);
-
-        if (turmaOptional.isPresent()) {
-            LOGGER.info("Procurando por turma de ID [{}]...", id);
-
-            return turmaOptional;
-        }
-
-        throw new IllegalArgumentException(String.format("Não foi encontrado uma turma com o ID [%s].", id));
+        return iTurmaRepository.findById(id);
     }
 
     public List<Turma> getAll() {

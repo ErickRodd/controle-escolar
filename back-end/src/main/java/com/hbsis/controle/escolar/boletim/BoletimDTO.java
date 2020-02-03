@@ -1,6 +1,5 @@
 package com.hbsis.controle.escolar.boletim;
 
-import com.hbsis.controle.escolar.disciplinas.Disciplina;
 import com.hbsis.controle.escolar.notas.Nota;
 
 import javax.validation.constraints.NotNull;
@@ -10,25 +9,20 @@ public class BoletimDTO {
     private Long id;
 
     @NotNull
-    private Long bimestreId;
+    private Long bimestre;
 
     @NotNull
-    private Long alunoId;
+    private Long aluno;
 
-    @NotNull
-    private List<Disciplina> disciplinaList;
-
-    @NotNull
     private List<Nota> notaList;
 
     public BoletimDTO() {
     }
 
-    public BoletimDTO(Long id, @NotNull Long bimestreId, @NotNull Long alunoId, @NotNull List<Disciplina> disciplinaList, @NotNull List<Nota> notaList) {
+    public BoletimDTO(Long id, @NotNull Long bimestre, @NotNull Long aluno, List<Nota> notaList) {
         this.id = id;
-        this.bimestreId = bimestreId;
-        this.alunoId = alunoId;
-        this.disciplinaList = disciplinaList;
+        this.bimestre = bimestre;
+        this.aluno = aluno;
         this.notaList = notaList;
     }
 
@@ -37,7 +31,6 @@ public class BoletimDTO {
                 boletim.getId(),
                 boletim.getBimestre().getId(),
                 boletim.getAluno().getId(),
-                boletim.getDisciplinaList(),
                 boletim.getNotaList()
         );
     }
@@ -50,28 +43,20 @@ public class BoletimDTO {
         this.id = id;
     }
 
-    public Long getAlunoId() {
-        return alunoId;
+    public Long getAluno() {
+        return aluno;
     }
 
-    public void setAlunoId(Long alunoId) {
-        this.alunoId = alunoId;
+    public void setAluno(Long aluno) {
+        this.aluno = aluno;
     }
 
-    public List<Disciplina> getDisciplinaList() {
-        return disciplinaList;
+    public Long getBimestre() {
+        return bimestre;
     }
 
-    public void setDisciplinaList(List<Disciplina> disciplinaList) {
-        this.disciplinaList = disciplinaList;
-    }
-
-    public Long getBimestreId() {
-        return bimestreId;
-    }
-
-    public void setBimestreId(Long bimestreId) {
-        this.bimestreId = bimestreId;
+    public void setBimestre(Long bimestre) {
+        this.bimestre = bimestre;
     }
 
     public List<Nota> getNotaList() {
@@ -86,9 +71,8 @@ public class BoletimDTO {
     public String toString() {
         return "BoletimDTO{" +
                 "id=" + id +
-                ", bimestreId=" + bimestreId +
-                ", alunoId=" + alunoId +
-                ", disciplinaList=" + disciplinaList +
+                ", bimestreId=" + bimestre +
+                ", alunoId=" + aluno +
                 ", notaList=" + notaList +
                 '}';
     }

@@ -1,0 +1,12 @@
+INSERT INTO disciplinas VALUES ('Artes');
+INSERT INTO disciplinas VALUES ('Biologia');
+INSERT INTO disciplinas VALUES ('Educação Física');
+INSERT INTO disciplinas VALUES ('Filosofia');
+INSERT INTO disciplinas VALUES ('Física');
+INSERT INTO disciplinas VALUES ('Geografia');
+INSERT INTO disciplinas VALUES ('História');
+INSERT INTO disciplinas VALUES ('Língua Estrangeira Inglês');
+INSERT INTO disciplinas VALUES ('Língua Portuguesa');
+INSERT INTO disciplinas VALUES ('Matemática');
+INSERT INTO disciplinas VALUES ('Química');
+INSERT INTO disciplinas VALUES ('Sociologia');

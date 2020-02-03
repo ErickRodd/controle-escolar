@@ -11,20 +11,30 @@ public class NotaDTO {
     @NotNull
     private Long alunoId;
 
+    @NotNull
+    private Long disciplinaId;
+
+    @NotNull
+    private Long bimestreId;
+
     public NotaDTO() {
     }
 
-    public NotaDTO(Long id, @NotNull Double valor, @NotNull Long alunoId) {
+    public NotaDTO(Long id, @NotNull Double valor, @NotNull Long alunoId, @NotNull Long disciplinaId, @NotNull Long bimestreId) {
         this.id = id;
         this.valor = valor;
         this.alunoId = alunoId;
+        this.disciplinaId = disciplinaId;
+        this.bimestreId = bimestreId;
     }
 
     public static NotaDTO of (Nota nota){
         return new NotaDTO(
                 nota.getId(),
                 nota.getValor(),
-                nota.getAluno().getId()
+                nota.getAluno().getId(),
+                nota.getDisciplina().getId(),
+                nota.getBimestre().getId()
         );
     }
 
@@ -52,12 +62,30 @@ public class NotaDTO {
         this.alunoId = alunoId;
     }
 
+    public Long getDisciplinaId() {
+        return disciplinaId;
+    }
+
+    public void setDisciplinaId(Long disciplinaId) {
+        this.disciplinaId = disciplinaId;
+    }
+
+    public Long getBimestreId() {
+        return bimestreId;
+    }
+
+    public void setBimestreId(Long bimestreId) {
+        this.bimestreId = bimestreId;
+    }
+
     @Override
     public String toString() {
         return "NotaDTO{" +
                 "id=" + id +
                 ", valor=" + valor +
                 ", alunoId=" + alunoId +
+                ", disciplinaId=" + disciplinaId +
+                ", bimestreId=" + bimestreId +
                 '}';
     }
 }

@@ -1,8 +1,10 @@
 package com.hbsis.controle.escolar.turmas;
 
+import com.hbsis.controle.escolar.alunos.Aluno;
 import com.hbsis.controle.escolar.turnos.Turno;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "turmas")
@@ -18,12 +20,17 @@ public class Turma {
     @JoinColumn(name = "turno_id", referencedColumnName = "id")
     private Turno turno;
 
+    @OneToMany
+    @JoinTable(name = "turma_alunos", joinColumns = @JoinColumn(name = "id_turma"), inverseJoinColumns = @JoinColumn(name = "id_aluno"))
+    private List<Aluno> alunoList;
+
     public Turma() {
     }
 
-    public Turma(String codigo, Turno turno) {
+    public Turma(String codigo, Turno turno, List<Aluno> alunoList) {
         this.codigo = codigo;
         this.turno = turno;
+        this.alunoList = alunoList;
     }
 
     public Long getId() {
@@ -50,12 +57,21 @@ public class Turma {
         this.turno = turno;
     }
 
+    public List<Aluno> getAlunoList() {
+        return alunoList;
+    }
+
+    public void setAlunoList(List<Aluno> alunoList) {
+        this.alunoList = alunoList;
+    }
+
     @Override
     public String toString() {
         return "Turma{" +
                 "id=" + id +
                 ", codigo='" + codigo + '\'' +
                 ", turno=" + turno +
+                ", alunoList=" + alunoList +
                 '}';
     }
 }

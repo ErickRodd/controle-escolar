@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/disciplinas")
 public class DisciplinaRest {
     private final DisciplinaService disciplinaService;
@@ -24,14 +25,14 @@ public class DisciplinaRest {
         return disciplinaService.update(disciplinaDTO);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") Long id){
-        this.disciplinaService.delete(id);
-    }
-
     @GetMapping("/{id}")
     public DisciplinaDTO get(@PathVariable("id") Long id){
         return DisciplinaDTO.of(disciplinaService.findById(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Long id){
+        this.disciplinaService.delete(id);
     }
 
     @GetMapping("/list")

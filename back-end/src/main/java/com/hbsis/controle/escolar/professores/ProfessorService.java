@@ -17,13 +17,13 @@ public class ProfessorService {
     }
 
     public ProfessorDTO save(ProfessorDTO professorDTO) {
-        this.validate(professorDTO);
         this.validateExistencia(professorDTO.getCpf());
 
         LOGGER.info("Cadastrando novo professor...");
 
         Professor professor = new Professor(
                 professorDTO.getNome(),
+                professorDTO.getSobrenome(),
                 professorDTO.getCpf(),
                 professorDTO.getEmail(),
                 professorDTO.getTelefone()
@@ -35,14 +35,13 @@ public class ProfessorService {
     }
 
     public ProfessorDTO update(ProfessorDTO professorDTO) {
-        this.validate(professorDTO);
-
         LOGGER.info("Atualizando professor de ID [{}]", professorDTO.getId());
 
         Optional<Professor> professorExistente = this.iProfessorRepository.findById(professorDTO.getId());
 
         Professor professorNovo = professorExistente.get();
         professorNovo.setNome(professorDTO.getNome());
+        professorNovo.setSobrenome(professorDTO.getSobrenome());
         professorNovo.setCpf(professorDTO.getCpf());
         professorNovo.setEmail(professorDTO.getEmail());
         professorNovo.setTelefone(professorDTO.getTelefone());
@@ -59,7 +58,7 @@ public class ProfessorService {
             return ProfessorDTO.of(professorOptional.get());
         }
 
-        throw new IllegalArgumentException(String.format("Professor de ID [{}] não existe.", id));
+        throw new IllegalArgumentException(String.format("Professor de ID [%s] não existe.", id));
     }
 
     public List<Professor> getAll() {
@@ -73,15 +72,7 @@ public class ProfessorService {
             this.iProfessorRepository.deleteById(id);
         } else {
 
-            throw new IllegalArgumentException(String.format("Professor com ID {} não existe.", id));
-        }
-    }
-
-    private void validate(ProfessorDTO professorDTO) {
-        LOGGER.info("Validando novo professor...");
-
-        if (professorDTO == null) {
-            throw new IllegalArgumentException("Objeto está nulo.");
+            throw new IllegalArgumentException(String.format("Professor com ID [%s] não existe.", id));
         }
     }
 

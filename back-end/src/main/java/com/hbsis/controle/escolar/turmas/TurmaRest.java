@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/turmas")
 public class TurmaRest {
     private final TurmaService turmaService;

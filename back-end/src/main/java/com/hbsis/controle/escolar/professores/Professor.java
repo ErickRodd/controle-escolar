@@ -9,8 +9,11 @@ public class Professor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome", length = 100, nullable = false)
+    @Column(name = "nome", length = 20, nullable = false)
     private String nome;
+
+    @Column(name = "sobrenome", length = 60, nullable = false)
+    private String sobrenome;
 
     @Column(name = "cpf", length = 11, unique = true, nullable = false)
     private String cpf;
@@ -24,8 +27,9 @@ public class Professor {
     public Professor() {
     }
 
-    public Professor(String nome, String cpf, String email, String telefone) {
+    public Professor(String nome, String sobrenome, String cpf, String email, String telefone) {
         this.nome = nome;
+        this.sobrenome = sobrenome;
         this.cpf = cpf;
         this.email = email;
         this.telefone = telefone;
@@ -45,6 +49,14 @@ public class Professor {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
     }
 
     public String getCpf() {
@@ -76,6 +88,7 @@ public class Professor {
         return "Professor{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
                 ", cpf='" + cpf + '\'' +
                 ", email='" + email + '\'' +
                 ", telefone='" + telefone + '\'' +
