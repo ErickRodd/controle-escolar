@@ -12,18 +12,22 @@ public class BoletimDTO {
     private Long bimestre;
 
     @NotNull
-    private Long aluno;
+    private Long alunoId;
+
+    @NotNull
+    private Long turmaId;
 
     private List<Nota> notaList;
 
     public BoletimDTO() {
     }
 
-    public BoletimDTO(Long id, @NotNull Long bimestre, @NotNull Long aluno, List<Nota> notaList) {
+    public BoletimDTO(Long id, @NotNull Long bimestre, @NotNull Long alunoId, @NotNull Long turmaId, List<Nota> notaList) {
         this.id = id;
         this.bimestre = bimestre;
-        this.aluno = aluno;
+        this.alunoId = alunoId;
         this.notaList = notaList;
+        this.turmaId = turmaId;
     }
 
     public static BoletimDTO of (Boletim boletim){
@@ -31,6 +35,7 @@ public class BoletimDTO {
                 boletim.getId(),
                 boletim.getBimestre().getId(),
                 boletim.getAluno().getId(),
+                boletim.getTurma().getId(),
                 boletim.getNotaList()
         );
     }
@@ -43,12 +48,12 @@ public class BoletimDTO {
         this.id = id;
     }
 
-    public Long getAluno() {
-        return aluno;
+    public Long getAlunoId() {
+        return alunoId;
     }
 
-    public void setAluno(Long aluno) {
-        this.aluno = aluno;
+    public void setAlunoId(Long alunoId) {
+        this.alunoId = alunoId;
     }
 
     public Long getBimestre() {
@@ -57,6 +62,14 @@ public class BoletimDTO {
 
     public void setBimestre(Long bimestre) {
         this.bimestre = bimestre;
+    }
+
+    public Long getTurmaId() {
+        return turmaId;
+    }
+
+    public void setTurmaId(Long turmaId) {
+        this.turmaId = turmaId;
     }
 
     public List<Nota> getNotaList() {
@@ -71,8 +84,9 @@ public class BoletimDTO {
     public String toString() {
         return "BoletimDTO{" +
                 "id=" + id +
-                ", bimestreId=" + bimestre +
-                ", alunoId=" + aluno +
+                ", bimestre=" + bimestre +
+                ", alunoId=" + alunoId +
+                ", turmaId=" + turmaId +
                 ", notaList=" + notaList +
                 '}';
     }

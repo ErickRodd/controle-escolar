@@ -16,9 +16,12 @@
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
                                 type="text" class="form-control input-border" id="codigo" name="codigo" minlength="1"
                                 maxlength="20" autocomplete="off" aria-describedby="erro">
-                            <small id="erro" class="text-white bg-danger" ng-show="form.codigo.$error.minlength">Informe
-                                um
-                                código.</small>
+                            <div ng-if="submitted">
+                                <small id="erro" class="text-white bg-danger"
+                                    ng-show="form.codigo.$error.required">Informe
+                                    um
+                                    código.</small>
+                            </div>
                         </div>
 
                         <!-- Turno -->
@@ -27,21 +30,25 @@
                             <select required ng-model="turma.turnoId"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
                                 class="form-control input-border" id="turno" name="turno" aria-describedby="erro">
-                                <option ng-repeat="turno in turnoLista" ng-value="{{turno.id}}">{{turno.horario}}
+                                <option ng-repeat="turno in turnoLista" selected ng-value="{{turno.id}}">
+                                    {{turno.horario}}
                                 </option>
                             </select>
-                            <small id="erro" class="text-white bg-danger" ng-show="form.turno.$error.minlength">Informe
-                                um
-                                turno.</small>
+                            <div ng-show="submitted">
+                                <small id="erro" class="text-white bg-danger"
+                                    ng-show="form.turno.$error.required">Informe
+                                    um
+                                    turno.</small>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Alunos -->
                     <div class="form-group" ng-init="listarAlunos()">
                         <label for="alunos">Alunos</label>
-                        <select multiple ng-model="turma.alunos"
+                        <select ng-model="turma.alunos"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
-                            class="form-control input-border" id="alunos" name="alunos">
+                            class="form-control input-border" multiple id="alunos" name="alunos">
                             <option ng-repeat="aluno in alunoLista" ng-value="{{aluno}}">
                                 {{aluno.nome + " " + aluno.sobrenome}}
                             </option>

@@ -9,69 +9,91 @@
                     ng-submit="submitted=true;">
 
                     <!-- Nome -->
-                    <div class="form-group">
+                    <div class="form-group erro">
                         <label for="nome">Nome</label>
+
                         <input required ng-model="aluno.nome"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
                             type="text" class="form-control input-border" id="nome" name="nome" minlength="1"
                             maxlength="20" autocomplete="off" aria-describedby="erro">
-                        <small id="erro" class="text-white bg-danger" ng-show="form.nome.$error.minlength">Informe
+                        <small id="erro" class="text-danger erroMsg"
+                            ng-show="form.nome.$error.required && submitted">Informe
                             um
-                            nome.</small>
+                            nome</small>
                     </div>
 
                     <!-- Sobrenome -->
-                    <div class="form-group">
+                    <div class="form-group erro">
                         <label for="sobrenome">Sobrenome</label>
+
                         <input required ng-model="aluno.sobrenome"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
                             type="text" class="form-control input-border" id="sobrenome" name="sobrenome" minlength="1"
                             maxlength="60" autocomplete="off" aria-describedby="erro">
-                        <small id="erro" class="text-white bg-danger" ng-show="form.sobrenome.$error.minlength">Informe
+                        <small id="erro" class="text-danger erroMsg"
+                            ng-show="submitted && form.sobrenome.$error.required">Informe
                             um
-                            nome.</small>
+                            sobrenome</small>
                     </div>
 
                     <div class="form-row">
                         <!-- CPF -->
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6 erro">
                             <label for="cpf">CPF</label>
+
                             <input required ng-model="aluno.cpf"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
                                 type="text" class="form-control input-border" id="cpf" name="cpf" minlength="11"
                                 maxlength="11" onkeypress="return campoNumerico(event)" autocomplete="off"
                                 aria-describedby="erro">
-                            <small id="erro" class="text-white bg-danger" ng-show="form.cpf.$error.minlength">Informe
+                            <small id="erro" class="text-danger erroMsg"
+                                ng-show="submitted && form.cpf.$error.minlength">Informe
                                 um
                                 CPF
-                                válido.</small>
+                                válido</small>
+                            <small id="erro" class="text-danger erroMsg"
+                                ng-show="submitted && form.cpf.$error.required">Informe
+                                um
+                                CPF</small>
+                            <small id="erro" class="text-danger erroMsg" ng-show="form.$error">{{erroMsg}}</small>
                         </div>
 
                         <!-- Telefone -->
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6 erro">
                             <label for="telefone">Telefone</label>
+
                             <input required ng-model="aluno.telefone"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
                                 type="text" class="form-control input-border" id="telefone" name="telefone"
                                 minlength="10" maxlength="11" onkeypress="return campoNumerico(event)"
                                 autocomplete="off" aria-describedby="erro">
-                            <small id="erro" class="text-white bg-danger"
-                                ng-show="form.telefone.$error.minlength">Informe
+                            <small id="erro" class="text-danger erroMsg"
+                                ng-show="submitted && form.telefone.$error.minlength">Informe
                                 um
                                 telefone
-                                válido.</small>
+                                válido</small>
+                            <small id="erro" class="text-danger erroMsg"
+                                ng-show="submitted && form.telefone.$error.required">Informe
+                                um
+                                telefone</small>
                         </div>
                     </div>
 
                     <!-- Email -->
-                    <div class="form-group mb-4">
+                    <div class="form-group mb-4 erro">
                         <label for="email">E-mail</label>
                         <input required ng-model="aluno.email"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
                             type="email" class="form-control input-border" id="email" name="email" minlength="3"
                             maxlength="50" autocomplete="off" aria-describedby="erro">
-                        <small id="erro" class="text-light bg-danger" ng-show="form.email.$error.email">Informe
-                            um e-mail válido.</small>
+                        <small id="erro" class="text-danger erroMsg"
+                            ng-show="submitted && form.email.$error.email">Informe
+                            um e-mail válido</small>
+                        <small id="erro" class="text-danger erroMsg"
+                            ng-show="submitted && form.email.$error.required">Informe
+                            um e-mail</small>
+                        <small id="erro" class="text-danger erroMsg"
+                            ng-show="form.$error">{{erroMsg}}</small>
                     </div>
 
                     <!-- Cadastrar -->
@@ -136,12 +158,10 @@
                             <td class="align-middle border-left border-right border-bottom  border-dark">
                                 {{aluno.telefone}}</td>
                             <td class="align-middle border-left border-bottom  border-dark">
-                                <div>
-                                    <a title="Editar" class="btn" ng-click="buscarAluno(aluno.id)"><img
-                                            src="app\imgs\pencil.svg" alt="Editar" width="22"></a>
-                                    <a title="Excluir" class="btn" ng-click="excluir(aluno.id)"><img
-                                            src="app\imgs\remove.svg" alt="Excluir" width="22"></a>
-                                </div>
+                                <a title="Editar" class="btn" ng-click="buscarAluno(aluno.id)"><img
+                                        src="app\imgs\pencil.svg" alt="Editar" width="22"></a>
+                                <a title="Excluir" class="btn" ng-click="excluir(aluno.id)"><img
+                                        src="app\imgs\remove.svg" alt="Excluir" width="22"></a>
                             </td>
                         </tr>
                     </tbody>

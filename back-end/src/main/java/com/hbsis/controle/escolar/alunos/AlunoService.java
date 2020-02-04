@@ -2,6 +2,7 @@ package com.hbsis.controle.escolar.alunos;
 
 import com.hbsis.controle.escolar.turmas.Turma;
 import com.hbsis.controle.escolar.turmas.TurmaService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class AlunoService {
 
     public AlunoDTO save(AlunoDTO alunoDTO) {
         this.validateExistencia(alunoDTO.getCpf());
+        this.validateExistenciaEmail(alunoDTO.getEmail());
 
         LOGGER.info("\n");
         LOGGER.info("Cadastrando novo aluno...");
@@ -45,18 +47,27 @@ public class AlunoService {
         LOGGER.info("\n");
         LOGGER.info("Atualizando aluno de ID [{}]...", alunoDTO.getId());
 
-        Aluno alunoNovo = findAluno(alunoDTO.getId());
-        alunoNovo.setNome(alunoDTO.getNome());
-        alunoNovo.setSobrenome(alunoDTO.getSobrenome());
-        alunoNovo.setCpf(alunoDTO.getCpf());
-        alunoNovo.setEmail(alunoDTO.getEmail());
-        alunoNovo.setTelefone(alunoDTO.getTelefone());
+        Aluno aluno = findAluno(alunoDTO.getId());
 
-        alunoNovo = this.iAlunoRepository.save(alunoNovo);
+        if(!alunoDTO.getCpf().equals(aluno.getCpf())){
+            validateExistencia(alunoDTO.getCpf());
+        }
+
+        if(!alunoDTO.getEmail().equals(aluno.getEmail())){
+            validateExistenciaEmail(alunoDTO.getEmail());
+        }
+
+        aluno.setNome(alunoDTO.getNome());
+        aluno.setSobrenome(alunoDTO.getSobrenome());
+        aluno.setCpf(alunoDTO.getCpf());
+        aluno.setEmail(alunoDTO.getEmail());
+        aluno.setTelefone(alunoDTO.getTelefone());
+
+        aluno = this.iAlunoRepository.save(aluno);
 
         LOGGER.info("Aluno atualizado com sucesso.\n");
 
-        return AlunoDTO.of(alunoNovo);
+        return AlunoDTO.of(aluno);
     }
 
     public AlunoDTO get(Long id) {
@@ -104,7 +115,13 @@ public class AlunoService {
 
     private void validateExistencia(String cpf) {
         if (this.iAlunoRepository.existsByCpf(cpf)) {
-            throw new IllegalArgumentException("CPF já cadastrado.");
+            throw new IllegalArgumentException("CPF já cadastrado");
+        }
+    }
+
+    private void validateExistenciaEmail(String email){
+        if(iAlunoRepository.existsByEmail(email)){
+            throw new IllegalArgumentException("E-mail já cadastrado");
         }
     }
 

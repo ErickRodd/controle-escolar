@@ -25,7 +25,7 @@ public class NotaService {
         this.disciplinaService = disciplinaService;
     }
 
-    public NotaDTO save(NotaDTO notaDTO){
+    public NotaDTO save(NotaDTO notaDTO) {
         Nota nota = new Nota(
                 notaDTO.getValor(),
                 alunoService.getOptional(notaDTO.getAlunoId()).get(),
@@ -40,7 +40,7 @@ public class NotaService {
         return NotaDTO.of(nota);
     }
 
-    public NotaDTO update(NotaDTO notaDTO){
+    public NotaDTO update(NotaDTO notaDTO) {
         Nota notaExistente = findById(notaDTO.getId());
         notaExistente.setValor(notaDTO.getValor());
         notaExistente.setAluno(alunoService.getOptional(notaDTO.getAlunoId()).get());
@@ -53,29 +53,29 @@ public class NotaService {
 
     }
 
-    public void delete(Long id){
-        if(iNotaRepository.existsById(id)){
+    public void delete(Long id) {
+        if (iNotaRepository.existsById(id)) {
             this.iNotaRepository.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("Nota informada não encontrada.");
         }
-
-        throw new IllegalArgumentException("Nota informada não encontrada.");
     }
 
-    public Nota findById(Long id){
+    public Nota findById(Long id) {
         Optional<Nota> notaOptional = iNotaRepository.findById(id);
 
-        if(notaOptional.isPresent()){
+        if (notaOptional.isPresent()) {
             return notaOptional.get();
         }
 
         throw new IllegalArgumentException(String.format("Nota de ID [%s] não existe.", id));
     }
 
-    public List<Nota> findAll(){
+    public List<Nota> findAll() {
         return iNotaRepository.findAll();
     }
 
-    public List<Nota> findAllById(Long id){
+    public List<Nota> findAllById(Long id) {
         return iNotaRepository.findByAluno_Id(id);
     }
 }

@@ -5,6 +5,8 @@ import com.hbsis.controle.escolar.alunos.AlunoService;
 import com.hbsis.controle.escolar.bimestres.Bimestre;
 import com.hbsis.controle.escolar.bimestres.BimestreService;
 import com.hbsis.controle.escolar.notas.NotaService;
+import com.hbsis.controle.escolar.turmas.Turma;
+import com.hbsis.controle.escolar.turmas.TurmaService;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.slf4j.Logger;
@@ -26,19 +28,22 @@ public class BoletimService {
     private final BimestreService bimestreService;
     private final AlunoService alunoService;
     private final NotaService notaService;
+    private final TurmaService turmaService;
 
-    public BoletimService(IBoletimRepository iBoletimRepository, BimestreService bimestreService, AlunoService alunoService, NotaService notaService) {
+    public BoletimService(IBoletimRepository iBoletimRepository, BimestreService bimestreService, AlunoService alunoService, NotaService notaService, TurmaService turmaService) {
         this.iBoletimRepository = iBoletimRepository;
         this.bimestreService = bimestreService;
         this.alunoService = alunoService;
         this.notaService = notaService;
+        this.turmaService = turmaService;
     }
 
     public BoletimDTO save(BoletimDTO boletimDTO) {
         Boletim boletim = new Boletim(
                 findBimestre(boletimDTO.getBimestre()),
-                findAluno(boletimDTO.getAluno()),
-                notaService.findAllById(boletimDTO.getAluno())
+                findAluno(boletimDTO.getAlunoId()),
+                findTurma(boletimDTO.getTurmaId()),
+                notaService.findAllById(boletimDTO.getAlunoId())
         );
 
         boletim = this.iBoletimRepository.save(boletim);
@@ -52,31 +57,36 @@ public class BoletimService {
         Boletim boletimNovo = boletimExistente.get();
 
         boletimNovo.setBimestre(findBimestre(boletimDTO.getBimestre()));
-        boletimNovo.setAluno(findAluno(boletimDTO.getAluno()));
-        boletimNovo.setNotaList(notaService.findAllById(boletimDTO.getAluno()));
+        boletimNovo.setAluno(findAluno(boletimDTO.getAlunoId()));
+        boletimNovo.setNotaList(notaService.findAllById(boletimDTO.getAlunoId()));
 
         boletimNovo = this.iBoletimRepository.save(boletimNovo);
 
         return BoletimDTO.of(boletimNovo);
     }
 
-    public void exportarJR(Long id) throws FileNotFoundException, JRException {
-        String path = "C:/Users/erick.silva/Desktop/JReports";
+    public void exportarJR(Long alunoId) throws FileNotFoundException, JRException {
+        if(alunoService.getOptional(alunoId).isPresent()){
+            String path = "C:/Users/erick.silva/Desktop/JReports";
 
-        List<Boletim> boletins = iBoletimRepository.findByAluno_Id(id);
+            List<Boletim> boletins = iBoletimRepository.findByAluno_Id(alunoId);
 
-        File file = ResourceUtils.getFile("classpath:boletim.jrxml");
+            File file = ResourceUtils.getFile("classpath:boletim.jrxml");
 
-        JasperReport jr = JasperCompileManager.compileReport(file.getAbsolutePath());
+            JasperReport jr = JasperCompileManager.compileReport(file.getAbsolutePath());
 
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(boletins);
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(boletins);
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("createdBy", "Erick Rodrigues");
+            Map<String, Object> params = new HashMap<>();
+            params.put("createdBy", "Erick Rodrigues");
 
-        JasperPrint print = JasperFillManager.fillReport(jr, params, dataSource);
+            JasperPrint print = JasperFillManager.fillReport(jr, params, dataSource);
 
-        JasperExportManager.exportReportToPdfFile(print, path + "/boletim.pdf");
+            JasperExportManager.exportReportToPdfFile(print, path + "/boletim.pdf");
+        }
+        else{
+            throw new IllegalArgumentException(String.format("Boletim do aluno de ID [%s] não encontrado.", alunoId));
+        }
     }
 
     public BoletimDTO findById(Long id) {
@@ -98,8 +108,12 @@ public class BoletimService {
             this.iBoletimRepository.deleteById(id);
         } else {
 
-            throw new IllegalArgumentException(String.format("Boletim de ID [{}] não encontrado.", id));
+            throw new IllegalArgumentException(String.format("Boletim de ID [%s] não encontrado.", id));
         }
+    }
+
+    private Turma findTurma(Long id){
+        return this.turmaService.get(id).get();
     }
 
     private Bimestre findBimestre(Long id) {

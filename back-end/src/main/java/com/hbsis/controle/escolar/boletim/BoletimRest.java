@@ -27,8 +27,8 @@ public class BoletimRest {
     }
 
     @GetMapping("/export/{id}")
-    public void export(@PathVariable("id") Long id) throws FileNotFoundException, JRException {
-        this.boletimService.exportarJR(id);
+    public void export(@PathVariable("id") Long alunoId) throws FileNotFoundException, JRException {
+        this.boletimService.exportarJR(alunoId);
     }
 
     @GetMapping("/{id}")
