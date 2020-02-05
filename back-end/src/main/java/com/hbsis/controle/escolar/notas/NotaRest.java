@@ -42,6 +42,6 @@ public class NotaRest {
 
     @GetMapping("/list/{id}")
     public List<Nota> listById(@PathVariable("id") Long id){
-        return notaService.findAllById(id);
+        return notaService.findAllByAlunoId(id);
     }
 }

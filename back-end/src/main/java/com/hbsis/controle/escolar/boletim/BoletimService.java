@@ -4,6 +4,7 @@ import com.hbsis.controle.escolar.alunos.Aluno;
 import com.hbsis.controle.escolar.alunos.AlunoService;
 import com.hbsis.controle.escolar.bimestres.Bimestre;
 import com.hbsis.controle.escolar.bimestres.BimestreService;
+import com.hbsis.controle.escolar.notas.Nota;
 import com.hbsis.controle.escolar.notas.NotaService;
 import com.hbsis.controle.escolar.turmas.Turma;
 import com.hbsis.controle.escolar.turmas.TurmaService;
@@ -16,10 +17,7 @@ import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class BoletimService {
@@ -39,11 +37,16 @@ public class BoletimService {
     }
 
     public BoletimDTO save(BoletimDTO boletimDTO) {
+        if(iBoletimRepository.existsByAluno_IdAndBimestre_Id(boletimDTO.getAlunoId(), boletimDTO.getBimestre())){
+
+            return this.update(boletimDTO);
+        }
+
         Boletim boletim = new Boletim(
                 findBimestre(boletimDTO.getBimestre()),
                 findAluno(boletimDTO.getAlunoId()),
                 findTurma(boletimDTO.getTurmaId()),
-                notaService.findAllById(boletimDTO.getAlunoId())
+                notaService.findAllByAlunoId(boletimDTO.getAlunoId())
         );
 
         boletim = this.iBoletimRepository.save(boletim);
@@ -58,34 +61,63 @@ public class BoletimService {
 
         boletimNovo.setBimestre(findBimestre(boletimDTO.getBimestre()));
         boletimNovo.setAluno(findAluno(boletimDTO.getAlunoId()));
-        boletimNovo.setNotaList(notaService.findAllById(boletimDTO.getAlunoId()));
+        boletimNovo.setNotaList(notaService.findAllByAlunoId(boletimDTO.getAlunoId()));
 
         boletimNovo = this.iBoletimRepository.save(boletimNovo);
 
         return BoletimDTO.of(boletimNovo);
     }
 
-    public void exportarJR(Long alunoId) throws FileNotFoundException, JRException {
-        if(alunoService.getOptional(alunoId).isPresent()){
-            String path = "C:/Users/erick.silva/Desktop/JReports";
+    public void exportarJR(Long alunoId, Long bimestreId) throws FileNotFoundException, JRException {
+        if(iBoletimRepository.existsByAluno_Id(alunoId)){
+            List<Boletim> boletim = iBoletimRepository.findByAluno_IdAndBimestre_Id(alunoId, bimestreId);
 
-            List<Boletim> boletins = iBoletimRepository.findByAluno_Id(alunoId);
+            List<String> dados = new ArrayList<>();
+
+            dados.add(boletim.get(0).getAluno().getNome());
+            dados.add(boletim.get(0).getAluno().getSobrenome());
+            dados.add(boletim.get(0).getBimestre().getBimestre());
+            dados.add(boletim.get(0).getTurma().getCodigo());
+            dados.add(boletim.get(0).getTurma().getTurno().getHorario());
+
+            for(long i = 0; i < 12; i++){
+                dados.add(mediaByDisciplina(i));
+            }
 
             File file = ResourceUtils.getFile("classpath:boletim.jrxml");
 
             JasperReport jr = JasperCompileManager.compileReport(file.getAbsolutePath());
 
-            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(boletins);
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(dados);
 
             Map<String, Object> params = new HashMap<>();
-            params.put("createdBy", "Erick Rodrigues");
+            params.put("created by", "Erick Rodrigues");
 
             JasperPrint print = JasperFillManager.fillReport(jr, params, dataSource);
 
-            JasperExportManager.exportReportToPdfFile(print, path + "/boletim.pdf");
+            JasperExportManager.exportReportToPdfFile(print, "C:/Users/erick.silva/Desktop/JReports/boletim.pdf");
         }
         else{
             throw new IllegalArgumentException(String.format("Boletim do aluno de ID [%s] não encontrado.", alunoId));
+        }
+    }
+
+    private String mediaByDisciplina(Long disciplinaId){
+        List<Nota> notasByDisciplina = notaService.findAllByDisciplinaId(disciplinaId);
+
+        if(notasByDisciplina.size() != 0){
+            double valorNotas = 0.0;
+
+            for(Nota nota : notasByDisciplina){
+                valorNotas += nota.getValor();
+            }
+
+            double media = valorNotas/notasByDisciplina.size();
+
+            return Double.toString(media);
+        }
+        else{
+            return " - ";
         }
     }
 

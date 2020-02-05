@@ -1,4 +1,8 @@
-var app = angular.module('app', ['ngRoute']);
+var app = angular.module('app', 
+    [
+    'ngRoute'
+    ]
+);
 
 app.config(function ($routeProvider) {
     $routeProvider
@@ -224,6 +228,7 @@ app.controller('aluno', ['$scope', '$http', '$rootScope', '$location', function 
         }, function errorCallback(response) {
 
             console.log(response.status);
+            $scope.erroMsg = response.data.message;
         });
     };
 
@@ -253,7 +258,8 @@ app.controller('aluno', ['$scope', '$http', '$rootScope', '$location', function 
             $scope.resetar();
         }, function errorCallback(response) {
 
-            console.log(respons.statuse);
+            console.log(response.status);
+            $scope.erroMsg = response.data.message;
         });
     };
 

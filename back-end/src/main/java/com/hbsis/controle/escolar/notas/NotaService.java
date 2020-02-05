@@ -75,7 +75,11 @@ public class NotaService {
         return iNotaRepository.findAll();
     }
 
-    public List<Nota> findAllById(Long id) {
-        return iNotaRepository.findByAluno_Id(id);
+    public List<Nota> findAllByAlunoId(Long alunoId) {
+        return iNotaRepository.findByAluno_Id(alunoId);
+    }
+
+    public List<Nota> findAllByDisciplinaId(Long disciplinaId){
+        return iNotaRepository.findAllByDisciplina_Id(disciplinaId);
     }
 }
