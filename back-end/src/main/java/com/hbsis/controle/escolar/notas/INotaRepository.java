@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface INotaRepository extends JpaRepository<Nota, Long> {
     List<Nota> findByAluno_Id(Long id);
-    List<Nota> findAllByDisciplina_Id(Long disciplinaId);
+    List<Nota> findByAluno_IdAndDisciplina_IdAndBimestre_Id(Long alunoId, Long disciplinaId, Long bimestreId);
 }

@@ -26,9 +26,9 @@ public class BoletimRest {
         return this.boletimService.update(boletimDTO);
     }
 
-    @GetMapping("/export/{id}")
-    public void export(@PathVariable("id") Long alunoId) throws FileNotFoundException, JRException {
-        this.boletimService.exportarJR(alunoId);
+    @GetMapping("/export/{idA}/bimestre/{idB}")
+    public void export(@PathVariable("idA") Long alunoId, @PathVariable("idB") Long bimestreId) throws FileNotFoundException, JRException {
+        this.boletimService.exportarJR(alunoId, bimestreId);
     }
 
     @GetMapping("/{id}")

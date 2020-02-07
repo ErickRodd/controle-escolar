@@ -35,8 +35,6 @@ public class NotaService {
 
         nota = iNotaRepository.save(nota);
 
-        LOGGER.info("Notas por aluno :" + iNotaRepository.findByAluno_Id(notaDTO.getAlunoId()));
-
         return NotaDTO.of(nota);
     }
 
@@ -79,7 +77,7 @@ public class NotaService {
         return iNotaRepository.findByAluno_Id(alunoId);
     }
 
-    public List<Nota> findAllByDisciplinaId(Long disciplinaId){
-        return iNotaRepository.findAllByDisciplina_Id(disciplinaId);
+    public List<Nota> findByAlunoDisciplinaBimestre(Long alunoId, Long disciplinaId, Long bimestreId){
+        return iNotaRepository.findByAluno_IdAndDisciplina_IdAndBimestre_Id(alunoId, disciplinaId, bimestreId);
     }
 }

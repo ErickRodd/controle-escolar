@@ -1,5 +1,6 @@
 <div class="container-fluid">
-    <div class="row" ng-controller="notas" ng-init="listarNotas(); mostrarCadastrar= true; mostrarAtualizar=false;">
+    <div class="row" ng-controller="notas"
+        ng-init="listarDisciplinas(); listarTurmas(); mostrarCadastrar=true; mostrarAtualizar=false;">
 
         <!-- Formulário -->
         <div class="col-md-3 ml-auto mt-4 rounded-left bg-light border-dark border-left border-top border-bottom">
@@ -11,7 +12,8 @@
                     <!-- Aluno -->
                     <div class="form-group">
                         <label for="aluno">Aluno</label>
-                        <input style="cursor: not-allowed;" disabled type="text" class="form-control input-border" name="aluno" id="aluno" ng-model="nota.alunoId" value="{{aluno.nome + ' ' + aluno.sobrenome}}">
+                        <input style="cursor: not-allowed;" readonly type="text" class="form-control input-border"
+                            name="aluno" id="aluno" ng-value="turma.aluno.nome + ' ' + turma.aluno.sobrenome" ng-model="nota.alunoId">
                     </div>
 
                     <div class="form-row">
@@ -20,7 +22,8 @@
                             <label for="valor">Valor</label>
                             <input required ng-model="nota.valor"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                                type="number" class="form-control input-border" id="valor" name="valor" autocomplete="off" aria-describedby="erro">
+                                type="number" class="form-control input-border" id="valor" name="valor"
+                                autocomplete="off" aria-describedby="erro">
                             <small id="erro" class="text-white bg-danger" ng-show="form.valor.$error.minlength">Informe
                                 um
                                 valor.</small>
@@ -32,10 +35,12 @@
                             <select required ng-model="nota.bimestreId"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
                                 class="form-control input-border" id="bimestre" name="bimestre" aria-describedby="erro">
-                                <option ng-repeat="bimestre in bimestres" ng-value="{{bimestre.id}}">{{bimestre.bimestre}}
+                                <option ng-repeat="bimestre in bimestres" ng-value="{{bimestre.id}}">
+                                    {{bimestre.bimestre}}
                                 </option>
                             </select>
-                            <small id="erro" class="text-white bg-danger" ng-show="form.bimestre.$error.minlength">Informe
+                            <small id="erro" class="text-white bg-danger"
+                                ng-show="form.bimestre.$error.minlength">Informe
                                 um
                                 bimestre.</small>
                         </div>
@@ -44,16 +49,17 @@
                     <!-- Disciplina -->
                     <div class="form-group" ng-init="listarDisciplinas()">
                         <label for="disciplina">Disciplina</label>
-                        <select ng-model="nota.disciplinaId"
+                        <select ng-model="disciplina.id"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
                             class="form-control input-border" id="disciplina" name="disciplina">
                             <option ng-repeat="disciplina in disciplinas" ng-value="{{disciplina.id}">
                                 {{disciplina.nome}}
                             </option>
                         </select>
-                        <small id="erro" class="text-white bg-danger" ng-show="form.disciplina.$error.minlength">Informe
-                            um
-                            bimestre.</small>
+                        <small id=" erro" class="text-white bg-danger" ng-show="form.disciplina.$error.minlength">
+                                Informe
+                                um
+                                bimestre.</small>
                     </div>
 
                     <!-- Cadastrar -->
@@ -80,18 +86,34 @@
 
         <!-- Consultar -->
         <div class="col-md-6 mr-auto mt-4 rounded-right bg-light border border-dark">
-            <h5 class="my-3">Busca</h5>
+            <h5 class="my-3">Buscar aluno por turma</h5>
 
             <!-- Busca -->
-            <div class="form-group">
-                <label for="busca">Pesquisar</label>
-                <div id="busca" class="bg-white rounded input-group mb-2" title="Pesquisar...">
-                    <input ng-model="busca"
-                        ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }" type="text"
-                        class="border-right-0 form-control input-border" id="busca">
-                    <div class="input-group-prepend" onclick="document.getElementById('busca').focus()">
-                        <div class="input-group-text rounded-right border-dark input-border lupa"><img
-                                src="app\imgs\search.svg" width="15" alt="Pesquisar"></div>
+            <div class="form-row">
+                <div class="form-group col-md-9">
+                    <label for="busca">Pesquisar</label>
+                    <div id="busca" class="bg-white rounded input-group mb-2" title="Pesquisar...">
+                        <input ng-model="busca"
+                            ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
+                            type="text" class="border-right-0 form-control input-border" id="busca">
+                        <div class="input-group-prepend" onclick="document.getElementById('busca').focus()">
+                            <div class="input-group-text rounded-right border-dark input-border lupa"><img
+                                    src="app\imgs\search.svg" width="15" alt="Pesquisar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="turma">Turma</label>
+                    <div id="turma" class="bg-white rounded input-group mb-2" title="Pesquisar...">
+                        <select required ng-model="turma"
+                            ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
+                            class="form-control input-border" id="TURMA" name="TURMA" aria-describedby="erro"
+                            ng-change="getAlunos(turma.alunoList)">
+                            <option ng-repeat="turma in turmas" ng-value="{{turma}}">
+                                {{turma.codigo}}
+                            </option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -100,25 +122,20 @@
                 <!-- Tabela -->
                 <table class="text-center mx-auto table-sm table table-hover mb-3">
                     <thead class="bg-secondary text-white rounded">
-                        <th class="border-right border-bottom border-dark">Valor</th>
-                        <th class="border-right border-left border-bottom border-dark">Disicplina</th>
+                        <th class="border-right border-bottom border-dark">Nome</th>
+                        <th class="border-right border-left border-bottom border-dark">E-mail</th>
                         <th class="border-left border-bottom border-dark">Ações</th>
                     </thead>
                     <tbody class="table">
-                        <tr ng-repeat="nota in notas | orderBy: 'codigo' | filter: busca">
-                            <td class="align-middle border-right border-bottom  border-dark">
-                                {{nota.valor}}
+                        <tr ng-repeat="aluno in alunos">
+                            <td class="align-middle border-right border-bottom border-dark">
+                                {{aluno.nome + '&nbsp' + aluno.sobrenome}}
                             </td>
-                            <td class="align-middle border-left border-right border-bottom  border-dark">
-                                {{nota.disciplina.nome}}
-                            </td class="align-middle">
+                            <td class="align-middle border-left border-right border-bottom  border-dark">{{aluno.email}}
+                            </td>
                             <td class="align-middle border-left border-bottom  border-dark">
-                                <div>
-                                    <a title="Editar" class="btn" ng-click="buscarNota(nota.id)"><img
-                                            src="app\imgs\pencil.svg" alt="Editar" width="22"></a>
-                                    <a title="Excluir" class="btn" ng-click="excluir(nota.id)"><img
-                                            src="app\imgs\remove.svg" alt="Excluir" width="22"></a>
-                                </div>
+                                <a title="Adicionar Nota" class="btn" ng-click="preencherCampoAluno(aluno)"><img
+                                        src="app\imgs\plus.svg" alt="Adicionar Nota" width="22"></a>
                             </td>
                         </tr>
                     </tbody>

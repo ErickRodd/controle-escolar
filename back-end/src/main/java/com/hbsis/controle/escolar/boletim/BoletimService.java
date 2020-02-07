@@ -9,7 +9,7 @@ import com.hbsis.controle.escolar.notas.NotaService;
 import com.hbsis.controle.escolar.turmas.Turma;
 import com.hbsis.controle.escolar.turmas.TurmaService;
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,6 +17,7 @@ import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -37,10 +38,7 @@ public class BoletimService {
     }
 
     public BoletimDTO save(BoletimDTO boletimDTO) {
-        if(iBoletimRepository.existsByAluno_IdAndBimestre_Id(boletimDTO.getAlunoId(), boletimDTO.getBimestre())){
-
-            return this.update(boletimDTO);
-        }
+        validateBoletim(boletimDTO);
 
         Boletim boletim = new Boletim(
                 findBimestre(boletimDTO.getBimestre()),
@@ -55,70 +53,137 @@ public class BoletimService {
     }
 
     public BoletimDTO update(BoletimDTO boletimDTO) {
-        Optional<Boletim> boletimExistente = this.iBoletimRepository.findById(boletimDTO.getId());
 
-        Boletim boletimNovo = boletimExistente.get();
+        if (iBoletimRepository.findById(boletimDTO.getId()).isPresent()) {
+            Boletim boletimNovo = iBoletimRepository.findById(boletimDTO.getId()).get();
 
-        boletimNovo.setBimestre(findBimestre(boletimDTO.getBimestre()));
-        boletimNovo.setAluno(findAluno(boletimDTO.getAlunoId()));
-        boletimNovo.setNotaList(notaService.findAllByAlunoId(boletimDTO.getAlunoId()));
+            boletimNovo.setBimestre(findBimestre(boletimDTO.getBimestre()));
+            boletimNovo.setAluno(findAluno(boletimDTO.getAlunoId()));
+            boletimNovo.setNotaList(notaService.findAllByAlunoId(boletimDTO.getAlunoId()));
 
-        boletimNovo = this.iBoletimRepository.save(boletimNovo);
+            boletimNovo = this.iBoletimRepository.save(boletimNovo);
 
-        return BoletimDTO.of(boletimNovo);
+            return BoletimDTO.of(boletimNovo);
+        }
+
+        throw new IllegalArgumentException("Boletim não encontrado.");
     }
 
     public void exportarJR(Long alunoId, Long bimestreId) throws FileNotFoundException, JRException {
-        if(iBoletimRepository.existsByAluno_Id(alunoId)){
-            List<Boletim> boletim = iBoletimRepository.findByAluno_IdAndBimestre_Id(alunoId, bimestreId);
+        validateExistenciaByAlunoAndBimestre(alunoId, bimestreId);
 
-            List<String> dados = new ArrayList<>();
+        List<Boletim> boletim = iBoletimRepository.findByAluno_IdAndBimestre_Id(alunoId, bimestreId);
+        List<String> dados = new ArrayList<>();
+        List<String> medias = new ArrayList<>();
 
-            dados.add(boletim.get(0).getAluno().getNome());
-            dados.add(boletim.get(0).getAluno().getSobrenome());
-            dados.add(boletim.get(0).getBimestre().getBimestre());
-            dados.add(boletim.get(0).getTurma().getCodigo());
-            dados.add(boletim.get(0).getTurma().getTurno().getHorario());
+        dados.add(boletim.get(0).getAluno().getNome());
+        dados.add(boletim.get(0).getAluno().getSobrenome());
+        dados.add(bimestreId.toString());
+        dados.add(boletim.get(0).getTurma().getCodigo());
+        dados.add(boletim.get(0).getTurma().getTurno().getHorario());
 
-            for(long i = 0; i < 12; i++){
-                dados.add(mediaByDisciplina(i));
+        if (bimestreId == 1) {
+            for (long i = 1; i < 13; i++) {
+                dados.add(mediaByDisciplina(alunoId, i, bimestreId));
             }
-
-            File file = ResourceUtils.getFile("classpath:boletim.jrxml");
-
-            JasperReport jr = JasperCompileManager.compileReport(file.getAbsolutePath());
-
-            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(dados);
-
-            Map<String, Object> params = new HashMap<>();
-            params.put("created by", "Erick Rodrigues");
-
-            JasperPrint print = JasperFillManager.fillReport(jr, params, dataSource);
-
-            JasperExportManager.exportReportToPdfFile(print, "C:/Users/erick.silva/Desktop/JReports/boletim.pdf");
         }
-        else{
+
+        if (bimestreId == 2) {
+            for (long i = 1; i < 13; i++) {
+                dados.add(mediaByDisciplina(alunoId, i, 1));
+            }
+            for (long i = 1; i < 13; i++) {
+                dados.add(mediaByDisciplina(alunoId, i, 2));
+            }
+        }
+
+        if (bimestreId == 3) {
+            for (long i = 1; i < 13; i++) {
+                dados.add(mediaByDisciplina(alunoId, i, 1));
+            }
+            for (long i = 1; i < 13; i++) {
+                dados.add(mediaByDisciplina(alunoId, i, 2));
+            }
+            for (long i = 1; i < 13; i++) {
+                dados.add(mediaByDisciplina(alunoId, i, 3));
+            }
+        }
+
+        if (bimestreId == 4) {
+            for (long i = 1; i < 13; i++) {
+                dados.add(mediaByDisciplina(alunoId, i, 1));
+            }
+            for (long i = 1; i < 13; i++) {
+                dados.add(mediaByDisciplina(alunoId, i, 2));
+            }
+            for (long i = 1; i < 13; i++) {
+                dados.add(mediaByDisciplina(alunoId, i, 3));
+            }
+            for (long i = 1; i < 13; i++) {
+                dados.add(mediaByDisciplina(alunoId, i, 4));
+            }
+            for (int i = 0; i < 12; i++) {
+                medias.add(mediaGeral(dados.get(5 + i), dados.get(17 + i), dados.get(29 + i), dados.get(41 + i)));
+            }
+        }
+
+        File file = ResourceUtils.getFile("classpath:boletim.jrxml");
+
+        JasperReport jr = JasperCompileManager.compileReport(file.getAbsolutePath());
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("Dados", dados);
+        params.put("Medias", medias);
+
+        JasperPrint print = JasperFillManager.fillReport(jr, params, new JREmptyDataSource());
+
+        JasperExportManager.exportReportToPdfFile(print, "C:/Users/erick.silva/Desktop/JReports/boletim.pdf");
+    }
+
+    private void validateExistenciaByAlunoAndBimestre(Long alunoId, Long bimestreId) {
+        if (!iBoletimRepository.existsByAluno_Id(alunoId)) {
             throw new IllegalArgumentException(String.format("Boletim do aluno de ID [%s] não encontrado.", alunoId));
+        }
+
+        if (!iBoletimRepository.existsByAluno_IdAndBimestre_Id(alunoId, bimestreId)) {
+            throw new IllegalArgumentException(String.format("Boletim de bimestre %s não encontrado para este aluno.", bimestreId));
         }
     }
 
-    private String mediaByDisciplina(Long disciplinaId){
-        List<Nota> notasByDisciplina = notaService.findAllByDisciplinaId(disciplinaId);
+    private void validateBoletim(BoletimDTO boletimDTO) {
+        if (iBoletimRepository.existsByAluno_IdAndBimestre_Id(boletimDTO.getAlunoId(), boletimDTO.getBimestre())) {
+            throw new IllegalArgumentException("Boletim já emitido.");
+        }
 
-        if(notasByDisciplina.size() != 0){
+        if (notaService.findAllByAlunoId(boletimDTO.getAlunoId()).isEmpty()) {
+            throw new IllegalArgumentException("Boletim com notas incompletas.");
+        }
+    }
+
+    private String mediaByDisciplina(Long alunoId, long disciplinaId, long bimestreId) {
+        List<Nota> notasByDisciplina = notaService.findByAlunoDisciplinaBimestre(alunoId, disciplinaId, bimestreId);
+
+        if (notasByDisciplina.size() != 0) {
+            DecimalFormat df = new DecimalFormat("##.00");
+
             double valorNotas = 0.0;
 
-            for(Nota nota : notasByDisciplina){
+            for (Nota nota : notasByDisciplina) {
                 valorNotas += nota.getValor();
             }
 
-            double media = valorNotas/notasByDisciplina.size();
+            Double media = valorNotas / notasByDisciplina.size();
 
-            return Double.toString(media);
+            return df.format(media);
+        } else {
+            return "-";
         }
-        else{
-            return " - ";
-        }
+    }
+
+    private String mediaGeral(String media1, String media2, String media3, String media4) {
+        DecimalFormat df = new DecimalFormat("##.00");
+
+        return df.format((Double.parseDouble(StringUtils.replace(media1, ",", ".")) + Double.parseDouble(StringUtils.replace(media2, ",", ".")) + Double.parseDouble(StringUtils.replace(media3, ",", ".")) + Double.parseDouble(StringUtils.replace(media4, ",", "."))) / 4);
     }
 
     public BoletimDTO findById(Long id) {
@@ -144,7 +209,7 @@ public class BoletimService {
         }
     }
 
-    private Turma findTurma(Long id){
+    private Turma findTurma(Long id) {
         return this.turmaService.get(id).get();
     }
 
