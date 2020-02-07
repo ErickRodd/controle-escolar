@@ -3,7 +3,7 @@
 
         <!-- Formulário -->
         <div class="col-md-3 ml-auto mt-4 rounded-left bg-light border-dark border-left border-top border-bottom">
-            <h5 class="my-3">Cadastrar turma</h5>
+            <h5 class="my-3">Cadastro de turma</h5>
             <div class="form">
                 <form name="form" id="formTurma" novalidate ng-class="{'submitted': submitted}"
                     ng-submit="submitted=true;">
@@ -14,7 +14,7 @@
                             <label for="codigo">Código</label>
                             <input required ng-model="turma.codigo"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                                type="text" class="form-control input-border" id="codigo" name="codigo" minlength="1"
+                                type="text" class="form-control" id="codigo" name="codigo" minlength="1"
                                 maxlength="20" autocomplete="off" aria-describedby="erro">
                             <div ng-if="submitted">
                                 <small id="erro" class="text-white bg-danger"
@@ -29,7 +29,7 @@
                             <label for="turno">Turno</label>
                             <select required ng-model="turma.turnoId"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
-                                class="form-control input-border" id="turno" name="turno" aria-describedby="erro">
+                                class="form-control" id="turno" name="turno" aria-describedby="erro">
                                 <option ng-repeat="turno in turnoLista" selected ng-value="{{turno.id}}">
                                     {{turno.horario}}
                                 </option>
@@ -48,7 +48,7 @@
                         <label for="alunos">Alunos</label>
                         <select ng-model="turma.alunos"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
-                            class="form-control input-border" multiple id="alunos" name="alunos">
+                            class="form-control" multiple id="alunos" name="alunos">
                             <option ng-repeat="aluno in alunoLista" ng-value="{{aluno}}">
                                 {{aluno.nome + " " + aluno.sobrenome}}
                             </option>
@@ -87,9 +87,9 @@
                 <div id="busca" class="bg-white rounded input-group mb-2" title="Pesquisar...">
                     <input ng-model="busca"
                         ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }" type="text"
-                        class="border-right-0 form-control input-border" id="busca">
+                        class="border-right-0 form-control" id="busca">
                     <div class="input-group-prepend" onclick="document.getElementById('busca').focus()">
-                        <div class="input-group-text rounded-right border-dark input-border lupa"><img
+                        <div class="input-group-text rounded-right border-dark lupa"><img
                                 src="app\imgs\search.svg" width="15" alt="Pesquisar"></div>
                     </div>
                 </div>

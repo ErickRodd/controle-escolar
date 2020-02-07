@@ -14,7 +14,7 @@
 
                         <input required ng-model="aluno.nome"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                            type="text" class="form-control input-border" id="nome" name="nome" minlength="1"
+                            type="text" class="form-control" id="nome" name="nome" minlength="1"
                             maxlength="20" autocomplete="off" aria-describedby="erro">
                         <small id="erro" class="text-danger erroMsg"
                             ng-show="form.nome.$error.required && submitted">Informe
@@ -28,7 +28,7 @@
 
                         <input required ng-model="aluno.sobrenome"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
-                            type="text" class="form-control input-border" id="sobrenome" name="sobrenome" minlength="1"
+                            type="text" class="form-control" id="sobrenome" name="sobrenome" minlength="1"
                             maxlength="60" autocomplete="off" aria-describedby="erro">
                         <small id="erro" class="text-danger erroMsg"
                             ng-show="submitted && form.sobrenome.$error.required">Informe
@@ -43,7 +43,7 @@
 
                             <input required ng-model="aluno.cpf"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                                type="text" class="form-control input-border" id="cpf" name="cpf" minlength="11"
+                                type="text" class="form-control" id="cpf" name="cpf" minlength="11"
                                 maxlength="11" onkeypress="return campoNumerico(event)" autocomplete="off"
                                 aria-describedby="erro">
                             <small id="erro" class="text-danger erroMsg"
@@ -64,7 +64,7 @@
 
                             <input required ng-model="aluno.telefone"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                                type="text" class="form-control input-border" id="telefone" name="telefone"
+                                type="text" class="form-control" id="telefone" name="telefone"
                                 minlength="10" maxlength="11" onkeypress="return campoNumerico(event)"
                                 autocomplete="off" aria-describedby="erro">
                             <small id="erro" class="text-danger erroMsg"
@@ -84,7 +84,7 @@
                         <label for="email">E-mail</label>
                         <input required ng-model="aluno.email"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                            type="email" class="form-control input-border" id="email" name="email" minlength="3"
+                            type="email" class="form-control" id="email" name="email" minlength="3"
                             maxlength="50" autocomplete="off" aria-describedby="erro">
                         <small id="erro" class="text-danger erroMsg"
                             ng-show="submitted && form.email.$error.email">Informe
@@ -128,9 +128,9 @@
                 <div id="busca" class="bg-white rounded input-group mb-2" title="Pesquisar...">
                     <input ng-model="busca"
                         ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }" type="text"
-                        class="border-right-0 form-control input-border" id="busca">
+                        class="border-right-0 form-control" id="busca">
                     <div class="input-group-prepend">
-                        <div class="input-group-text rounded-right border-dark input-border lupa"><img
+                        <div class="input-group-text rounded-right border-dark lupa"><img
                                 src="app\imgs\search.svg" width="15" alt="Pesquisar"></div>
                     </div>
                 </div>
@@ -146,7 +146,7 @@
                         <th class="border-right border-left border-bottom border-dark">Telefone</th>
                         <th class="border-left border-bottom border-dark">Ações</th>
                     </thead>
-                    <tbody class="table">
+                    <tbody>
                         <tr ng-repeat="aluno in alunoLista | orderBy: 'nome' | filter: busca">
                             <td class="align-middle border-right border-bottom  border-dark">
                                 {{aluno.nome + ' ' + aluno.sobrenome}}

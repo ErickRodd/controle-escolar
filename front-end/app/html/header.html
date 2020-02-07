@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
+
+    <a class="navbar-brand" href="#!/" title="Gestão Escolar"><img src="app/imgs/hbsis-logo-no-text.png" width="20"><b class="align-middle">GE</b></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav" style="margin-left: 9%;">
+            <li ng-class="{active: activetab == '/alunos'}" class="nav-item">
+                <a class="nav-link" href="#!/alunos" title="Alunos">Alunos</a>
+            </li>
+            <li ng-class="{active: activetab == '/turmas'}" class="nav-item">
+                <a class="nav-link" href="#!/turmas" title="Turmas">Turmas</a>
+            </li>
+            <li ng-class="{active: activetab == '/professores'}" class="nav-item">
+                <a class="nav-link" href="#!/professores" title="Professores">Professores</a>
+            </li>
+            <li ng-class="{active: activetab == '/notas'}" class="nav-item">
+                <a class="nav-link" href="#!/notas" title="Notas">Notas</a>
+            </li>
+            <li ng-class="{active: activetab == '/boletins'}" class="nav-item">
+                <a class="nav-link" href="#!/boletins" title="Boletins">Boletins</a>
+            </li>
+        </ul>
+    </div>
+</nav>

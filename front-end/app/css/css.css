@@ -7,7 +7,7 @@
     box-shadow: none;
 }
 
-.input-border {
+.form-control {
     border-color: #343a40;
 }
 
@@ -23,4 +23,9 @@
     right: 0;
     position: absolute;
     z-index: 10;
+}
+
+.form-control:focus {
+    border-color: #cecece;
+    transition: 0.7s;
 }

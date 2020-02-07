@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,5 +38,9 @@ public class BimestreService {
         }
 
         throw new IllegalArgumentException("Bimestre não encontrado.");
+    }
+
+    public List<Bimestre> list(){
+        return iBimestreRepository.findAll();
     }
 }
