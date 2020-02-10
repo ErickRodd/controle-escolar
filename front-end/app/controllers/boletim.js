@@ -1,18 +1,21 @@
 angular.module('app').controller('boletim', ['$scope', '$http', '$rootScope', '$location', function ($scope, $http, $rootScope, $location) {
     $rootScope.activetab = $location.path();
+    $scope.boletim = {};
+    $scope.alunos = {};
 
-    $scope.gerar = function (obj){
-        console.log(obj);
+    $scope.gerar = function (idA, idB) {
 
         $http({
-            method: 'POST',
-            url: 'http://localhost:8080/boletins/save',
-            data: obj
-        }).then(function successCallback(response){
+            method: 'GET',
+            url: 'http://localhost:8080/notas/export/' + idA + '/bimestre/' + idB
+        }).then(function successCallback(response) {
             console.log(response.status);
 
-            $scope.resetar();
-        }, function errorCallback(response){
+            $scope.mostrarCadastrar=false; 
+            $scope.mostrarAtualizar=true;
+
+        }, function errorCallback(response) {
+
             console.log(response.status);
             console.log(response.data);
         });
@@ -23,7 +26,7 @@ angular.module('app').controller('boletim', ['$scope', '$http', '$rootScope', '$
             method: 'GET',
             url: 'http://localhost:8080/turmas/list'
         }).then(function successCallback(response) {
-            
+
             $scope.turmas = response.data;
             console.log(response.status);
         }, function errorCallback(response) {
@@ -33,37 +36,23 @@ angular.module('app').controller('boletim', ['$scope', '$http', '$rootScope', '$
         });
     };
 
-    $scope.listarTurmasConsulta = function () {
+    $scope.listarBimestres = function () {
         $http({
             method: 'GET',
-            url: 'http://localhost:8080/turmas/list'
+            url: 'http://localhost:8080/bimestres/list'
         }).then(function successCallback(response) {
-            $scope.turmas2 = response.data;
+            $scope.bimestres = response.data;
+
+            console.log(response);
         }, function errorCallback(response) {
             console.log(response.status);
             console.log(response.data);
         });
     };
 
+    $scope.listarAlunos = function (obj) {
 
-    $scope.listarBimestres = function (){
-        $http({
-            method: 'GET',
-            url: 'http://localhost:8080/bimestres/list'
-        }).then(function successCallback(response){
-            $scope.bimestres = response.data;
-
-            console.log(response);
-        }, function errorCallback(response){
-            console.log(response.status);
-            console.log(response.data);
-        });
-    };
-
-    $scope.getAlunos = function (obj){
         $scope.alunos = obj;
-    }
-    $scope.getAlunos2 = function (obj){
-        $scope.alunos2 = obj;
+        console.log($scope.alunos);
     }
 }]);

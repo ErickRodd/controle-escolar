@@ -9,4 +9,10 @@ import java.util.List;
 public interface INotaRepository extends JpaRepository<Nota, Long> {
     List<Nota> findByAluno_Id(Long id);
     List<Nota> findByAluno_IdAndDisciplina_IdAndBimestre_Id(Long alunoId, Long disciplinaId, Long bimestreId);
+
+    boolean existsByAluno_Id(Long alunoId);
+
+    boolean existsByAluno_IdAndBimestre_Id(Long alunoId, Long bimestreId);
+
+    List<Nota> findByAluno_IdAndBimestre_Id(Long alunoId, Long bimestreId);
 }

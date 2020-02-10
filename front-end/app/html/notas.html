@@ -11,7 +11,7 @@
                     <div class="form-group">
                         <label for="aluno">Aluno</label>
                         <input style="cursor: not-allowed;" ng-model="nota.alunoId" readonly type="text" class="input-no-focus form-control"
-                            name="aluno" id="aluno" ng-value="aluno.nome + ' ' + aluno.sobrenome">
+                            name="aluno" id="aluno" ng-value="aluno.nome">
                     </div>
 
                     <div class="form-row">
@@ -133,8 +133,8 @@
                             <td class="align-middle border-left border-right border-bottom  border-dark">{{aluno.email}}
                             </td>
                             <td class="align-middle border-left border-bottom  border-dark">
-                                <button class="align-middle btn btn-success btn-sm"
-                                    ng-click="preencherCampoAluno(aluno)">Adicionar nota</button>
+                                <a title="Adicionar notas" class="btn" ng-click="alunoEdit(aluno)"><img
+                                    src="app\imgs\plus.svg" alt="Adicionar notas" width="25"></a>
                             </td>
                         </tr>
                     </tbody>

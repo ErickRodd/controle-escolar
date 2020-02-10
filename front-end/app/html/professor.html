@@ -13,7 +13,7 @@
                         <label for="nome">Nome</label>
                         <input required ng-model="professor.nome"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                            type="text" class="form-control input-border" id="nome" name="nome" minlength="1"
+                            type="text" class="form-control" id="nome" name="nome" minlength="1"
                             maxlength="20" autocomplete="off" aria-describedby="erro">
                         <small id="erro" class="text-white bg-danger" ng-show="form.nome.$error.minlength">Informe
                             um
@@ -25,7 +25,7 @@
                         <label for="sobrenome">Sobrenome</label>
                         <input required ng-model="professor.sobrenome"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
-                            type="text" class="form-control input-border" id="sobrenome" name="sobrenome" minlength="1"
+                            type="text" class="form-control" id="sobrenome" name="sobrenome" minlength="1"
                             maxlength="60" autocomplete="off" aria-describedby="erro">
                         <small id="erro" class="text-white bg-danger" ng-show="form.sobrenome.$error.minlength">Informe
                             um
@@ -38,7 +38,7 @@
                             <label for="cpf">CPF</label>
                             <input required ng-model="professor.cpf"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                                type="text" class="form-control input-border" id="cpf" name="cpf" minlength="11"
+                                type="text" class="form-control" id="cpf" name="cpf" minlength="11"
                                 maxlength="11" onkeypress="return campoNumerico(event)" autocomplete="off"
                                 aria-describedby="erro">
                             <small id="erro" class="text-white bg-danger" ng-show="form.cpf.$error.minlength">Informe
@@ -52,7 +52,7 @@
                             <label for="telefone">Telefone</label>
                             <input required ng-model="professor.telefone"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                                type="text" class="form-control input-border" id="telefone" name="telefone"
+                                type="text" class="form-control" id="telefone" name="telefone"
                                 minlength="10" maxlength="11" onkeypress="return campoNumerico(event)"
                                 autocomplete="off" aria-describedby="erro">
                             <small id="erro" class="text-white bg-danger"
@@ -68,7 +68,7 @@
                         <label for="email">E-mail</label>
                         <input required ng-model="professor.email"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                            type="email" class="form-control input-border" id="email" name="email" minlength="3"
+                            type="email" class="form-control" id="email" name="email" minlength="3"
                             maxlength="50" autocomplete="off" aria-describedby="erro">
                         <small id="erro" class="text-light bg-danger" ng-show="form.email.$error.email">Informe
                             um e-mail válido.</small>
@@ -106,9 +106,9 @@
                 <div id="busca" class="bg-white rounded input-group mb-2" title="Pesquisar...">
                     <input ng-model="busca"
                         ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }" type="text"
-                        class="border-right-0 form-control input-border" id="busca">
+                        class="border-right-0 form-control" id="busca">
                     <div class="input-group-prepend">
-                        <div class="input-group-text rounded-right border-dark input-border lupa"><img
+                        <div class="input-group-text rounded-right border-dark lupa"><img
                             src="app\imgs\search.svg" width="15" alt="Pesquisar"></div>
                     </div>
                 </div>

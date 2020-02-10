@@ -27,8 +27,7 @@ angular.module('app').config(['$routeProvider', '$locationProvider', function ($
         })
 
         .when('/boletins', {
-            templateUrl: 'app/html/boletim.html',
-            controller: 'boletim'
+            templateUrl: 'app/html/boletim.html'
         })
 
         .otherwise(

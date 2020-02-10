@@ -1,22 +1,23 @@
-<div class="container-fluid">
+<div class="container-fluid ">
     <div class="row" ng-init="mostrarCadastrar=true; mostrarAtualizar=false;">
         <!-- Formulário -->
-        <div class="col-md-3 ml-auto mt-4 rounded-left bg-light border-dark border-left border-top border-bottom">
+        <div ng-controller="boletim"
+            class="col-md-6 mx-auto mt-4 rounded bg-light border-dark border">
             <h5 class="my-3">Gerar boletim</h5>
             <div class="form">
                 <form name="form" id="formNota" novalidate ng-class="{'submitted': submitted}"
                     ng-submit="submitted=true;">
-                
                     <div class="form-row">
+
                         <!-- Turma -->
                         <div class="form-group col-md-6">
-                            <label for="turma">Turma</label>
+                            <label for="turma" class="ml-1">Turma</label>
                             <div id="turma" class="bg-white rounded input-group mb-2" title="Pesquisar..."
                                 ng-init="listarTurmas()">
-                                <select required ng-model="boletim.turmaId"
+                                <select required ng-model="turma"
                                     ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
                                     class="form-control" id="turma" name="turma" aria-describedby="erro"
-                                    ng-change="getAlunos(turma.alunoList)">
+                                    ng-change="listarAlunos(turma.alunoList)">
                                     <option ng-repeat="turma in turmas" ng-value="{{turma}}">
                                         {{turma.codigo}}
                                     </option>
@@ -26,11 +27,11 @@
 
                         <!-- Bimestre -->
                         <div class="form-group col-md-6" ng-init="listarBimestres()">
-                            <label for="bimestre">Bimestre</label>
-                            <select required ng-model="boletim.bimestre"
+                            <label for="bimestre" class="ml-1">Bimestre</label>
+                            <select required ng-model="bimestre"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
                                 class="form-control" id="bimestre" name="bimestre" aria-describedby="erro">
-                                <option ng-repeat="bimestre in bimestres" ng-value="{{bimestre.id}}">
+                                <option ng-repeat="bimestre in bimestres" ng-value="{{bimestre}}">
                                     {{bimestre.bimestre}}
                                 </option>
                             </select>
@@ -42,103 +43,40 @@
                     </div>
 
                     <!-- Aluno -->
-                    <div class="form-group">
-                        <label for="aluno">Aluno</label>
-                        <select required ng-model="boletim.alunoId"
-                                ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
-                                class="form-control" id="aluno" name="aluno" aria-describedby="erro">
-                                <option ng-repeat="aluno in turma.alunoList" ng-value="{{aluno.id}}">
-                                    {{aluno.nome}}
-                                </option>
-                            </select>
-                    </div>
-
-                    <!-- Cadastrar -->
-                    <button class="btn btn-secondary w-100 mb-3" ng-if="mostrarCadastrar" ng-click="gerar(boletim)"
-                        type="submit">Cadastrar</button>
-
-
-                    <!-- Atualizar -->
-                    <div class="form-row" ng-if="mostrarAtualizar">
-                        <div class="form-group col-md-9">
-                            <button class="btn btn-secondary w-100" ng-click="submitted=true; atualizar(nota);"
-                                type="submit">Atualizar</button>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <button class="btn btn-danger w-100" ng-click="cancelarAtualizar()">
-                                Cancelar
-                            </button>
-                        </div>
-                    </div>
-
-                </form>
-            </div class="form">
-        </div>
-
-        <!-- Consultar -->
-        <div class="col-md-6 mr-auto mt-4 rounded-right bg-light border border-dark">
-            <h5 class="my-3">Buscar boletim</h5>
-
-            <!-- Busca -->
-            <div class="form-row">
-
-                <div class="form-group col-md-3">
-                    <label for="turma">Turma</label>
-                    <div id="turma" class="bg-white rounded input-group mb-2" title="Pesquisar..."
-                        ng-init="listarTurmasConsulta()">
-                        <select required ng-model="turma2"
+                    <div class="form-group mb-4">
+                        <label for="aluno" class="ml-1">Aluno</label>
+                        <select required ng-model="aluno"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
-                            class="form-control" id="turma" name="turma" aria-describedby="erro"
-                            ng-change="getAlunos2(turma2.alunoList)">
-                            <option ng-repeat="turma in turmas2" ng-value="{{turma}}">
-                                {{turma.codigo}}
+                            class="form-control" id="aluno" name="aluno" aria-describedby="erro">
+                            <option ng-repeat="aluno in alunos" ng-value="{{aluno}}">
+                                {{aluno.nome + ' ' + aluno.sobrenome}}
                             </option>
                         </select>
                     </div>
-                </div>
-                <div class="form-group col-md-9">
-                    <label for="busca">Pesquisar aluno</label>
-                    <div id="busca" class="bg-white rounded input-group mb-2" title="Pesquisar...">
-                        <input ng-model="busca"
-                            ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                            type="text" class="border-right-0 form-control" id="busca">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text rounded-right border-dark lupa"><img src="app\imgs\search.svg"
-                                    width="15" alt="Pesquisar"></div>
+
+                    <!-- Cadastrar -->
+                    <button class="btn btn-secondary w-100 mb-3" ng-if="mostrarCadastrar"
+                        ng-click="gerar(aluno.id, bimestre.id)" type="submit">Gerar</button>
+
+                    <!-- Atualizar -->
+                    <div class="form-row" ng-if="mostrarAtualizar">
+                        <div class="form-group col-md-10">
+                            <button class="btn btn-secondary w-100" ng-click="submitted=true; atualizar(nota);"
+                                type="submit">Gerar outro boletim</button>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <button title="Baixar boletim" class="btn btn-info w-100" ng-click="cancelarAtualizar()">
+                               <img src="app\imgs\file.svg" alt="Baixar boletim" width="20">
+                            </button>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <button title="Imprimir boletim" class="btn btn-info w-100" ng-click="cancelarAtualizar()">
+                                <img src="app\imgs\printer.svg" alt="Imprimir boletim" width="20">
+                            </button>
                         </div>
                     </div>
-                </div>
-
-                
-            </div>
-
-            <div class="table-responsive-sm table-borderless border-left border-right border-top border-dark rounded">
-                <!-- Tabela -->
-                <table class="text-center table-sm table table-hover mb-3">
-                    <thead class="bg-secondary text-white rounded">
-                        <th class="border-right border-bottom border-dark">Nome</th>
-                        <th class="border-right border-left border-bottom border-dark">E-mail</th>
-                        <th class="border-left border-bottom border-dark">Ações</th>
-                    </thead>
-                    <tbody class="table">
-                        <tr ng-repeat="aluno in alunos2 | orderBy: 'nome' | filter: busca">
-                            <td class="align-middle border-right border-bottom border-dark">
-                                {{aluno.nome + ' ' + aluno.sobrenome}}
-                            </td>
-                            <td class="align-middle border-left border-right border-bottom  border-dark">{{aluno.email}}
-                            </td>
-                            <td class="align-middle border-left border-bottom  border-dark">
-                                <div>
-                                    <a title="Baixar" class="btn" ng-click="download(boletim.id)"><img
-                                            src="app\imgs\download.svg" alt="Baixar" width="23"></a>
-                                    <a title="Excluir" class="btn" ng-click="excluir(boletim.id)"><img
-                                            src="app\imgs\remove.svg" alt="Excluir" width="22"></a>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                </form>
+            </div class="form">
         </div>
     </div>
 </div>

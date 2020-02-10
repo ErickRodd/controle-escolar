@@ -1,8 +1,10 @@
 package com.hbsis.controle.escolar.notas;
 
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @RestController
@@ -43,5 +45,10 @@ public class NotaRest {
     @GetMapping("/list/{id}")
     public List<Nota> listById(@PathVariable("id") Long id){
         return notaService.findAllByAlunoId(id);
+    }
+
+    @GetMapping("/export/{idA}/bimestre/{idB}")
+    public void export(@PathVariable("idA") Long alunoId, @PathVariable("idB") Long bimestreId) throws FileNotFoundException, JRException {
+        this.notaService.exportarJR(alunoId, bimestreId);
     }
 }
