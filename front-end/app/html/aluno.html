@@ -44,7 +44,7 @@
                             <input required ng-model="aluno.cpf"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
                                 type="text" class="form-control" id="cpf" name="cpf" minlength="11"
-                                maxlength="11" onkeypress="return campoNumerico(event)" autocomplete="off"
+                                maxlength="14" onkeypress="$(this).mask('000.000.000-00');" autocomplete="off"
                                 aria-describedby="erro">
                             <small id="erro" class="text-danger erroMsg"
                                 ng-show="submitted && form.cpf.$error.minlength">Informe
@@ -55,7 +55,7 @@
                                 ng-show="submitted && form.cpf.$error.required">Informe
                                 um
                                 CPF</small>
-                            <small id="erro" class="text-danger erroMsg" ng-show="submitted && form.$error && form.email.$error">{{erroCPF}}</small>
+                            <small id="erro" class="text-danger erroMsg" ng-show="submitted && form.cpf.$error && !form.cpf.$error.minlength">{{erroCPF}}</small>
                         </div>
 
                         <!-- Telefone -->
@@ -93,21 +93,21 @@
                             ng-show="submitted && form.email.$error.required">Informe
                             um e-mail</small>
                         <small id="erro" class="text-danger erroMsg"
-                            ng-show="submitted && form.$error && form.email.$error">{{erroEmail}}</small>
+                            ng-show="submitted && form.$error && !form.email.$error.minlength">{{erroEmail}}</small>
                     </div>
 
                     <!-- Cadastrar -->
-                    <button class="btn btn-secondary w-100 mb-3" ng-if="mostrarCadastrar" ng-click="cadastrar(aluno)"
+                    <button class="btn btn-secondary w-100 my-3" ng-if="mostrarCadastrar" ng-click="cadastrar(aluno)"
                         type="submit">Cadastrar</button>
 
 
                     <!-- Atualizar -->
                     <div class="form-row" ng-if="mostrarAtualizar">
-                        <div class="form-group col-md-9">
+                        <div class="form-group col-md-9 my-3">
                             <button class="btn btn-secondary w-100" ng-click="submitted=true; atualizar(aluno);"
                                 type="submit">Atualizar</button>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-3 my-3">
                             <button class="btn btn-danger w-100" ng-click="submitted=true; cancelarAtualizar()">
                                 Cancelar
                             </button>
@@ -151,12 +151,12 @@
                             <td class="align-middle border-right border-bottom  border-dark">
                                 {{aluno.nome + ' ' + aluno.sobrenome}}
                             </td>
-                            <td class="align-middle border-left border-right border-bottom  border-dark">{{aluno.cpf}}
+                            <td id="cpfA" class="cpf align-middle border-left border-right border-bottom  border-dark">{{formatarCpf(aluno.cpf)}}
                             </td class="align-middle">
                             <td class="align-middle border-left border-right border-bottom  border-dark">{{aluno.email}}
                             </td>
                             <td class="align-middle border-left border-right border-bottom  border-dark">
-                                {{aluno.telefone}}</td>
+                                {{formatarTel(aluno.telefone)}}</td>
                             <td class="align-middle border-left border-bottom  border-dark">
                                 <a title="Editar" class="btn" ng-click="alunoEdit(aluno)"><img
                                         src="app\imgs\pencil.svg" alt="Editar" width="22"></a>

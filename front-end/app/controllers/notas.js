@@ -1,13 +1,23 @@
 angular.module('app').controller('notas', ['$scope', '$http', '$rootScope', '$location', function ($scope, $http, $rootScope, $location) {
     $rootScope.activetab = $location.path();
 
+    $scope.resetar = function () {
+        $scope.nota = null;
+        document.getElementById('formNota').reset();
+        $scope.submitted = false;
+    };
+
     $scope.cadastrarNota = function (obj){
+        console.log(obj);
+
         $http({
             method: 'POST',
             url: 'http://localhost:8080/notas/save',
             data: obj
         }).then(function successCallback(response){
             console.log(response.status);
+
+            $scope.resetar();
         }, function errorCallback(response){
             console.log(response.status);
             console.log(response.data);
@@ -20,6 +30,8 @@ angular.module('app').controller('notas', ['$scope', '$http', '$rootScope', '$lo
             url: 'http://localhost:8080/bimestres/list'
         }).then(function successCallback(response){
             $scope.bimestres = response.data;
+
+            console.log(response);
         }, function errorCallback(response){
             console.log(response.status);
             console.log(response.data);
@@ -55,8 +67,12 @@ angular.module('app').controller('notas', ['$scope', '$http', '$rootScope', '$lo
     }
 
     $scope.preencherCampoAluno = function(obj){
-        $scope.turma.aluno = obj;
+        $scope.aluno = {};
+        $scope.nota = {};
 
-        console.log($scope.turma.alunoId);
+        $scope.nota.alunoId = obj.id;
+
+        $scope.aluno.nome = obj.nome;
+        $scope.aluno.sobrenome = obj.sobrenome;
     }
 }]);

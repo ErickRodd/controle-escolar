@@ -29,3 +29,11 @@
     border-color: #cecece;
     transition: 0.7s;
 }
+
+.input-no-focus{
+    color: #343a40;
+}
+
+.input-no-focus:focus{
+    border-color: #343a40;
+}
