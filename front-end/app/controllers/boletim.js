@@ -3,18 +3,33 @@ angular.module('app').controller('boletim', ['$scope', '$http', '$rootScope', '$
     $scope.boletim = {};
     $scope.alunos = {};
 
+    $scope.resetar = function (){
+        $scope.turma = '';
+        $scope.aluno = '';
+        $scope.bimestre = '';
+    }
+
     $scope.gerar = function (idA, idB) {
 
         $http({
             method: 'GET',
-            url: 'http://localhost:8080/notas/export/' + idA + '/bimestre/' + idB
+            url: 'http://localhost:8080/notas/export/' + idA + '/bimestre/' + idB,
         }).then(function successCallback(response) {
             console.log(response.status);
-
+            window.location.href = 'http://localhost:8080/notas/export/' + idA + '/bimestre/' + idB
             $scope.mostrarCadastrar=false; 
             $scope.mostrarAtualizar=true;
+            $scope.submitted = false;
+            $scope.resetar();
 
         }, function errorCallback(response) {
+
+            if(response.data.message.startsWith('Ne')){
+                $scope.erroBoletim  = response.data.message;
+            }
+            if(response.data.message.startsWith('No')){
+                $scope.erroBoletim  = response.data.message;
+            }
 
             console.log(response.status);
             console.log(response.data);

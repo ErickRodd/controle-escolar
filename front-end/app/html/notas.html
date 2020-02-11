@@ -10,8 +10,39 @@
                     <!-- Aluno -->
                     <div class="form-group">
                         <label for="aluno">Aluno</label>
-                        <input style="cursor: not-allowed;" ng-model="nota.alunoId" readonly type="text" class="input-no-focus form-control"
-                            name="aluno" id="aluno" ng-value="aluno.nome">
+                        <input ng-model="aluno.nome" readonly type="text"
+                            class="input-no-focus form-control cursor-not-allowed">
+                    </div>
+
+                    <div class="form-row">
+                        <!-- Turma -->
+                        <div class="form-group col-md-6">
+                            <label for="turma">Turma</label>
+                            <select required ng-model="turma"
+                                ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
+                                class="form-control" id="turma" name="turma" aria-describedby="erro" ng-change="getAlunos(turma.alunoList)">
+                                <option ng-repeat="turma in turmas" ng-value="{{turma}}">
+                                    {{turma.codigo}}
+                                </option>
+                            </select>
+                            <small id="erro" class="text-white bg-danger" ng-show="form.valor.$error.minlength">Informe
+                                uma turma.</small>
+                        </div>
+
+                        <!-- Aluno -->
+                        <div class="form-group col-md-6">
+                            <label for="aluno">Aluno</label>
+                            <select required ng-model="nota.alunoId"
+                                ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
+                                class="form-control" id="aluno" name="aluno" aria-describedby="erro">
+                                <option ng-repeat="aluno in alunos" ng-value={{aluno}}>
+                                    {{aluno.nome + ' ' + aluno.sobrenome}}
+                                </option>
+                            </select>
+                            <small id="erro" class="text-white bg-danger"
+                                ng-show="form.bimestre.$error.minlength">Informe
+                                um aluno.</small>
+                        </div>
                     </div>
 
                     <div class="form-row">
@@ -49,7 +80,7 @@
                         <label for="disciplina">Disciplina</label>
                         <select ng-model="nota.disciplinaId"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
-                            class="form-control" id="disciplina" name="disciplina">
+                            class="form-control" id="disciplina" name="disciplina" required>
                             <option ng-repeat="disciplina in disciplinas" ng-value="{{disciplina.id}}">
                                 {{disciplina.nome}}
                             </option>
@@ -89,15 +120,15 @@
             <!-- Busca -->
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <label for="turma">Turma</label>
+                    <label for="turma2">Turma</label>
                     <div id="turma" class="bg-white rounded input-group mb-2" title="Pesquisar..."
                         ng-init="listarTurmas()">
-                        <select required ng-model="turma"
+                        <select required ng-model="turma2"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
-                            class="form-control" id="turma" name="turma" aria-describedby="erro"
-                            ng-change="getAlunos(turma.alunoList)">
-                            <option ng-repeat="turma in turmas" ng-value="{{turma}}">
-                                {{turma.codigo}}
+                            class="form-control" id="turma2" name="turma2" aria-describedby="erro"
+                            ng-change="getAlunos2(turma2.alunoList)">
+                            <option ng-repeat="turma2 in turmas2" ng-value="{{turma2}}">
+                                {{turma2.codigo}}
                             </option>
                         </select>
                     </div>
@@ -109,12 +140,12 @@
                         <input ng-model="busca"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
                             type="text" class="border-right-0 form-control" id="busca">
-                        <div class="input-group-prepend" onclick="document.getElementById('busca').focus()">
+                        <div class="input-group-prepend">
                             <div class="input-group-text rounded-right border-dark lupa"><img src="app\imgs\search.svg"
                                     width="15" alt="Pesquisar"></div>
                         </div>
                     </div>
-                </div>                
+                </div>
             </div>
 
             <div class="table-responsive-sm table-borderless border-left border-right border-top border-dark rounded">
@@ -126,15 +157,15 @@
                         <th class="border-left border-bottom border-dark">Ações</th>
                     </thead>
                     <tbody class="table">
-                        <tr ng-repeat="aluno in alunos | orderBy: 'nome' | filter: busca">
+                        <tr ng-repeat="aluno2 in alunos2 | orderBy: 'nome' | filter: busca">
                             <td class="align-middle border-right border-bottom border-dark">
-                                {{aluno.nome + ' ' + aluno.sobrenome}}
+                                {{aluno2.nome + ' ' + aluno2.sobrenome}}
                             </td>
-                            <td class="align-middle border-left border-right border-bottom  border-dark">{{aluno.email}}
+                            <td class="align-middle border-left border-right border-bottom  border-dark">{{aluno2.email}}
                             </td>
                             <td class="align-middle border-left border-bottom  border-dark">
-                                <a title="Adicionar notas" class="btn" ng-click="alunoEdit(aluno)"><img
-                                    src="app\imgs\plus.svg" alt="Adicionar notas" width="25"></a>
+                                <a title="Adicionar notas" class="btn" ng-click="preencherCampoAluno(aluno)"><img
+                                        src="app\imgs\plus.svg" alt="Adicionar notas" width="25"></a>
                             </td>
                         </tr>
                     </tbody>

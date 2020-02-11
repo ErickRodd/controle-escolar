@@ -138,7 +138,7 @@
 
             <div class="table-responsive-sm table-borderless border-left border-right border-top border-dark rounded">
                 <!-- Tabela -->
-                <table class="text-center mx-auto table-sm table table-hover mb-3">
+                <table class="text-left mx-auto table-sm table table-hover mb-3">
                     <thead class="bg-secondary text-white rounded">
                         <th class="border-right border-bottom border-dark">Nome</th>
                         <th class="border-right border-left border-bottom border-dark">CPF</th>
@@ -148,7 +148,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="aluno in alunoLista | orderBy: 'nome' | filter: busca">
-                            <td class="align-middle border-right border-bottom  border-dark">
+                            <td class="pl-2 align-middle border-right border-bottom  border-dark">
                                 {{aluno.nome + ' ' + aluno.sobrenome}}
                             </td>
                             <td id="cpfA" class="cpf align-middle border-left border-right border-bottom  border-dark">{{formatarCpf(aluno.cpf)}}

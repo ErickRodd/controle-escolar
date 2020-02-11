@@ -1,14 +1,12 @@
 package com.hbsis.controle.escolar.turmas;
 
 import com.hbsis.controle.escolar.alunos.Aluno;
-import com.hbsis.controle.escolar.alunos.AlunoService;
 import com.hbsis.controle.escolar.turnos.Turno;
 import com.hbsis.controle.escolar.turnos.TurnoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,11 +34,11 @@ public class TurmaService {
         return TurmaDTO.of(turma);
     }
 
-    public void deleteAluno(Long id){
+    public void deleteAluno(Long id) {
 
         Optional<Turma> turmaExistente = findByAlunoId(id);
 
-        if(turmaExistente.isPresent()){
+        if (turmaExistente.isPresent()) {
             List<Aluno> alunoList = turmaExistente.get().getAlunoList();
 
             alunoList.removeIf(al -> al.getId().equals(id));
@@ -49,7 +47,7 @@ public class TurmaService {
 
             turma.setAlunoList(alunoList);
 
-            turma = iTurmaRepository.save(turma);
+            iTurmaRepository.save(turma);
         }
     }
 
@@ -67,10 +65,10 @@ public class TurmaService {
         return TurmaDTO.of(turmaNova);
     }
 
-    public TurmaDTO findById(Long id){
+    public TurmaDTO findById(Long id) {
         Optional<Turma> turmaOptional = this.iTurmaRepository.findById(id);
 
-        if(turmaOptional.isPresent()){
+        if (turmaOptional.isPresent()) {
             return TurmaDTO.of(turmaOptional.get());
         }
 
@@ -98,7 +96,7 @@ public class TurmaService {
         }
     }
 
-    public Optional<Turma> findByAlunoId(Long id){
+    public Optional<Turma> findByAlunoId(Long id) {
         return iTurmaRepository.findByAlunoList_Id(id);
     }
 

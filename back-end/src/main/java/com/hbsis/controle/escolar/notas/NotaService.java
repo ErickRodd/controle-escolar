@@ -11,8 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -88,19 +89,21 @@ public class NotaService {
         return iNotaRepository.findByAluno_IdAndDisciplina_IdAndBimestre_Id(alunoId, disciplinaId, bimestreId);
     }
 
-
-    public void exportarJR(Long alunoId, Long bimestreId) throws FileNotFoundException, JRException {
+    public void exportarJR(Long alunoId, Long bimestreId, HttpServletResponse response) throws IOException, JRException {
         validateExistenciaByAlunoAndBimestre(alunoId, bimestreId);
 
         List<Nota> notas = iNotaRepository.findByAluno_IdAndBimestre_Id(alunoId, bimestreId);
         List<String> dados = new ArrayList<>();
         List<String> medias = new ArrayList<>();
 
+        String codigoTurma = turmaService.findByAlunoId(notas.get(0).getAluno().getId()).get().getCodigo();
+        String turnoTurma = turmaService.findByAlunoId(notas.get(0).getAluno().getId()).get().getTurno().getHorario();
+
         dados.add(notas.get(0).getAluno().getNome());
         dados.add(notas.get(0).getAluno().getSobrenome());
         dados.add(bimestreId.toString());
-        dados.add(turmaService.findByAlunoId(notas.get(0).getAluno().getId()).get().getCodigo());
-        dados.add(turmaService.findByAlunoId(notas.get(0).getAluno().getId()).get().getTurno().getHorario());
+        dados.add(codigoTurma);
+        dados.add(turnoTurma);
 
         if (bimestreId == 1) {
             for (long i = 1; i < 13; i++) {
@@ -158,17 +161,19 @@ public class NotaService {
 
         JasperPrint print = JasperFillManager.fillReport(jr, params, new JREmptyDataSource());
 
-        JasperExportManager.exportReportToPdfFile(print, "C:/Users/erick.silva/Desktop/JReports/boletim.pdf");
-    }
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=boletim-" + dados.get(0) + "-" + dados.get(1) + ".pdf");
 
+        JasperExportManager.exportReportToPdfStream(print, response.getOutputStream());
+    }
 
     private void validateExistenciaByAlunoAndBimestre(Long alunoId, Long bimestreId) {
         if (!iNotaRepository.existsByAluno_Id(alunoId)) {
-            throw new IllegalArgumentException(String.format("Boletim do aluno de ID [%s] não encontrado.", alunoId));
+            throw new IllegalArgumentException("Nenhuma nota encontradas para este aluno.");
         }
 
         if (!iNotaRepository.existsByAluno_IdAndBimestre_Id(alunoId, bimestreId)) {
-            throw new IllegalArgumentException(String.format("Boletim de bimestre %s não encontrado para este aluno.", bimestreId));
+            throw new IllegalArgumentException(String.format("Notas do bimestre %s não encontradas para este aluno.", bimestreId));
         }
     }
 
@@ -193,7 +198,7 @@ public class NotaService {
     }
 
     private String mediaGeral(String media1, String media2, String media3, String media4) {
-        DecimalFormat df = new DecimalFormat("##.00");
+        DecimalFormat df = new DecimalFormat("#0.00");
 
         String[] medias = {media1, media2, media3, media4};
         Double[] mediasDouble = new Double[4];
@@ -203,12 +208,8 @@ public class NotaService {
                 medias[i] = StringUtils.replaceChars(medias[i], "-", "0");
             }
 
-            LOGGER.info("n" + (i + 1) + " = " + medias[i]);
-
             mediasDouble[i] = Double.parseDouble(medias[i].replace(",", "."));
         }
-
-        LOGGER.info("media geral = " + (mediasDouble[0] + mediasDouble[1] + mediasDouble[2] + mediasDouble[3]) / 4 + "\n");
 
         return df.format((mediasDouble[0] + mediasDouble[1] + mediasDouble[2] + mediasDouble[3]) / 4);
     }

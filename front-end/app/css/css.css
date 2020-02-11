@@ -34,6 +34,10 @@
     color: #343a40;
 }
 
+.cursor-not-allowed{
+    cursor: not-allowed;
+}
+
 .input-no-focus:focus{
     border-color: #343a40;
 }
