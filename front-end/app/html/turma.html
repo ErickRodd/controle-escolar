@@ -1,5 +1,6 @@
 <div class="container-fluid">
-    <div class="row" ng-controller="turma" ng-init="listarTurmas(); mostrarCadastrar= true; mostrarAtualizar=false;">
+    <div class="row mx-2" ng-controller="turma"
+        ng-init="listarTurmas(); mostrarCadastrar= true; mostrarAtualizar=false;">
 
         <!-- Formulário -->
         <div class="col-md-3 ml-auto mt-4 rounded-left bg-light border-dark border-left border-top border-bottom">
@@ -14,8 +15,8 @@
                             <label for="codigo">Código</label>
                             <input required ng-model="turma.codigo"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                                type="text" class="form-control" id="codigo" name="codigo" minlength="1"
-                                maxlength="20" autocomplete="off" aria-describedby="erro">
+                                type="text" class="form-control" id="codigo" name="codigo" minlength="1" maxlength="20"
+                                autocomplete="off" aria-describedby="erro">
                             <div ng-if="submitted">
                                 <small id="erro" class="text-white bg-danger"
                                     ng-show="form.codigo.$error.required">Informe
@@ -89,8 +90,8 @@
                         ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }" type="text"
                         class="border-right-0 form-control" id="busca">
                     <div class="input-group-prepend" onclick="document.getElementById('busca').focus()">
-                        <div class="input-group-text rounded-right border-dark lupa"><img
-                                src="app\imgs\search.svg" width="15" alt="Pesquisar"></div>
+                        <div class="input-group-text rounded-right border-dark lupa"><img src="app\imgs\search.svg"
+                                width="15" alt="Pesquisar"></div>
                     </div>
                 </div>
             </div>
@@ -112,12 +113,10 @@
                                 {{turma.turno.horario}}
                             </td class="align-middle">
                             <td class="align-middle border-left border-bottom  border-dark">
-                                <div>
-                                    <a title="Editar" class="btn" ng-click="buscarTurma(turma.id)"><img
-                                            src="app\imgs\pencil.svg" alt="Editar" width="22"></a>
-                                    <a title="Excluir" class="btn" ng-click="excluir(turma.id)"><img
-                                            src="app\imgs\remove.svg" alt="Excluir" width="22"></a>
-                                </div>
+                                <a title="Editar" class="btn" ng-click="buscarTurma(turma.id)"><img
+                                        src="app\imgs\pencil.svg" alt="Editar" width="22"></a>
+                                <a title="Excluir" class="btn" ng-click="excluir(turma.id)"><img
+                                        src="app\imgs\remove.svg" alt="Excluir" width="22"></a>
                             </td>
                         </tr>
                     </tbody>

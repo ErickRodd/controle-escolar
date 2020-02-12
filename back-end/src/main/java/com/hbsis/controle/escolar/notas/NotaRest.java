@@ -1,5 +1,6 @@
 package com.hbsis.controle.escolar.notas;
 
+import com.hbsis.controle.escolar.alunos.Aluno;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.web.bind.annotation.*;
 

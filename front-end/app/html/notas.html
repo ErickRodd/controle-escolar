@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="row" ng-controller="notas" ng-init="mostrarCadastrar=true; mostrarAtualizar=false;">
+    <div class="row mx-2" ng-controller="notas" ng-init="mostrarCadastrar=true; mostrarAtualizar=false;">
         <!-- Formulário -->
         <div class="col-md-3 ml-auto mt-4 rounded-left bg-light border-dark border-left border-top border-bottom">
             <h5 class="my-3">Lançamento de nota</h5>
@@ -7,20 +7,14 @@
                 <form name="form" id="formNota" novalidate ng-class="{'submitted': submitted}"
                     ng-submit="submitted=true;">
 
-                    <!-- Aluno -->
-                    <div class="form-group">
-                        <label for="aluno">Aluno</label>
-                        <input ng-model="aluno.nome" readonly type="text"
-                            class="input-no-focus form-control cursor-not-allowed">
-                    </div>
-
                     <div class="form-row">
                         <!-- Turma -->
                         <div class="form-group col-md-6">
                             <label for="turma">Turma</label>
                             <select required ng-model="turma"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
-                                class="form-control" id="turma" name="turma" aria-describedby="erro" ng-change="getAlunos(turma.alunoList)">
+                                class="form-control" id="turma" name="turma" aria-describedby="erro"
+                                ng-change="getAlunos(turma.alunoList)">
                                 <option ng-repeat="turma in turmas" ng-value="{{turma}}">
                                     {{turma.codigo}}
                                 </option>
@@ -35,7 +29,7 @@
                             <select required ng-model="nota.alunoId"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
                                 class="form-control" id="aluno" name="aluno" aria-describedby="erro">
-                                <option ng-repeat="aluno in alunos" ng-value={{aluno}}>
+                                <option ng-repeat="aluno in alunos" ng-value={{aluno.id}}>
                                     {{aluno.nome + ' ' + aluno.sobrenome}}
                                 </option>
                             </select>
@@ -51,7 +45,7 @@
                             <label for="valor">Valor</label>
                             <input required ng-model="nota.valor"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                                type="number" min="0" max="10.00" step="00.01" class="form-control" id="valor"
+                                type="number" min="0" max="10.00" step="00.05" class="form-control" id="valor"
                                 name="valor" autocomplete="off" aria-describedby="erro">
                             <small id="erro" class="text-white bg-danger" ng-show="form.valor.$error.minlength">Informe
                                 um
@@ -87,19 +81,28 @@
                         </select>
                         <small id=" erro" class="text-white bg-danger" ng-show="form.disciplina.$error.minlength">
                             Informe
-                            um
-                            bimestre.</small>
+                            uma disciplina.</small>
+                    </div>
+
+                    <!-- Descrição -->
+                    <div class="form-group" ng-init="listarDisciplinas()">
+                        <label for="descricao">Descrição</label>
+                        <textarea ng-model="nota.descricao"
+                            ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
+                            class="form-control" id="descricao" name="descricao" minlength="5" maxlength="80" required>
+                        </textarea>
+                        <small id=" erro" class="text-white bg-danger" ng-show="form.descricao.$error.minlength">
+                            Informe a descrição.</small>
                     </div>
 
                     <!-- Cadastrar -->
                     <button class="btn btn-secondary w-100 mb-3" ng-if="mostrarCadastrar" ng-click="cadastrarNota(nota)"
                         type="submit">Cadastrar</button>
 
-
                     <!-- Atualizar -->
                     <div class="form-row" ng-if="mostrarAtualizar">
                         <div class="form-group col-md-9">
-                            <button class="btn btn-secondary w-100" ng-click="submitted=true; atualizar(nota);"
+                            <button class="btn btn-secondary w-100" ng-click="submitted=true; editar(nota);"
                                 type="submit">Atualizar</button>
                         </div>
                         <div class="form-group col-md-3">
@@ -108,21 +111,19 @@
                             </button>
                         </div>
                     </div>
-
                 </form>
             </div class="form">
         </div>
 
         <!-- Consultar -->
         <div class="col-md-6 mr-auto mt-4 rounded-right bg-light border border-dark">
-            <h5 class="my-3">Buscar aluno por turma</h5>
+            <h5 class="my-3">Buscar nota por aluno</h5>
 
             <!-- Busca -->
             <div class="form-row">
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-6">
                     <label for="turma2">Turma</label>
-                    <div id="turma" class="bg-white rounded input-group mb-2" title="Pesquisar..."
-                        ng-init="listarTurmas()">
+                    <div id="turma" class="bg-white rounded input-group mb-2" ng-init="listarTurmas()">
                         <select required ng-model="turma2"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
                             class="form-control" id="turma2" name="turma2" aria-describedby="erro"
@@ -134,17 +135,16 @@
                     </div>
                 </div>
 
-                <div class="form-group col-md-9">
-                    <label for="busca">Pesquisar aluno</label>
-                    <div id="busca" class="bg-white rounded input-group mb-2" title="Pesquisar...">
-                        <input ng-model="busca"
-                            ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                            type="text" class="border-right-0 form-control" id="busca">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text rounded-right border-dark lupa"><img src="app\imgs\search.svg"
-                                    width="15" alt="Pesquisar"></div>
-                        </div>
-                    </div>
+                <div class="form-group col-md-6">
+                    <label for="aluno">Aluno</label>
+                    <select required ng-model="aluno2"
+                        ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
+                        class="form-control" id="aluno" name="aluno" aria-describedby="erro"
+                        ng-change="listNotas(aluno2)">
+                        <option ng-repeat="aluno in alunos2" ng-value="{{aluno.id}}">
+                            {{aluno.nome + ' ' + aluno.sobrenome}}
+                        </option>
+                    </select>
                 </div>
             </div>
 
@@ -152,20 +152,31 @@
                 <!-- Tabela -->
                 <table class="text-center mx-auto table-sm table table-hover mb-3">
                     <thead class="bg-secondary text-white rounded">
-                        <th class="border-right border-bottom border-dark">Nome</th>
-                        <th class="border-right border-left border-bottom border-dark">E-mail</th>
+                        <th class="border-right border-bottom border-dark">Valor</th>
+                        <th class="border-right border-left border-bottom border-dark">Bimestre</th>
+                        <th class="border-right border-left border-bottom border-dark">Disciplina</th>
+                        <th class="border-right border-left border-bottom border-dark">Descrição</th>
                         <th class="border-left border-bottom border-dark">Ações</th>
                     </thead>
                     <tbody class="table">
-                        <tr ng-repeat="aluno2 in alunos2 | orderBy: 'nome' | filter: busca">
+                        <tr ng-repeat="nota2 in notas | orderBy: 'bimestre.bimestre'">
                             <td class="align-middle border-right border-bottom border-dark">
-                                {{aluno2.nome + ' ' + aluno2.sobrenome}}
+                                {{nota2.valor}}
                             </td>
-                            <td class="align-middle border-left border-right border-bottom  border-dark">{{aluno2.email}}
+                            <td class="align-middle border-left border-right border-bottom border-dark">
+                                {{nota2.bimestre.bimestre}}
+                            </td>
+                            <td class="mx-0 align-middle border-left border-right border-bottom border-dark">
+                                {{nota2.disciplina.nome}}
+                            </td>
+                            <td class="align-middle border-left border-right border-bottom border-dark">
+                                {{nota2.descricao}}
                             </td>
                             <td class="align-middle border-left border-bottom  border-dark">
-                                <a title="Adicionar notas" class="btn" ng-click="preencherCampoAluno(aluno)"><img
-                                        src="app\imgs\plus.svg" alt="Adicionar notas" width="25"></a>
+                                <a title="Editar" class="btn" ng-click="findNota(nota2.id)"><img
+                                        src="app\imgs\pencil.svg" alt="Editar" width="22"></a>
+                                <a title="Excluir" class="btn" ng-click="excluir(nota2)"><img src="app\imgs\remove.svg"
+                                        alt="Excluir" width="22"></a>
                             </td>
                         </tr>
                     </tbody>

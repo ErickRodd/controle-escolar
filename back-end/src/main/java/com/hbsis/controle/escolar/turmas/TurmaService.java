@@ -1,6 +1,7 @@
 package com.hbsis.controle.escolar.turmas;
 
 import com.hbsis.controle.escolar.alunos.Aluno;
+import com.hbsis.controle.escolar.alunos.AlunoService;
 import com.hbsis.controle.escolar.turnos.Turno;
 import com.hbsis.controle.escolar.turnos.TurnoService;
 import org.slf4j.Logger;
@@ -80,24 +81,23 @@ public class TurmaService {
     }
 
     public List<Turma> getAll() {
-        LOGGER.info("Listando todos as turmas...");
-
         return this.iTurmaRepository.findAll();
     }
 
     public void delete(Long id) {
         if (this.iTurmaRepository.existsById(id)) {
-            LOGGER.info("Excluindo turma de ID [{}]...", id);
-
             this.iTurmaRepository.deleteById(id);
         } else {
-
             throw new IllegalArgumentException(String.format("Turma de ID [%s] não existe.", id));
         }
     }
 
     public Optional<Turma> findByAlunoId(Long id) {
         return iTurmaRepository.findByAlunoList_Id(id);
+    }
+
+    public boolean existsByAlunoId(Long id){
+        return iTurmaRepository.existsByAlunoList_Id(id);
     }
 
     public Turno getTurno(Long id) {

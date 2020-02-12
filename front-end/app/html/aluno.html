@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="row" ng-init="listarAlunos(); mostrarCadastrar= true; mostrarAtualizar=false;">
+    <div class="row mx-2" ng-init="listarAlunos(); mostrarCadastrar= true; mostrarAtualizar=false;">
 
         <!-- Formulário -->
         <div class="col-md-3 ml-auto mt-4 rounded-left bg-light border-dark border-left border-top border-bottom">
@@ -14,8 +14,8 @@
 
                         <input required ng-model="aluno.nome"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                            type="text" class="form-control" id="nome" name="nome" minlength="1"
-                            maxlength="20" autocomplete="off" aria-describedby="erro">
+                            type="text" class="form-control" id="nome" name="nome" minlength="1" maxlength="20"
+                            autocomplete="off" aria-describedby="erro">
                         <small id="erro" class="text-danger erroMsg"
                             ng-show="form.nome.$error.required && submitted">Informe
                             um
@@ -43,9 +43,8 @@
 
                             <input required ng-model="aluno.cpf"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                                type="text" class="form-control" id="cpf" name="cpf" minlength="11"
-                                maxlength="14" onkeypress="$(this).mask('000.000.000-00');" autocomplete="off"
-                                aria-describedby="erro">
+                                type="text" class="form-control" id="cpf" name="cpf" minlength="11" maxlength="14"
+                                onkeypress="$(this).mask('000.000.000-00');" autocomplete="off" aria-describedby="erro">
                             <small id="erro" class="text-danger erroMsg"
                                 ng-show="submitted && form.cpf.$error.minlength">Informe
                                 um
@@ -55,7 +54,8 @@
                                 ng-show="submitted && form.cpf.$error.required">Informe
                                 um
                                 CPF</small>
-                            <small id="erro" class="text-danger erroMsg" ng-show="submitted && form.cpf.$error && !form.cpf.$error.minlength">{{erroCPF}}</small>
+                            <small id="erro" class="text-danger erroMsg"
+                                ng-show="submitted && form.cpf.$error && !form.cpf.$error.minlength">{{erroCPF}}</small>
                         </div>
 
                         <!-- Telefone -->
@@ -64,9 +64,9 @@
 
                             <input required ng-model="aluno.telefone"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                                type="text" class="form-control" id="telefone" name="telefone"
-                                minlength="10" maxlength="11" onkeypress="return campoNumerico(event)"
-                                autocomplete="off" aria-describedby="erro">
+                                type="text" class="form-control" id="telefone" name="telefone" minlength="10"
+                                maxlength="11" onkeypress="return campoNumerico(event)" autocomplete="off"
+                                aria-describedby="erro">
                             <small id="erro" class="text-danger erroMsg"
                                 ng-show="submitted && form.telefone.$error.minlength">Informe
                                 um
@@ -84,8 +84,8 @@
                         <label for="email">E-mail</label>
                         <input required ng-model="aluno.email"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                            type="email" class="form-control" id="email" name="email" minlength="3"
-                            maxlength="50" autocomplete="off" aria-describedby="erro">
+                            type="email" class="form-control" id="email" name="email" minlength="3" maxlength="50"
+                            autocomplete="off" aria-describedby="erro">
                         <small id="erro" class="text-danger erroMsg"
                             ng-show="submitted && form.email.$error.email">Informe
                             um e-mail válido</small>
@@ -130,15 +130,15 @@
                         ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }" type="text"
                         class="border-right-0 form-control" id="busca">
                     <div class="input-group-prepend">
-                        <div class="input-group-text rounded-right border-dark lupa"><img
-                                src="app\imgs\search.svg" width="15" alt="Pesquisar"></div>
+                        <div class="input-group-text rounded-right border-dark lupa"><img src="app\imgs\search.svg"
+                                width="15" alt="Pesquisar"></div>
                     </div>
                 </div>
             </div>
 
             <div class="table-responsive-sm table-borderless border-left border-right border-top border-dark rounded">
                 <!-- Tabela -->
-                <table class="text-left mx-auto table-sm table table-hover mb-3">
+                <table class="text-center mx-auto table-sm table table-hover mb-3">
                     <thead class="bg-secondary text-white rounded">
                         <th class="border-right border-bottom border-dark">Nome</th>
                         <th class="border-right border-left border-bottom border-dark">CPF</th>
@@ -148,18 +148,19 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="aluno in alunoLista | orderBy: 'nome' | filter: busca">
-                            <td class="pl-2 align-middle border-right border-bottom  border-dark">
+                            <td class="align-middle border-right border-bottom  border-dark">
                                 {{aluno.nome + ' ' + aluno.sobrenome}}
                             </td>
-                            <td id="cpfA" class="cpf align-middle border-left border-right border-bottom  border-dark">{{formatarCpf(aluno.cpf)}}
+                            <td id="cpfA" class="cpf align-middle border-left border-right border-bottom  border-dark">
+                                {{formatarCpf(aluno.cpf)}}
                             </td class="align-middle">
-                            <td class="align-middle border-left border-right border-bottom  border-dark">{{aluno.email}}
+                            <td class="align-middle border-left border-right border-bottom border-dark">{{aluno.email}}
                             </td>
-                            <td class="align-middle border-left border-right border-bottom  border-dark">
-                                {{formatarTel(aluno.telefone)}}</td>
+                            <td class="align-middle border-left border-right border-bottom border-dark">
+                                {{formatarTel(aluno.telefone.toString())}}</td>
                             <td class="align-middle border-left border-bottom  border-dark">
-                                <a title="Editar" class="btn" ng-click="alunoEdit(aluno)"><img
-                                        src="app\imgs\pencil.svg" alt="Editar" width="22"></a>
+                                <a title="Editar" class="btn" ng-click="alunoEdit(aluno)"><img src="app\imgs\pencil.svg"
+                                        alt="Editar" width="22"></a>
                                 <a title="Excluir" class="btn" ng-click="excluir(aluno.id)"><img
                                         src="app\imgs\remove.svg" alt="Excluir" width="22"></a>
                             </td>

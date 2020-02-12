@@ -35,6 +35,11 @@ public class AlunoRest {
         return this.alunoService.getAll();
     }
 
+    @GetMapping("/list-with-no-turma")
+    public List<Aluno> listWithNoTurma() {
+        return this.alunoService.findAllWithNoTurma();
+    }
+
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") Long id) {
         this.alunoService.delete(id);

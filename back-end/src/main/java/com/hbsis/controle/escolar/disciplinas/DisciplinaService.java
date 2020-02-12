@@ -16,7 +16,7 @@ public class DisciplinaService {
         this.iDisciplinaRepository = iDisciplinaRepository;
     }
 
-    public DisciplinaDTO save(DisciplinaDTO disciplinaDTO){
+    public DisciplinaDTO save(DisciplinaDTO disciplinaDTO) {
         validarExistencia(disciplinaDTO.getNome());
 
         Disciplina novaD = new Disciplina(
@@ -28,7 +28,7 @@ public class DisciplinaService {
         return DisciplinaDTO.of(novaD);
     }
 
-    public DisciplinaDTO update(DisciplinaDTO disciplinaDTO){
+    public DisciplinaDTO update(DisciplinaDTO disciplinaDTO) {
         Disciplina existenteD = findById(disciplinaDTO.getId());
 
         existenteD.setNome(disciplinaDTO.getNome());
@@ -44,7 +44,6 @@ public class DisciplinaService {
         if (disciplinaOptional.isPresent()) {
             return disciplinaOptional.get();
         }
-
         throw new IllegalArgumentException("Disciplina não encontrada.");
     }
 
@@ -52,11 +51,10 @@ public class DisciplinaService {
         return iDisciplinaRepository.findAll();
     }
 
-    public void delete(Long id){
-        if(iDisciplinaRepository.existsById(id)){
+    public void delete(Long id) {
+        if (iDisciplinaRepository.existsById(id)) {
             this.iDisciplinaRepository.deleteById(id);
-        }
-        else{
+        } else {
             throw new IllegalArgumentException("Disciplina não existente.");
         }
     }

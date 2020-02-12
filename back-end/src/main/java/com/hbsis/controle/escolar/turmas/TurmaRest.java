@@ -18,27 +18,27 @@ public class TurmaRest {
     }
 
     @PostMapping("/save")
-    public TurmaDTO save(@Valid @RequestBody TurmaDTO turmaDTO){
+    public TurmaDTO save(@Valid @RequestBody TurmaDTO turmaDTO) {
         return turmaService.save(turmaDTO);
     }
 
     @PutMapping("/update")
-    public TurmaDTO update(@Valid @RequestBody TurmaDTO turmaDTO){
+    public TurmaDTO update(@Valid @RequestBody TurmaDTO turmaDTO) {
         return turmaService.update(turmaDTO);
     }
 
     @GetMapping("/{id}")
-    public TurmaDTO findById(@PathVariable("id") Long id){
+    public TurmaDTO findById(@PathVariable("id") Long id) {
         return turmaService.findById(id);
     }
 
     @GetMapping("/list")
-    public List<Turma> list(){
+    public List<Turma> list() {
         return turmaService.getAll();
     }
 
     @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") Long id){
+    public void delete(@PathVariable("id") Long id) {
         turmaService.delete(id);
     }
 }

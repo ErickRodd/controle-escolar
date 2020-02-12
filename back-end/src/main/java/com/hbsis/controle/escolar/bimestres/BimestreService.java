@@ -16,31 +16,25 @@ public class BimestreService {
         this.iBimestreRepository = iBimestreRepository;
     }
 
-    public BimestreDTO findById(Long id){
+    public BimestreDTO findById(Long id) {
         Optional<Bimestre> bimestreOptional = this.iBimestreRepository.findById(id);
 
-        if(bimestreOptional.isPresent()){
-            LOGGER.info("Procurando por bimestre de ID [{}]...", id);
-
+        if (bimestreOptional.isPresent()) {
             return BimestreDTO.of(bimestreOptional.get());
         }
-
         throw new IllegalArgumentException("Bimestre não encontrado.");
     }
 
-    public Optional<Bimestre> findByIdOptional(Long id){
+    public Optional<Bimestre> findByIdOptional(Long id) {
         Optional<Bimestre> bimestreOptional = this.iBimestreRepository.findById(id);
 
-        if(bimestreOptional.isPresent()){
-            LOGGER.info("Procurando por bimestre de ID [{}]...", id);
-
+        if (bimestreOptional.isPresent()) {
             return bimestreOptional;
         }
-
         throw new IllegalArgumentException("Bimestre não encontrado.");
     }
 
-    public List<Bimestre> list(){
+    public List<Bimestre> list() {
         return iBimestreRepository.findAll();
     }
 }

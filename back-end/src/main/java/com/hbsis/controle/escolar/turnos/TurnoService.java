@@ -16,27 +16,27 @@ public class TurnoService {
         this.iTurnoRepository = iTurnoRepository;
     }
 
-    public Optional<Turno> getOptional(Long id){
+    public Optional<Turno> getOptional(Long id) {
         Optional<Turno> turnoOptional = this.iTurnoRepository.findById(id);
 
-        if(turnoOptional.isPresent()){
+        if (turnoOptional.isPresent()) {
             return turnoOptional;
         }
 
         throw new IllegalArgumentException(String.format("Turno de ID [%s] não encontrado.", id));
     }
 
-    public TurnoDTO get(Long id){
+    public TurnoDTO get(Long id) {
         Optional<Turno> turnoOptional = this.iTurnoRepository.findById(id);
 
-        if(turnoOptional.isPresent()){
+        if (turnoOptional.isPresent()) {
             return TurnoDTO.of(turnoOptional.get());
         }
 
         throw new IllegalArgumentException(String.format("Turno de ID [%s] não encontrado.", id));
     }
 
-    public List<Turno> listar(){
+    public List<Turno> listar() {
         return iTurnoRepository.findAll();
     }
 }

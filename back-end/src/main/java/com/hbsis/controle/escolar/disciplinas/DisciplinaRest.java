@@ -16,27 +16,27 @@ public class DisciplinaRest {
     }
 
     @PostMapping("/save")
-    public DisciplinaDTO save(@Valid @RequestBody DisciplinaDTO disciplinaDTO){
+    public DisciplinaDTO save(@Valid @RequestBody DisciplinaDTO disciplinaDTO) {
         return disciplinaService.save(disciplinaDTO);
     }
 
     @PutMapping("/update")
-    public DisciplinaDTO update(@Valid @RequestBody DisciplinaDTO disciplinaDTO){
+    public DisciplinaDTO update(@Valid @RequestBody DisciplinaDTO disciplinaDTO) {
         return disciplinaService.update(disciplinaDTO);
     }
 
     @GetMapping("/{id}")
-    public DisciplinaDTO get(@PathVariable("id") Long id){
+    public DisciplinaDTO get(@PathVariable("id") Long id) {
         return DisciplinaDTO.of(disciplinaService.findById(id));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long id){
+    public void delete(@PathVariable("id") Long id) {
         this.disciplinaService.delete(id);
     }
 
     @GetMapping("/list")
-    public List<Disciplina> getAll(){
+    public List<Disciplina> getAll() {
         return disciplinaService.findAll();
     }
 }

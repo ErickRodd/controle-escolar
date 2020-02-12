@@ -39,7 +39,8 @@ public class NotaService {
                 notaDTO.getValor(),
                 alunoService.getOptional(notaDTO.getAlunoId()).get(),
                 disciplinaService.findById(notaDTO.getDisciplinaId()),
-                bimestreService.findByIdOptional(notaDTO.getBimestreId()).get()
+                bimestreService.findByIdOptional(notaDTO.getBimestreId()).get(),
+                notaDTO.getDescricao()
         );
 
         nota = iNotaRepository.save(nota);
@@ -53,6 +54,7 @@ public class NotaService {
         notaExistente.setAluno(alunoService.getOptional(notaDTO.getAlunoId()).get());
         notaExistente.setDisciplina(disciplinaService.findById(notaDTO.getDisciplinaId()));
         notaExistente.setBimestre(bimestreService.findByIdOptional(notaDTO.getBimestreId()).get());
+        notaExistente.setDescricao(notaDTO.getDescricao());
 
         notaExistente = iNotaRepository.save(notaExistente);
 
@@ -146,7 +148,6 @@ public class NotaService {
                 dados.add(mediaByDisciplina(alunoId, i, 4));
             }
             for (int i = 0; i < 12; i++) {
-                LOGGER.info("Média " + (i + 1));
                 medias.add(mediaGeral(dados.get(5 + i), dados.get(17 + i), dados.get(29 + i), dados.get(41 + i)));
             }
         }
@@ -162,7 +163,7 @@ public class NotaService {
         JasperPrint print = JasperFillManager.fillReport(jr, params, new JREmptyDataSource());
 
         response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition", "attachment; filename=boletim-" + dados.get(0) + "-" + dados.get(1) + ".pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=Boletim-Bi-" + dados.get(2) + "-" + dados.get(0) + "-" + dados.get(1) + ".pdf");
 
         JasperExportManager.exportReportToPdfStream(print, response.getOutputStream());
     }

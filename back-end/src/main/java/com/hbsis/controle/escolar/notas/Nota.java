@@ -28,14 +28,18 @@ public class Nota {
     @JoinColumn(name = "bimestre", referencedColumnName = "id")
     private Bimestre bimestre;
 
+    @Column(name = "descricao", length = 80, nullable = false)
+    private String descricao;
+
     public Nota() {
     }
 
-    public Nota(Double valor, Aluno aluno, Disciplina disciplina, Bimestre bimestre) {
+    public Nota(Double valor, Aluno aluno, Disciplina disciplina, Bimestre bimestre, String descricao) {
         this.valor = valor;
         this.aluno = aluno;
         this.disciplina = disciplina;
         this.bimestre = bimestre;
+        this.descricao = descricao;
     }
 
     public Long getId() {
@@ -78,6 +82,14 @@ public class Nota {
         this.bimestre = bimestre;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     @Override
     public String toString() {
         return "Nota{" +
@@ -86,6 +98,7 @@ public class Nota {
                 ", aluno=" + aluno +
                 ", disciplina=" + disciplina +
                 ", bimestre=" + bimestre +
+                ", descricao='" + descricao + '\'' +
                 '}';
     }
 }

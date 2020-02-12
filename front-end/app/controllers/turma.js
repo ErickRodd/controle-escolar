@@ -1,17 +1,14 @@
 angular.module('app').controller('turma', ['$scope', '$http', '$rootScope', '$location', function ($scope, $http, $rootScope, $location) {
     $rootScope.activetab = $location.path();
+    $scope.turma = {};
 
     $scope.listarTurnos = function () {
         $http({
             method: 'GET',
             url: 'http://localhost:8080/turnos/list'
         }).then(function successCallback(response) {
-            console.log(response.status);
 
             $scope.turnoLista = response.data;
-
-            console.log($scope.turnoLista);
-
         }, function errorCallback(response) {
 
             console.log(response.status);
@@ -21,14 +18,14 @@ angular.module('app').controller('turma', ['$scope', '$http', '$rootScope', '$lo
     $scope.listarAlunos = function () {
         $http({
             method: 'GET',
-            url: 'http://localhost:8080/alunos/get-all'
+            url: 'http://localhost:8080/alunos/list-with-no-turma'
         }).then(function successCallback(response) {
 
-            console.log(response.data);
+            console.log(response.data)
             $scope.alunoLista = response.data;
         }, function errorCallback(response) {
 
-            console.log(response.status)
+            console.log(response.status);
         });
     };
 
@@ -46,20 +43,29 @@ angular.module('app').controller('turma', ['$scope', '$http', '$rootScope', '$lo
             data: id
         }).then(function successCallback(response) {
 
-            console.log(response.status);
             $scope.turma = response.data;
+
+            // $scope.listarAlunos();
+
+            for (i = 0; i < response.data.alunos.length; i++) {
+                $scope.alunoLista.push(response.data.alunos[i]);
+            }
+
             $scope.mostrarCadastrar = false;
             $scope.mostrarAtualizar = true;
-        }, function errorCallback(response) {
 
+        }, function errorCallback(response) {
             console.log(response.status);
         });
+
+        console.log($scope.alunoLista);
     };
 
     $scope.cancelarAtualizar = function () {
         $scope.mostrarCadastrar = true;
         $scope.mostrarAtualizar = false;
         $scope.resetar();
+        $scope.listarAlunos();
     };
 
     $scope.atualizar = function (obj) {
@@ -69,9 +75,8 @@ angular.module('app').controller('turma', ['$scope', '$http', '$rootScope', '$lo
             data: obj
         }).then(function successCallback(response) {
 
-            console.log($scope.turma);
-            console.log(response.status);
             $scope.listarTurmas();
+            $scope.listarAlunos();
             $scope.mostrarCadastrar = true;
             $scope.mostrarAtualizar = false;
             $scope.resetar();
@@ -87,7 +92,6 @@ angular.module('app').controller('turma', ['$scope', '$http', '$rootScope', '$lo
             url: 'http://localhost:8080/turmas/list'
         }).then(function successCallback(response) {
 
-            console.log(response.data);
             $scope.turmaLista = response.data;
         }, function errorCallback(response) {
 
@@ -96,15 +100,13 @@ angular.module('app').controller('turma', ['$scope', '$http', '$rootScope', '$lo
     };
 
     $scope.cadastrar = function (obj) {
-        console.log($scope.turma);
-
         $http({
             method: 'POST',
             url: 'http://localhost:8080/turmas/save',
             data: obj
         }).then(function successCallback(response) {
 
-            console.log(response.status);
+            $scope.listarAlunos();
             $scope.listarTurmas();
             $scope.resetar();
         }, function errorCallback(response) {
@@ -115,15 +117,13 @@ angular.module('app').controller('turma', ['$scope', '$http', '$rootScope', '$lo
     };
 
     $scope.excluir = function (id) {
-        console.log(id);
-
         $http({
             method: 'DELETE',
             url: 'http://localhost:8080/turmas/delete/' + id,
             data: id
         }).then(function successCallback(response) {
 
-            console.log(response.status);
+            $scope.listarAlunos();
             $scope.listarTurmas();
         }, function errorCallback(response) {
 

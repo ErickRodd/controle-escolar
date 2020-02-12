@@ -19,8 +19,6 @@ public class ProfessorService {
     public ProfessorDTO save(ProfessorDTO professorDTO) {
         this.validateExistencia(professorDTO.getCpf());
 
-        LOGGER.info("Cadastrando novo professor...");
-
         Professor professor = new Professor(
                 professorDTO.getNome(),
                 professorDTO.getSobrenome(),
@@ -35,8 +33,6 @@ public class ProfessorService {
     }
 
     public ProfessorDTO update(ProfessorDTO professorDTO) {
-        LOGGER.info("Atualizando professor de ID [{}]", professorDTO.getId());
-
         Optional<Professor> professorExistente = this.iProfessorRepository.findById(professorDTO.getId());
 
         Professor professorNovo = professorExistente.get();
@@ -67,7 +63,6 @@ public class ProfessorService {
 
     public void delete(Long id) {
         if (this.iProfessorRepository.existsById(id)) {
-            LOGGER.info("Excluindo professor de ID [{}]", id);
 
             this.iProfessorRepository.deleteById(id);
         } else {

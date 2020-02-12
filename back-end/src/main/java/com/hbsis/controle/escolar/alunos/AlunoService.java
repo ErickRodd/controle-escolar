@@ -1,12 +1,12 @@
 package com.hbsis.controle.escolar.alunos;
 
-import com.hbsis.controle.escolar.turmas.Turma;
+import com.hbsis.controle.escolar.notas.NotaService;
 import com.hbsis.controle.escolar.turmas.TurmaService;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +15,6 @@ public class AlunoService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AlunoService.class);
     private final IAlunoRepository iAlunoRepository;
     private final TurmaService turmaService;
-
     public AlunoService(IAlunoRepository iAlunoRepository, TurmaService turmaService) {
         this.iAlunoRepository = iAlunoRepository;
         this.turmaService = turmaService;
@@ -24,9 +23,6 @@ public class AlunoService {
     public AlunoDTO save(AlunoDTO alunoDTO) {
         this.validateExistencia(alunoDTO.getCpf());
         this.validateExistenciaEmail(alunoDTO.getEmail());
-
-        LOGGER.info("\n");
-        LOGGER.info("Cadastrando novo aluno...");
 
         Aluno aluno = new Aluno(
                 alunoDTO.getNome(),
@@ -38,22 +34,18 @@ public class AlunoService {
 
         aluno = this.iAlunoRepository.save(aluno);
 
-        LOGGER.info("Aluno cadastrado com sucesso.\n");
-
         return AlunoDTO.of(aluno);
     }
 
     public AlunoDTO update(AlunoDTO alunoDTO) {
-        LOGGER.info("\n");
-        LOGGER.info("Atualizando aluno de ID [{}]...", alunoDTO.getId());
 
         Aluno aluno = findAluno(alunoDTO.getId());
 
-        if(!alunoDTO.getCpf().equals(aluno.getCpf())){
+        if (!alunoDTO.getCpf().equals(aluno.getCpf())) {
             validateExistencia(alunoDTO.getCpf());
         }
 
-        if(!alunoDTO.getEmail().equals(aluno.getEmail())){
+        if (!alunoDTO.getEmail().equals(aluno.getEmail())) {
             validateExistenciaEmail(alunoDTO.getEmail());
         }
 
@@ -65,13 +57,10 @@ public class AlunoService {
 
         aluno = this.iAlunoRepository.save(aluno);
 
-        LOGGER.info("Aluno atualizado com sucesso.\n");
-
         return AlunoDTO.of(aluno);
     }
 
     public AlunoDTO get(Long id) {
-        LOGGER.info("Procurando por aluno de ID [{}]", id);
 
         Optional<Aluno> alunoOptional = this.iAlunoRepository.findById(id);
 
@@ -83,7 +72,6 @@ public class AlunoService {
     }
 
     public Optional<Aluno> getOptional(Long id) {
-        LOGGER.info("Procurand por aluno de ID [{}]", id);
 
         Optional<Aluno> alunoOptional = this.iAlunoRepository.findById(id);
 
@@ -95,18 +83,22 @@ public class AlunoService {
     }
 
     public List<Aluno> getAll() {
-        LOGGER.info("Listando todos os alunos...");
-
         return this.iAlunoRepository.findAll();
+    }
+
+    public List<Aluno> findAllWithNoTurma(){
+        List<Aluno> alunoList = iAlunoRepository.findAll();
+
+        alunoList.removeIf(aluno -> turmaService.existsByAlunoId(aluno.getId()));
+
+        return alunoList;
     }
 
     public void delete(Long id) {
         if (this.iAlunoRepository.existsById(id)) {
-            LOGGER.info("Excluindo aluno de ID [{}]", id);
 
             turmaService.deleteAluno(id);
-
-            this.iAlunoRepository.deleteById(id);
+            iAlunoRepository.deleteById(id);
         } else {
 
             throw new IllegalArgumentException(String.format("Aluno de ID [%s] não existe.", id));
@@ -119,8 +111,8 @@ public class AlunoService {
         }
     }
 
-    private void validateExistenciaEmail(String email){
-        if(iAlunoRepository.existsByEmail(email)){
+    private void validateExistenciaEmail(String email) {
+        if (iAlunoRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("E-mail já cadastrado");
         }
     }

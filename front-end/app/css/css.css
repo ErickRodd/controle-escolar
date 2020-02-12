@@ -41,3 +41,7 @@
 .input-no-focus:focus{
     border-color: #343a40;
 }
+
+#descricao{
+    resize: none;
+}

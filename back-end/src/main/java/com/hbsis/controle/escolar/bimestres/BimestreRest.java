@@ -15,12 +15,12 @@ public class BimestreRest {
     }
 
     @GetMapping("/{id}")
-    public BimestreDTO findById(@PathVariable("id") Long id){
+    public BimestreDTO findById(@PathVariable("id") Long id) {
         return this.bimestreService.findById(id);
     }
 
     @GetMapping("/list")
-    public List<Bimestre> list(){
+    public List<Bimestre> list() {
         return bimestreService.list();
     }
 }

@@ -1,5 +1,6 @@
 <div class="container-fluid">
-    <div class="row" ng-controller="professor" ng-init="listarProfessores(); mostrarCadastrar= true; mostrarAtualizar=false;">
+    <div class="row mx-2" ng-controller="professor"
+        ng-init="listarProfessores(); mostrarCadastrar= true; mostrarAtualizar=false;">
 
         <!-- Formulário -->
         <div class="col-md-3 ml-auto mt-4 rounded-left bg-light border-dark border-left border-top border-bottom">
@@ -13,8 +14,8 @@
                         <label for="nome">Nome</label>
                         <input required ng-model="professor.nome"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                            type="text" class="form-control" id="nome" name="nome" minlength="1"
-                            maxlength="20" autocomplete="off" aria-describedby="erro">
+                            type="text" class="form-control" id="nome" name="nome" minlength="1" maxlength="20"
+                            autocomplete="off" aria-describedby="erro">
                         <small id="erro" class="text-white bg-danger" ng-show="form.nome.$error.minlength">Informe
                             um
                             nome.</small>
@@ -38,9 +39,8 @@
                             <label for="cpf">CPF</label>
                             <input required ng-model="professor.cpf"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                                type="text" class="form-control" id="cpf" name="cpf" minlength="11"
-                                maxlength="11" onkeypress="return campoNumerico(event)" autocomplete="off"
-                                aria-describedby="erro">
+                                type="text" class="form-control" id="cpf" name="cpf" minlength="11" maxlength="11"
+                                onkeypress="return campoNumerico(event)" autocomplete="off" aria-describedby="erro">
                             <small id="erro" class="text-white bg-danger" ng-show="form.cpf.$error.minlength">Informe
                                 um
                                 CPF
@@ -52,9 +52,9 @@
                             <label for="telefone">Telefone</label>
                             <input required ng-model="professor.telefone"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                                type="text" class="form-control" id="telefone" name="telefone"
-                                minlength="10" maxlength="11" onkeypress="return campoNumerico(event)"
-                                autocomplete="off" aria-describedby="erro">
+                                type="text" class="form-control" id="telefone" name="telefone" minlength="10"
+                                maxlength="11" onkeypress="return campoNumerico(event)" autocomplete="off"
+                                aria-describedby="erro">
                             <small id="erro" class="text-white bg-danger"
                                 ng-show="form.telefone.$error.minlength">Informe
                                 um
@@ -68,15 +68,15 @@
                         <label for="email">E-mail</label>
                         <input required ng-model="professor.email"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                            type="email" class="form-control" id="email" name="email" minlength="3"
-                            maxlength="50" autocomplete="off" aria-describedby="erro">
+                            type="email" class="form-control" id="email" name="email" minlength="3" maxlength="50"
+                            autocomplete="off" aria-describedby="erro">
                         <small id="erro" class="text-light px-1 bg-danger" ng-show="form.email.$error.email">Informe
                             um e-mail válido.</small>
                     </div>
 
                     <!-- Cadastrar -->
-                    <button class="btn btn-secondary w-100 mb-3" ng-if="mostrarCadastrar" ng-click="cadastrar(professor)"
-                        type="submit">Cadastrar</button>
+                    <button class="btn btn-secondary w-100 mb-3" ng-if="mostrarCadastrar"
+                        ng-click="cadastrar(professor)" type="submit">Cadastrar</button>
 
 
                     <!-- Atualizar -->
@@ -108,8 +108,8 @@
                         ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }" type="text"
                         class="border-right-0 form-control" id="busca">
                     <div class="input-group-prepend">
-                        <div class="input-group-text rounded-right border-dark lupa"><img
-                            src="app\imgs\search.svg" width="15" alt="Pesquisar"></div>
+                        <div class="input-group-text rounded-right border-dark lupa"><img src="app\imgs\search.svg"
+                                width="15" alt="Pesquisar"></div>
                     </div>
                 </div>
             </div>
@@ -129,9 +129,11 @@
                             <td class="align-middle border-right border-bottom  border-dark">
                                 {{professor.nome + ' ' + professor.sobrenome}}
                             </td>
-                            <td class="align-middle border-left border-right border-bottom  border-dark">{{professor.cpf}}
+                            <td class="align-middle border-left border-right border-bottom  border-dark">
+                                {{professor.cpf}}
                             </td class="align-middle">
-                            <td class="align-middle border-left border-right border-bottom  border-dark">{{professor.email}}
+                            <td class="align-middle border-left border-right border-bottom  border-dark">
+                                {{professor.email}}
                             </td>
                             <td class="align-middle border-left border-right border-bottom  border-dark">
                                 {{professor.telefone}}</td>

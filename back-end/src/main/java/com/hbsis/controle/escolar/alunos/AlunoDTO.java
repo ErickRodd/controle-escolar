@@ -1,14 +1,10 @@
 package com.hbsis.controle.escolar.alunos;
 
-import com.hbsis.controle.escolar.turmas.Turma;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-import java.util.List;
 
 public class AlunoDTO {
     private Long id;
