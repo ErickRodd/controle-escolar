@@ -19,8 +19,6 @@
                                     {{turma.codigo}}
                                 </option>
                             </select>
-                            <small id="erro" class="text-white bg-danger" ng-show="form.valor.$error.minlength">Informe
-                                uma turma.</small>
                         </div>
 
                         <!-- Aluno -->
@@ -28,28 +26,25 @@
                             <label for="aluno">Aluno</label>
                             <select required ng-model="nota.alunoId"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
-                                class="form-control" id="aluno" name="aluno" aria-describedby="erro">
+                                class="form-control" id="aluno" name="aluno">
                                 <option ng-repeat="aluno in alunos" ng-value={{aluno.id}}>
                                     {{aluno.nome + ' ' + aluno.sobrenome}}
                                 </option>
                             </select>
-                            <small id="erro" class="text-white bg-danger"
-                                ng-show="form.bimestre.$error.minlength">Informe
-                                um aluno.</small>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <!-- Valor -->
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6 erro">
                             <label for="valor">Valor</label>
                             <input required ng-model="nota.valor"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                                type="number" min="0" max="10.00" step="00.05" class="form-control" id="valor"
+                                type="number" min="0" max="10.00" step="00.05" class="form-control mb-1" id="valor"
                                 name="valor" autocomplete="off" aria-describedby="erro">
-                            <small id="erro" class="text-white bg-danger" ng-show="form.valor.$error.minlength">Informe
-                                um
-                                valor.</small>
+                            <small id=" erro" class="text-danger erroMsg"
+                                ng-show="submitted && form.valor.$error.max">
+                                Valor máximo 10</small>
                         </div>
 
                         <!-- Bimestre -->
@@ -57,15 +52,11 @@
                             <label for="bimestre">Bimestre</label>
                             <select required ng-model="nota.bimestreId"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
-                                class="form-control" id="bimestre" name="bimestre" aria-describedby="erro">
+                                class="form-control" id="bimestre" name="bimestre">
                                 <option ng-repeat="bimestre in bimestres" ng-value="{{bimestre.id}}">
                                     {{bimestre.bimestre}}
                                 </option>
                             </select>
-                            <small id="erro" class="text-white bg-danger"
-                                ng-show="form.bimestre.$error.minlength">Informe
-                                um
-                                bimestre.</small>
                         </div>
                     </div>
 
@@ -79,24 +70,22 @@
                                 {{disciplina.nome}}
                             </option>
                         </select>
-                        <small id=" erro" class="text-white bg-danger" ng-show="form.disciplina.$error.minlength">
-                            Informe
-                            uma disciplina.</small>
                     </div>
 
                     <!-- Descrição -->
-                    <div class="form-group" ng-init="listarDisciplinas()">
+                    <div class="form-group erro" ng-init="listarDisciplinas()">
                         <label for="descricao">Descrição</label>
                         <textarea ng-model="nota.descricao"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
                             class="form-control" id="descricao" name="descricao" minlength="5" maxlength="80" required>
                         </textarea>
-                        <small id=" erro" class="text-white bg-danger" ng-show="form.descricao.$error.minlength">
-                            Informe a descrição.</small>
+                        <small id=" erro" class="text-danger erroMsg"
+                            ng-show="submitted && form.descricao.$error.minlength">
+                            Descrição deve ter no mínimo 5 caracteres</small>
                     </div>
 
                     <!-- Cadastrar -->
-                    <button class="btn btn-secondary w-100 mb-3" ng-if="mostrarCadastrar" ng-click="cadastrarNota(nota)"
+                    <button class="btn btn-secondary w-100 my-3" ng-if="mostrarCadastrar" ng-click="cadastrarNota(nota)"
                         type="submit">Cadastrar</button>
 
                     <!-- Atualizar -->

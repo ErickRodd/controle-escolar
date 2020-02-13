@@ -1,7 +1,5 @@
 package com.hbsis.controle.escolar.disciplinas;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,7 +7,6 @@ import java.util.Optional;
 
 @Service
 public class DisciplinaService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DisciplinaService.class);
     private final IDisciplinaRepository iDisciplinaRepository;
 
     public DisciplinaService(IDisciplinaRepository iDisciplinaRepository) {
@@ -44,6 +41,7 @@ public class DisciplinaService {
         if (disciplinaOptional.isPresent()) {
             return disciplinaOptional.get();
         }
+
         throw new IllegalArgumentException("Disciplina não encontrada.");
     }
 

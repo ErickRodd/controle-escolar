@@ -16,11 +16,11 @@ public class TurnoRest {
 
     @GetMapping("/{id}")
     public TurnoDTO get(@PathVariable("id") Long id) {
-        return this.turnoService.get(id);
+        return this.turnoService.findById(id);
     }
 
     @GetMapping("/list")
     public List<Turno> listar() {
-        return turnoService.listar();
+        return turnoService.findAll();
     }
 }

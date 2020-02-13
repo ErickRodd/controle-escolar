@@ -1,7 +1,5 @@
 package com.hbsis.controle.escolar.bimestres;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,7 +7,6 @@ import java.util.Optional;
 
 @Service
 public class BimestreService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(BimestreService.class);
     private final IBimestreRepository iBimestreRepository;
 
     public BimestreService(IBimestreRepository iBimestreRepository) {

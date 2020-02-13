@@ -27,12 +27,12 @@ public class ProfessorRest {
 
     @GetMapping("/get/{id}")
     public ProfessorDTO get(@PathVariable("id") Long id) {
-        return this.professorService.get(id);
+        return this.professorService.findById(id);
     }
 
     @GetMapping("/get-all")
     public List<Professor> getAll() {
-        return this.professorService.getAll();
+        return this.professorService.findAll();
     }
 
     @DeleteMapping("/delete/{id}")

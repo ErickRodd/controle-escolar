@@ -34,7 +34,7 @@ public class TurmaRest {
 
     @GetMapping("/list")
     public List<Turma> list() {
-        return turmaService.getAll();
+        return turmaService.findAll();
     }
 
     @DeleteMapping("/delete/{id}")

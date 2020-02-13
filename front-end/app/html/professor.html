@@ -1,24 +1,20 @@
 <div class="container-fluid">
-    <div class="row mx-2" ng-controller="professor"
-        ng-init="listarProfessores(); mostrarCadastrar= true; mostrarAtualizar=false;">
+    <div class="row mx-2" ng-controller="professor" ng-init="mostrarCadastrar= true; mostrarAtualizar=false;">
 
         <!-- Formulário -->
         <div class="col-md-3 ml-auto mt-4 rounded-left bg-light border-dark border-left border-top border-bottom">
             <h5 class="my-3">Cadastro de professor</h5>
             <div class="form">
                 <form name="form" id="formProfessor" novalidate ng-class="{'submitted': submitted}"
-                    ng-submit="submitted=true;">
+                    ng-submit="submitted = true" ng-init="listarProfessores();">
 
                     <!-- Nome -->
                     <div class="form-group">
                         <label for="nome">Nome</label>
                         <input required ng-model="professor.nome"
-                            ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
+                            ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 }}"
                             type="text" class="form-control" id="nome" name="nome" minlength="1" maxlength="20"
-                            autocomplete="off" aria-describedby="erro">
-                        <small id="erro" class="text-white bg-danger" ng-show="form.nome.$error.minlength">Informe
-                            um
-                            nome.</small>
+                            autocomplete="off">
                     </div>
 
                     <!-- Sobrenome -->
@@ -27,65 +23,68 @@
                         <input required ng-model="professor.sobrenome"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
                             type="text" class="form-control" id="sobrenome" name="sobrenome" minlength="1"
-                            maxlength="60" autocomplete="off" aria-describedby="erro">
-                        <small id="erro" class="text-white bg-danger" ng-show="form.sobrenome.$error.minlength">Informe
-                            um
-                            nome.</small>
+                            maxlength="60" autocomplete="off">
                     </div>
 
                     <div class="form-row">
                         <!-- CPF -->
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6 erro">
                             <label for="cpf">CPF</label>
                             <input required ng-model="professor.cpf"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                                type="text" class="form-control" id="cpf" name="cpf" minlength="11" maxlength="11"
-                                onkeypress="return campoNumerico(event)" autocomplete="off" aria-describedby="erro">
-                            <small id="erro" class="text-white bg-danger" ng-show="form.cpf.$error.minlength">Informe
+                                type="text" class="form-control" id="cpf" name="cpf" minlength="11" maxlength="14"
+                                onkeypress="$(this).mask('000.000.000-00', {reverse: true});" autocomplete="off"
+                                aria-describedby="erro">
+                            <small id="erro" class="text-danger erroMsg" ng-show="form.cpf.$error.minlength">Informe
                                 um
                                 CPF
-                                válido.</small>
+                                válido</small>
+                            <small id="erro" class="text-danger erroMsgProf"
+                                ng-show="submitted && form.cpf.$error && !form.cpf.$error.minlength">{{erroCPF}}</small>
                         </div>
 
                         <!-- Telefone -->
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6 erro">
                             <label for="telefone">Telefone</label>
                             <input required ng-model="professor.telefone"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
                                 type="text" class="form-control" id="telefone" name="telefone" minlength="10"
                                 maxlength="11" onkeypress="return campoNumerico(event)" autocomplete="off"
                                 aria-describedby="erro">
-                            <small id="erro" class="text-white bg-danger"
+                            <small id="erro" class="text-danger erroMsg"
                                 ng-show="form.telefone.$error.minlength">Informe
                                 um
                                 telefone
-                                válido.</small>
+                                válido</small>
                         </div>
                     </div>
 
                     <!-- Email -->
-                    <div class="form-group mb-4">
+                    <div class="form-group mb-4 erro">
                         <label for="email">E-mail</label>
                         <input required ng-model="professor.email"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
                             type="email" class="form-control" id="email" name="email" minlength="3" maxlength="50"
                             autocomplete="off" aria-describedby="erro">
-                        <small id="erro" class="text-light px-1 bg-danger" ng-show="form.email.$error.email">Informe
-                            um e-mail válido.</small>
+                        <small id="erro" class="text-danger erroMsg"
+                            ng-show="submitted && form.email.$error.email">Informe
+                            um e-mail válido</small>
+                        <small id="erro" class="text-danger erroMsg"
+                            ng-show="submitted && form.$error && !form.email.$error.minlength && form.email.$error">{{erroEmail}}</small>
                     </div>
 
                     <!-- Cadastrar -->
-                    <button class="btn btn-secondary w-100 mb-3" ng-if="mostrarCadastrar"
+                    <button class="btn btn-secondary w-100 my-3" ng-if="mostrarCadastrar"
                         ng-click="cadastrar(professor)" type="submit">Cadastrar</button>
 
 
                     <!-- Atualizar -->
                     <div class="form-row" ng-if="mostrarAtualizar">
-                        <div class="form-group col-md-9">
-                            <button class="btn btn-secondary w-100" ng-click="submitted=true; atualizar(professor);"
+                        <div class="form-group col-md-9 my-3">
+                            <button class="btn btn-secondary w-100" ng-click="atualizar(professor);"
                                 type="submit">Atualizar</button>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-3 my-3">
                             <button class="btn btn-danger w-100" ng-click="cancelarAtualizar()">
                                 Cancelar
                             </button>
@@ -93,7 +92,7 @@
                     </div>
 
                 </form>
-            </div class="form">
+            </div>
         </div>
 
         <!-- Consultar -->
@@ -126,24 +125,22 @@
                     </thead>
                     <tbody class="table">
                         <tr ng-repeat="professor in professorLista | orderBy: 'nome' | filter: busca">
-                            <td class="align-middle border-right border-bottom  border-dark">
+                            <td class="align-middle border-right border-bottom border-dark">
                                 {{professor.nome + ' ' + professor.sobrenome}}
                             </td>
-                            <td class="align-middle border-left border-right border-bottom  border-dark">
-                                {{professor.cpf}}
+                            <td class="align-middle border-left border-right border-bottom border-dark">
+                                {{formatarCpf(professor.cpf)}}
                             </td class="align-middle">
-                            <td class="align-middle border-left border-right border-bottom  border-dark">
+                            <td class="align-middle border-left border-right border-bottom border-dark">
                                 {{professor.email}}
                             </td>
-                            <td class="align-middle border-left border-right border-bottom  border-dark">
-                                {{professor.telefone}}</td>
-                            <td class="align-middle border-left border-bottom  border-dark">
-                                <div>
-                                    <a title="Editar" class="btn" ng-click="buscarProfessor(professor.id)"><img
-                                            src="app\imgs\pencil.svg" alt="Editar" width="22"></a>
-                                    <a title="Excluir" class="btn" ng-click="excluir(professor.id)"><img
-                                            src="app\imgs\remove.svg" alt="Excluir" width="22"></a>
-                                </div>
+                            <td class="align-middle border-left border-right border-bottom border-dark">
+                                {{formatarTel(professor.telefone)}}</td>
+                            <td class="align-middle border-left border-bottom border-dark">
+                                <a title="Editar" class="btn" ng-click="buscarProfessor(professor.id)"><img
+                                        src="app\imgs\pencil.svg" alt="Editar" width="22"></a>
+                                <a title="Excluir" class="btn" ng-click="excluir(professor.id)"><img
+                                        src="app\imgs\remove.svg" alt="Excluir" width="22"></a>
                             </td>
                         </tr>
                     </tbody>

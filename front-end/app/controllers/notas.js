@@ -2,6 +2,7 @@ angular.module('app').controller('notas', ['$scope', '$http', '$rootScope', '$lo
     $rootScope.activetab = $location.path();
     $scope.turma = {};
     $scope.nota = {};
+    $scope.notas = {};
     $scope.aluno = {};
 
     $scope.resetar = function () {
@@ -18,13 +19,16 @@ angular.module('app').controller('notas', ['$scope', '$http', '$rootScope', '$lo
     };
 
     $scope.cadastrarNota = function (obj) {
-
         $http({
             method: 'POST',
             url: 'http://localhost:8080/notas/save',
             data: obj
         }).then(function successCallback(response) {
-            $scope.listNotas(obj.alunoId);
+
+            if ($scope.notas.length > -1) {
+                $scope.listNotas(obj.alunoId);
+            }
+
             $scope.resetar();
         }, function errorCallback(response) {
 

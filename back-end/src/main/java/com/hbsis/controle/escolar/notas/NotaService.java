@@ -6,8 +6,6 @@ import com.hbsis.controle.escolar.disciplinas.DisciplinaService;
 import com.hbsis.controle.escolar.turmas.TurmaService;
 import net.sf.jasperreports.engine.*;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
@@ -19,7 +17,6 @@ import java.util.*;
 
 @Service
 public class NotaService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NotaService.class);
     private final INotaRepository iNotaRepository;
     private final AlunoService alunoService;
     private final BimestreService bimestreService;
@@ -37,7 +34,7 @@ public class NotaService {
     public NotaDTO save(NotaDTO notaDTO) {
         Nota nota = new Nota(
                 notaDTO.getValor(),
-                alunoService.getOptional(notaDTO.getAlunoId()).get(),
+                alunoService.findByIdOptional(notaDTO.getAlunoId()).get(),
                 disciplinaService.findById(notaDTO.getDisciplinaId()),
                 bimestreService.findByIdOptional(notaDTO.getBimestreId()).get(),
                 notaDTO.getDescricao()
@@ -51,7 +48,7 @@ public class NotaService {
     public NotaDTO update(NotaDTO notaDTO) {
         Nota notaExistente = findById(notaDTO.getId());
         notaExistente.setValor(notaDTO.getValor());
-        notaExistente.setAluno(alunoService.getOptional(notaDTO.getAlunoId()).get());
+        notaExistente.setAluno(alunoService.findByIdOptional(notaDTO.getAlunoId()).get());
         notaExistente.setDisciplina(disciplinaService.findById(notaDTO.getDisciplinaId()));
         notaExistente.setBimestre(bimestreService.findByIdOptional(notaDTO.getBimestreId()).get());
         notaExistente.setDescricao(notaDTO.getDescricao());
@@ -98,8 +95,8 @@ public class NotaService {
         List<String> dados = new ArrayList<>();
         List<String> medias = new ArrayList<>();
 
-        String codigoTurma = turmaService.findByAlunoId(notas.get(0).getAluno().getId()).get().getCodigo();
-        String turnoTurma = turmaService.findByAlunoId(notas.get(0).getAluno().getId()).get().getTurno().getHorario();
+        String codigoTurma = turmaService.findByAlunoId(notas.get(0).getAluno().getId()).getCodigo();
+        String turnoTurma = turmaService.findByAlunoId(notas.get(0).getAluno().getId()).getTurno().getHorario();
 
         dados.add(notas.get(0).getAluno().getNome());
         dados.add(notas.get(0).getAluno().getSobrenome());

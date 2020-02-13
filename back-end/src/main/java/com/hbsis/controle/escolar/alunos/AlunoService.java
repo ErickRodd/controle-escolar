@@ -1,20 +1,16 @@
 package com.hbsis.controle.escolar.alunos;
 
-import com.hbsis.controle.escolar.notas.NotaService;
 import com.hbsis.controle.escolar.turmas.TurmaService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AlunoService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AlunoService.class);
     private final IAlunoRepository iAlunoRepository;
     private final TurmaService turmaService;
+
     public AlunoService(IAlunoRepository iAlunoRepository, TurmaService turmaService) {
         this.iAlunoRepository = iAlunoRepository;
         this.turmaService = turmaService;
@@ -60,8 +56,7 @@ public class AlunoService {
         return AlunoDTO.of(aluno);
     }
 
-    public AlunoDTO get(Long id) {
-
+    public AlunoDTO findById(Long id) {
         Optional<Aluno> alunoOptional = this.iAlunoRepository.findById(id);
 
         if (alunoOptional.isPresent()) {
@@ -71,8 +66,7 @@ public class AlunoService {
         throw new IllegalArgumentException(String.format("Aluno de ID [%s] não existe.", id));
     }
 
-    public Optional<Aluno> getOptional(Long id) {
-
+    public Optional<Aluno> findByIdOptional(Long id) {
         Optional<Aluno> alunoOptional = this.iAlunoRepository.findById(id);
 
         if (alunoOptional.isPresent()) {
@@ -82,11 +76,11 @@ public class AlunoService {
         throw new IllegalArgumentException(String.format("Aluno de ID [%s] não existe.", id));
     }
 
-    public List<Aluno> getAll() {
+    public List<Aluno> findAll() {
         return this.iAlunoRepository.findAll();
     }
 
-    public List<Aluno> findAllWithNoTurma(){
+    public List<Aluno> findAllWithNoTurma() {
         List<Aluno> alunoList = iAlunoRepository.findAll();
 
         alunoList.removeIf(aluno -> turmaService.existsByAlunoId(aluno.getId()));

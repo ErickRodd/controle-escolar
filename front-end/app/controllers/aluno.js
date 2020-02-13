@@ -2,28 +2,49 @@ angular.module('app').controller('aluno', ['$scope', '$http', '$rootScope', '$lo
     $rootScope.activetab = $location.path();
 
     $scope.resetar = function () {
-        $scope.aluno = null;
+        $scope.aluno = [];
         document.getElementById('formAluno').reset();
         $scope.submitted = false;
     };
 
-    $scope.alunoEdit = function (obj) {
-        $scope.aluno = obj;
-        $scope.mostrarCadastrar = false;
-        $scope.mostrarAtualizar = true;
-    }
+    $scope.buscarAluno = function (id) {
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/alunos/get/' + id,
+            data: id
+        }).then(function successCallback(response) {
+
+            $scope.aluno = response.data;
+            $scope.mostrarCadastrar = false;
+            $scope.mostrarAtualizar = true;
+        }, function errorCallback(response) {
+
+            console.log(response.status);
+        });
+    };
 
     $scope.cancelarAtualizar = function () {
         $scope.mostrarCadastrar = true;
         $scope.mostrarAtualizar = false;
         $scope.resetar();
+        $scope.submitted = false;
+
     };
 
     $scope.atualizar = function (obj) {
+        info = {
+            id: obj.id,
+            nome: obj.nome,
+            sobrenome: obj.sobrenome,
+            cpf: obj.cpf.replace(/\.|\-/g, ''),
+            telefone: obj.telefone,
+            email: obj.email
+        };
+
         $http({
             method: 'PUT',
             url: 'http://localhost:8080/alunos/update',
-            data: obj
+            data: info
         }).then(function successCallback(response) {
 
             $scope.listarAlunos();

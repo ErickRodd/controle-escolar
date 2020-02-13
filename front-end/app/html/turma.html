@@ -17,12 +17,6 @@
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
                                 type="text" class="form-control" id="codigo" name="codigo" minlength="1" maxlength="20"
                                 autocomplete="off" aria-describedby="erro">
-                            <div ng-if="submitted">
-                                <small id="erro" class="text-white bg-danger"
-                                    ng-show="form.codigo.$error.required">Informe
-                                    um
-                                    código.</small>
-                            </div>
                         </div>
 
                         <!-- Turno -->
@@ -36,10 +30,6 @@
                                 </option>
                             </select>
                             <div ng-show="submitted">
-                                <small id="erro" class="text-white bg-danger"
-                                    ng-show="form.turno.$error.required">Informe
-                                    um
-                                    turno.</small>
                             </div>
                         </div>
                     </div>

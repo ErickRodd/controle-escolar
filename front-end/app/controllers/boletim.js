@@ -3,7 +3,7 @@ angular.module('app').controller('boletim', ['$scope', '$http', '$rootScope', '$
     $scope.boletim = {};
     $scope.alunos = {};
 
-    $scope.resetar = function (){
+    $scope.resetar = function () {
         $scope.turma = '';
         $scope.aluno = '';
         $scope.bimestre = '';
@@ -21,11 +21,11 @@ angular.module('app').controller('boletim', ['$scope', '$http', '$rootScope', '$
             $scope.resetar();
         }, function errorCallback(response) {
 
-            if(response.data.message.startsWith('Ne')){
-                $scope.erroBoletim  = response.data.message;
+            if (response.data.message.startsWith('Ne')) {
+                $scope.erroBoletim = response.data.message;
             }
-            if(response.data.message.startsWith('No')){
-                $scope.erroBoletim  = response.data.message;
+            if (response.data.message.startsWith('No')) {
+                $scope.erroBoletim = response.data.message;
             }
 
             console.log(response.status);

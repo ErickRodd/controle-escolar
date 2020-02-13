@@ -1,4 +1,4 @@
-angular.module('app').config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+angular.module('app').config(['$routeProvider', function ($routeProvider) {
 
     $routeProvider
         .when('/', {

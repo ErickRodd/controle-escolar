@@ -5,6 +5,8 @@ angular.module('app').controller('professor', ['$scope', '$http', '$rootScope', 
         $scope.professor = null;
         document.getElementById('formProfessor').reset();
         $scope.submitted = false;
+        $scope.erroCPF = null;
+        $scope.erroEmail = null;
     };
 
     $scope.buscarProfessor = function (id) {
@@ -31,19 +33,36 @@ angular.module('app').controller('professor', ['$scope', '$http', '$rootScope', 
     };
 
     $scope.atualizar = function (obj) {
+        info = {
+            id: obj.id,
+            nome: obj.nome,
+            sobrenome: obj.sobrenome,
+            cpf: obj.cpf.replace(/\.|\-/g, ''),
+            telefone: obj.telefone,
+            email: obj.email
+        };
+
         $http({
             method: 'PUT',
             url: 'http://localhost:8080/professor/update',
-            data: obj
+            data: info
         }).then(function successCallback(response) {
 
             $scope.listarProfessores();
             $scope.mostrarCadastrar = true;
             $scope.mostrarAtualizar = false;
             $scope.resetar();
-        }, function errorCallback(response) {
 
+        }, function errorCallback(response) {
             console.log(response.status);
+
+            if (response.data.message.startsWith('C')) {
+                $scope.erroCPF = response.data.message;
+            }
+
+            if (response.data.message.startsWith('E')) {
+                $scope.erroEmail = response.data.message;
+            }
         });
     };
 
@@ -61,17 +80,33 @@ angular.module('app').controller('professor', ['$scope', '$http', '$rootScope', 
     };
 
     $scope.cadastrar = function (obj) {
+        info = {
+            nome: obj.nome,
+            sobrenome: obj.sobrenome,
+            cpf: obj.cpf.replace(/\.|\-/g, ''),
+            telefone: obj.telefone,
+            email: obj.email
+        };
+
         $http({
             method: 'POST',
             url: 'http://localhost:8080/professor/save',
-            data: obj
+            data: info
         }).then(function successCallback(response) {
 
             $scope.listarProfessores();
             $scope.resetar();
-        }, function errorCallback(response) {
 
+        }).catch(function errorCallback(response) {
             console.log(response.status);
+
+            if (response.data.message.startsWith('C')) {
+                $scope.erroCPF = response.data.message;
+            }
+
+            if (response.data.message.startsWith('E')) {
+                $scope.erroEmail = response.data.message;
+            }
         });
     };
 
@@ -90,4 +125,16 @@ angular.module('app').controller('professor', ['$scope', '$http', '$rootScope', 
             console.log(response.status);
         });
     };
+
+    $scope.formatarCpf = function (str) {
+        return str.substring(0, 3) + '.' + str.substring(3, 6) + '.' + str.substring(6, 9) + '-' + str.substring(9);
+    }
+
+    $scope.formatarTel = function (str) {
+        if (str.length == 11) {
+            return '(' + str.substring(0, 2) + ') ' + str.substring(2, 3) + ' ' + str.substring(3, 7) + '-' + str.substring(7);
+        }
+
+        return '(' + str.substring(0, 2) + ') ' + str.substring(2, 6) + '-' + str.substring(6);
+    }
 }]);

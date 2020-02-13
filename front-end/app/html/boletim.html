@@ -11,11 +11,10 @@
                         <!-- Turma -->
                         <div class="form-group col-md-6">
                             <label for="turma" class="ml-1">Turma</label>
-                            <div id="turma" class="bg-white rounded input-group mb-2" title="Pesquisar..."
-                                ng-init="listarTurmas()">
+                            <div id="turma" class="bg-white rounded input-group mb-2" ng-init="listarTurmas()">
                                 <select required ng-model="turma"
                                     ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
-                                    class="form-control" id="turma" name="turma" aria-describedby="erro"
+                                    class="form-control" id="turma" name="turma"
                                     ng-change="listarAlunos(turma.alunoList)">
                                     <option ng-repeat="turma in turmas" ng-value="{{turma}}">
                                         {{turma.codigo}}
@@ -29,15 +28,11 @@
                             <label for="bimestre" class="ml-1">Bimestre</label>
                             <select required ng-model="bimestre"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
-                                class="form-control" id="bimestre" name="bimestre" aria-describedby="erro">
+                                class="form-control" id="bimestre" name="bimestre">
                                 <option ng-repeat="bimestre in bimestres" ng-value="{{bimestre}}">
                                     {{bimestre.bimestre}}
                                 </option>
                             </select>
-                            <small id="erro" class="text-white bg-danger"
-                                ng-show="form.bimestre.$error.minlength">Informe
-                                um
-                                bimestre.</small>
                         </div>
                     </div>
 
@@ -51,11 +46,12 @@
                                 {{aluno.nome + ' ' + aluno.sobrenome}}
                             </option>
                         </select>
-
+                        <small id="erro" class="text-danger erroBoletim mt-2"
+                            ng-show="submitted && form.$error">{{erroBoletim}}</small>
                     </div>
 
                     <!-- Cadastrar -->
-                    <button class="btn btn-secondary w-100 mb-3" ng-click="gerar(aluno.id, bimestre.id)"
+                    <button class="btn btn-secondary w-100 my-3" ng-click="gerar(aluno.id, bimestre.id)"
                         type="submit">Gerar</button>
 
                 </form>
