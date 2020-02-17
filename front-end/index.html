@@ -5,12 +5,14 @@
     <meta charset="utf-8" />
     <title>Gestão Escolar</title>
 
-    <!-- Bootstrap -->
+    <!-- bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
@@ -18,63 +20,33 @@
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 
-    <!-- Fontes -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-    <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
-
-    <!-- AngularJS -->
+    <!-- angularjs -->
     <script src="app\lib\angular.min.js"></script>
     <script src="app\lib\angular-route.min.js"></script>
 
-    <!-- JS -->
-    <script src="app/app.js"></script>
+    <!-- app -->
+    <script src="app\app.js"></script>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="app/css/inicio.css">
-    <link rel="stylesheet" href="app/css/turma.css">
-    <link rel="stylesheet" href="app/css/aluno.css">
-    <link rel="stylesheet" href="app/css/professor.css">
-    <link rel="stylesheet" href="app/css/disciplinas.css">
-    <link rel="stylesheet" href="app/css/notas.css">
-    <link rel="stylesheet" href="app/css/boletim.css">
+    <!-- app controllers -->
+    <script src="app\controllers\aluno.js"></script>
+    <script src="app\controllers\app-config.js"></script>
+    <script src="app\controllers\inicio.js"></script>
+    <script src="app\controllers\professor.js"></script>
+    <script src="app\controllers\turma.js"></script>
+    <script src="app\controllers\notas.js"></script>
+    <script src="app\controllers\boletim.js"></script>
+
+    <!-- css -->
+    <link rel="stylesheet" href="app/css/css.css">
+
+    <!-- métodos js -->
+    <script src="app/js/metodos.js"></script>
 </head>
 
+<header ng-include="'header.html'"></header>
+
 <body class="bg-dark">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
-
-        <a ng-class="{active: activetab == '/'}" class="navbar-brand" href="#!/" title="Gestão Escolar"><img src="app/imgs/hbsis-logo-no-text.png" width="20"><b class="align-middle">GE</b></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav" style="margin-left: 9%;">
-                <li ng-class="{active: activetab == '/aluno'}" class="nav-item">
-                    <a class="nav-link" href="#!/aluno" title="Alunos">Alunos</a>
-                </li>
-                <li ng-class="{active: activetab == '/turma'}" class="nav-item">
-                    <a class="nav-link" href="#!/turma" title="Turmas">Turmas</a>
-                </li>
-                <li ng-class="{active: activetab == '/professor'}" class="nav-item">
-                    <a class="nav-link" href="#!/professor" title="Professores">Professores</a>
-                </li>
-                <!-- <li ng-class="{active: activetab == '/disciplinas'}" class="nav-item">
-                    <a class="nav-link" href="#!/disciplinas" title="Disciplinas">Disciplinas</a>
-                </li> -->
-                <li ng-class="{active: activetab == '/notas'}" class="nav-item">
-                    <a class="nav-link" href="#!/notas" title="Notas">Notas</a>
-                </li>
-                <li ng-class="{active: activetab == '/boletim'}" class="nav-item">
-                    <a class="nav-link" href="#!/boletim" title="Boletins">Boletins</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <div ng-view>
-    </div>
-
+    <main ng-view></main>
 </body>
 
 </html>

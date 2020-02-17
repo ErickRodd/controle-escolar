@@ -1,9 +1,61 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1 class="text-center">
-                Boletim
-            </h1>
+<div class="container-fluid ">
+    <div class="row mx-2">
+        <!-- Formulário -->
+        <div ng-controller="boletim" class="col-md-4 mx-auto mt-4 rounded bg-light border-dark border">
+            <h5 class="my-3">Gerar boletim</h5>
+            <div class="form">
+                <form name="form" id="formNota" novalidate ng-class="{'submitted': submitted}"
+                    ng-submit="submitted=true;">
+                    <div class="form-row">
+
+                        <!-- Turma -->
+                        <div class="form-group col-md-6">
+                            <label for="turma" class="ml-1">Turma</label>
+                            <div id="turma" class="bg-white rounded input-group mb-2" ng-init="listarTurmas()">
+                                <select required ng-model="turma"
+                                    ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
+                                    class="form-control" id="turma" name="turma"
+                                    ng-change="listarAlunos(turma.alunoList)">
+                                    <option ng-repeat="turma in turmas" ng-value="{{turma}}">
+                                        {{turma.codigo}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Bimestre -->
+                        <div class="form-group col-md-6" ng-init="listarBimestres()">
+                            <label for="bimestre" class="ml-1">Bimestre</label>
+                            <select required ng-model="bimestre"
+                                ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
+                                class="form-control" id="bimestre" name="bimestre">
+                                <option ng-repeat="bimestre in bimestres" ng-value="{{bimestre}}">
+                                    {{bimestre.bimestre}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Aluno -->
+                    <div class="form-group mb-4">
+                        <label for="aluno" class="ml-1">Aluno</label>
+                        <select required ng-model="aluno"
+                            ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
+                            class="form-control" id="aluno" name="aluno" aria-describedby="erro">
+                            <option ng-repeat="aluno in alunos" ng-value="{{aluno}}">
+                                {{aluno.nome + ' ' + aluno.sobrenome}}
+                            </option>
+                        </select>
+                        <small id="erro" class="text-danger erroBoletim mt-2"
+                            ng-show="submitted && form.$error">{{erroBoletim}}</small>
+                    </div>
+
+                    <!-- Cadastrar -->
+                    <button class="btn btn-secondary w-100 my-3" ng-click="gerar(aluno.id, bimestre.id)"
+                        type="submit">Gerar</button>
+
+                </form>
+            </div class="form">
         </div>
     </div>
 </div>

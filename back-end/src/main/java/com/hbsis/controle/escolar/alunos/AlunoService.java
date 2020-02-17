@@ -1,9 +1,6 @@
 package com.hbsis.controle.escolar.alunos;
 
-import com.hbsis.controle.escolar.turmas.Turma;
 import com.hbsis.controle.escolar.turmas.TurmaService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +8,6 @@ import java.util.Optional;
 
 @Service
 public class AlunoService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AlunoService.class);
     private final IAlunoRepository iAlunoRepository;
     private final TurmaService turmaService;
 
@@ -22,9 +18,7 @@ public class AlunoService {
 
     public AlunoDTO save(AlunoDTO alunoDTO) {
         this.validateExistencia(alunoDTO.getCpf());
-
-        LOGGER.info("\n");
-        LOGGER.info("Cadastrando novo aluno...");
+        this.validateExistenciaEmail(alunoDTO.getEmail());
 
         Aluno aluno = new Aluno(
                 alunoDTO.getNome(),
@@ -36,32 +30,33 @@ public class AlunoService {
 
         aluno = this.iAlunoRepository.save(aluno);
 
-        LOGGER.info("Aluno cadastrado com sucesso.\n");
-
         return AlunoDTO.of(aluno);
     }
 
     public AlunoDTO update(AlunoDTO alunoDTO) {
-        LOGGER.info("\n");
-        LOGGER.info("Atualizando aluno de ID [{}]...", alunoDTO.getId());
 
-        Aluno alunoNovo = findAluno(alunoDTO.getId());
-        alunoNovo.setNome(alunoDTO.getNome());
-        alunoNovo.setSobrenome(alunoDTO.getSobrenome());
-        alunoNovo.setCpf(alunoDTO.getCpf());
-        alunoNovo.setEmail(alunoDTO.getEmail());
-        alunoNovo.setTelefone(alunoDTO.getTelefone());
+        Aluno aluno = findAluno(alunoDTO.getId());
 
-        alunoNovo = this.iAlunoRepository.save(alunoNovo);
+        if (!alunoDTO.getCpf().equals(aluno.getCpf())) {
+            validateExistencia(alunoDTO.getCpf());
+        }
 
-        LOGGER.info("Aluno atualizado com sucesso.\n");
+        if (!alunoDTO.getEmail().equals(aluno.getEmail())) {
+            validateExistenciaEmail(alunoDTO.getEmail());
+        }
 
-        return AlunoDTO.of(alunoNovo);
+        aluno.setNome(alunoDTO.getNome());
+        aluno.setSobrenome(alunoDTO.getSobrenome());
+        aluno.setCpf(alunoDTO.getCpf());
+        aluno.setEmail(alunoDTO.getEmail());
+        aluno.setTelefone(alunoDTO.getTelefone());
+
+        aluno = this.iAlunoRepository.save(aluno);
+
+        return AlunoDTO.of(aluno);
     }
 
-    public AlunoDTO get(Long id) {
-        LOGGER.info("Procurando por aluno de ID [{}]", id);
-
+    public AlunoDTO findById(Long id) {
         Optional<Aluno> alunoOptional = this.iAlunoRepository.findById(id);
 
         if (alunoOptional.isPresent()) {
@@ -71,9 +66,7 @@ public class AlunoService {
         throw new IllegalArgumentException(String.format("Aluno de ID [%s] não existe.", id));
     }
 
-    public Optional<Aluno> getOptional(Long id) {
-        LOGGER.info("Procurand por aluno de ID [{}]", id);
-
+    public Optional<Aluno> findByIdOptional(Long id) {
         Optional<Aluno> alunoOptional = this.iAlunoRepository.findById(id);
 
         if (alunoOptional.isPresent()) {
@@ -83,19 +76,23 @@ public class AlunoService {
         throw new IllegalArgumentException(String.format("Aluno de ID [%s] não existe.", id));
     }
 
-    public List<Aluno> getAll() {
-        LOGGER.info("Listando todos os alunos...");
-
+    public List<Aluno> findAll() {
         return this.iAlunoRepository.findAll();
+    }
+
+    public List<Aluno> findAllWithNoTurma() {
+        List<Aluno> alunoList = iAlunoRepository.findAll();
+
+        alunoList.removeIf(aluno -> turmaService.existsByAlunoId(aluno.getId()));
+
+        return alunoList;
     }
 
     public void delete(Long id) {
         if (this.iAlunoRepository.existsById(id)) {
-            LOGGER.info("Excluindo aluno de ID [{}]", id);
 
             turmaService.deleteAluno(id);
-
-            this.iAlunoRepository.deleteById(id);
+            iAlunoRepository.deleteById(id);
         } else {
 
             throw new IllegalArgumentException(String.format("Aluno de ID [%s] não existe.", id));
@@ -104,7 +101,13 @@ public class AlunoService {
 
     private void validateExistencia(String cpf) {
         if (this.iAlunoRepository.existsByCpf(cpf)) {
-            throw new IllegalArgumentException("CPF já cadastrado.");
+            throw new IllegalArgumentException("CPF já cadastrado");
+        }
+    }
+
+    private void validateExistenciaEmail(String email) {
+        if (iAlunoRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("E-mail já cadastrado");
         }
     }
 

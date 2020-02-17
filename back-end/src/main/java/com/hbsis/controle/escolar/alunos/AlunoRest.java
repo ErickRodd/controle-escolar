@@ -27,12 +27,17 @@ public class AlunoRest {
 
     @GetMapping("/get/{id}")
     public AlunoDTO get(@PathVariable("id") Long id) {
-        return this.alunoService.get(id);
+        return this.alunoService.findById(id);
     }
 
     @GetMapping("/get-all")
     public List<Aluno> getAll() {
-        return this.alunoService.getAll();
+        return this.alunoService.findAll();
+    }
+
+    @GetMapping("/list-with-no-turma")
+    public List<Aluno> listWithNoTurma() {
+        return this.alunoService.findAllWithNoTurma();
     }
 
     @DeleteMapping("/delete/{id}")

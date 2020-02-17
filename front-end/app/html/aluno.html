@@ -1,92 +1,94 @@
 <div class="container-fluid">
-    <div class="row" ng-controller="aluno" ng-init="listarAlunos(); mostrarCadastrar= true; mostrarAtualizar=false;">
+    <div class="row mx-2" ng-init="mostrarCadastrar= true; mostrarAtualizar=false;">
 
         <!-- Formulário -->
         <div class="col-md-3 ml-auto mt-4 rounded-left bg-light border-dark border-left border-top border-bottom">
             <h5 class="my-3">Cadastro de aluno</h5>
             <div class="form">
                 <form name="form" id="formAluno" novalidate ng-class="{'submitted': submitted}"
-                    ng-submit="submitted=true;">
+                    ng-submit="submitted=true;" ng-init="listarAlunos();">
 
                     <!-- Nome -->
                     <div class="form-group">
                         <label for="nome">Nome</label>
+
                         <input required ng-model="aluno.nome"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                            type="text" class="form-control input-border" id="nome" name="nome" minlength="1"
-                            maxlength="20" autocomplete="off" aria-describedby="erro">
-                        <small id="erro" class="text-white bg-danger" ng-show="form.nome.$error.minlength">Informe
-                            um
-                            nome.</small>
+                            type="text" class="form-control" id="nome" name="nome" minlength="1" maxlength="20"
+                            autocomplete="off">
                     </div>
 
                     <!-- Sobrenome -->
                     <div class="form-group">
                         <label for="sobrenome">Sobrenome</label>
+
                         <input required ng-model="aluno.sobrenome"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
-                            type="text" class="form-control input-border" id="sobrenome" name="sobrenome" minlength="1"
-                            maxlength="60" autocomplete="off" aria-describedby="erro">
-                        <small id="erro" class="text-white bg-danger" ng-show="form.sobrenome.$error.minlength">Informe
-                            um
-                            nome.</small>
+                            type="text" class="form-control" id="sobrenome" name="sobrenome" minlength="1"
+                            maxlength="60" autocomplete="off">
                     </div>
 
                     <div class="form-row">
                         <!-- CPF -->
                         <div class="form-group col-md-6">
                             <label for="cpf">CPF</label>
+
                             <input required ng-model="aluno.cpf"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                                type="text" class="form-control input-border" id="cpf" name="cpf" minlength="11"
-                                maxlength="11" onkeypress="return campoNumerico(event)" autocomplete="off"
-                                aria-describedby="erro">
-                            <small id="erro" class="text-white bg-danger" ng-show="form.cpf.$error.minlength">Informe
+                                type="text" class="form-control" id="cpf" name="cpf" minlength="11" maxlength="14"
+                                onkeypress="campoCpf(this)" autocomplete="off" aria-describedby="erro">
+                            <small id="erro" class="text-danger erroMsg" ng-show="form.cpf.$error.minlength">Informe
                                 um
                                 CPF
-                                válido.</small>
+                                válido</small>
+                            <small id="erro" class="text-danger erroMsg"
+                                ng-show="submitted && form.cpf.$error && !form.cpf.$error.minlength">{{erroCPF}}</small>
                         </div>
 
                         <!-- Telefone -->
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6 erro">
                             <label for="telefone">Telefone</label>
+
                             <input required ng-model="aluno.telefone"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                                type="text" class="form-control input-border" id="telefone" name="telefone"
-                                minlength="10" maxlength="11" onkeypress="return campoNumerico(event)"
-                                autocomplete="off" aria-describedby="erro">
-                            <small id="erro" class="text-white bg-danger"
+                                type="text" class="form-control" id="telefone" name="telefone" minlength="10"
+                                maxlength="11" onkeypress="return campoNumerico(event)" autocomplete="off"
+                                aria-describedby="erro">
+                            <small id="erro" class="text-danger erroMsg"
                                 ng-show="form.telefone.$error.minlength">Informe
                                 um
                                 telefone
-                                válido.</small>
+                                válido</small>
                         </div>
                     </div>
 
                     <!-- Email -->
-                    <div class="form-group mb-4">
+                    <div class="form-group mb-4 erro">
                         <label for="email">E-mail</label>
                         <input required ng-model="aluno.email"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
-                            type="email" class="form-control input-border" id="email" name="email" minlength="3"
-                            maxlength="50" autocomplete="off" aria-describedby="erro">
-                        <small id="erro" class="text-light bg-danger" ng-show="form.email.$error.email">Informe
-                            um e-mail válido.</small>
+                            type="email" class="form-control" id="email" name="email" minlength="3" maxlength="50"
+                            autocomplete="off" aria-describedby="erro">
+                        <small id="erro" class="text-danger erroMsg"
+                            ng-show="submitted && form.email.$error.email">Informe
+                            um e-mail válido</small>
+                        <small id="erro" class="text-danger erroMsg"
+                            ng-show="submitted && form.$error && !form.email.$error.minlength && form.email.$error">{{erroEmail}}</small>
                     </div>
 
                     <!-- Cadastrar -->
-                    <button class="btn btn-secondary w-100 mb-3" ng-if="mostrarCadastrar" ng-click="cadastrar(aluno)"
+                    <button class="btn btn-secondary w-100 my-3" ng-if="mostrarCadastrar" ng-click="cadastrar(aluno)"
                         type="submit">Cadastrar</button>
 
 
                     <!-- Atualizar -->
                     <div class="form-row" ng-if="mostrarAtualizar">
-                        <div class="form-group col-md-9">
+                        <div class="form-group col-md-9 my-3">
                             <button class="btn btn-secondary w-100" ng-click="submitted=true; atualizar(aluno);"
                                 type="submit">Atualizar</button>
                         </div>
-                        <div class="form-group col-md-3">
-                            <button class="btn btn-danger w-100" ng-click="cancelarAtualizar()">
+                        <div class="form-group col-md-3 my-3">
+                            <button class="btn btn-danger w-100" ng-click="submitted=true; cancelarAtualizar()">
                                 Cancelar
                             </button>
                         </div>
@@ -98,7 +100,7 @@
 
         <!-- Consultar -->
         <div class="col-md-6 mr-auto mt-4 rounded-right bg-light border border-dark">
-            <h5 class="my-3">Busca</h5>
+            <h5 class="my-3">Buscar alunos</h5>
 
             <!-- Busca -->
             <div class="form-group">
@@ -106,10 +108,10 @@
                 <div id="busca" class="bg-white rounded input-group mb-2" title="Pesquisar...">
                     <input ng-model="busca"
                         ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }" type="text"
-                        class="border-right-0 form-control input-border" id="busca">
+                        class="border-right-0 form-control" id="busca">
                     <div class="input-group-prepend">
-                        <div class="input-group-text rounded-right border-dark input-border lupa"><img
-                                src="app\imgs\search.svg" width="15" alt="Pesquisar"></div>
+                        <div class="input-group-text rounded-right border-dark lupa"><img src="app\imgs\search.svg"
+                                width="15" alt="Pesquisar"></div>
                     </div>
                 </div>
             </div>
@@ -124,24 +126,23 @@
                         <th class="border-right border-left border-bottom border-dark">Telefone</th>
                         <th class="border-left border-bottom border-dark">Ações</th>
                     </thead>
-                    <tbody class="table">
-                        <tr multiple ng-repeat="aluno in alunoLista | orderBy: 'nome' | filter: busca">
+                    <tbody>
+                        <tr ng-repeat="aluno in alunoLista | orderBy: 'nome' | filter: busca">
                             <td class="align-middle border-right border-bottom  border-dark">
                                 {{aluno.nome + ' ' + aluno.sobrenome}}
                             </td>
-                            <td class="align-middle border-left border-right border-bottom  border-dark">{{aluno.cpf}}
+                            <td id="cpfA" class="cpf align-middle border-left border-right border-bottom  border-dark">
+                                {{formatarCpf(aluno.cpf)}}
                             </td class="align-middle">
-                            <td class="align-middle border-left border-right border-bottom  border-dark">{{aluno.email}}
+                            <td class="align-middle border-left border-right border-bottom border-dark">{{aluno.email}}
                             </td>
-                            <td class="align-middle border-left border-right border-bottom  border-dark">
-                                {{aluno.telefone}}</td>
+                            <td class="align-middle border-left border-right border-bottom border-dark">
+                                {{formatarTel(aluno.telefone.toString())}}</td>
                             <td class="align-middle border-left border-bottom  border-dark">
-                                <div>
-                                    <a title="Editar" class="btn" ng-click="buscarAluno(aluno.id)"><img
-                                            src="app\imgs\pencil.svg" alt="Editar" width="22"></a>
-                                    <a title="Excluir" class="btn" ng-click="excluir(aluno.id)"><img
-                                            src="app\imgs\remove.svg" alt="Excluir" width="22"></a>
-                                </div>
+                                <a title="Editar" class="btn" ng-click="buscarAluno(aluno.id)"><img
+                                        src="app\imgs\pencil.svg" alt="Editar" width="22"></a>
+                                <a title="Excluir" class="btn" ng-click="excluir(aluno.id)"><img
+                                        src="app\imgs\remove.svg" alt="Excluir" width="22"></a>
                             </td>
                         </tr>
                     </tbody>

@@ -1,5 +1,8 @@
 package com.hbsis.controle.escolar.notas;
 
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class NotaDTO {
@@ -17,24 +20,30 @@ public class NotaDTO {
     @NotNull
     private Long bimestreId;
 
+    @NotBlank
+    @Length(min = 5, max = 80)
+    private String descricao;
+
     public NotaDTO() {
     }
 
-    public NotaDTO(Long id, @NotNull Double valor, @NotNull Long alunoId, @NotNull Long disciplinaId, @NotNull Long bimestreId) {
+    public NotaDTO(Long id, @NotNull Double valor, @NotNull Long alunoId, @NotNull Long disciplinaId, @NotNull Long bimestreId, @NotBlank @Length(min = 5, max = 80) String descricao) {
         this.id = id;
         this.valor = valor;
         this.alunoId = alunoId;
         this.disciplinaId = disciplinaId;
         this.bimestreId = bimestreId;
+        this.descricao = descricao;
     }
 
-    public static NotaDTO of (Nota nota){
+    public static NotaDTO of(Nota nota) {
         return new NotaDTO(
                 nota.getId(),
                 nota.getValor(),
                 nota.getAluno().getId(),
                 nota.getDisciplina().getId(),
-                nota.getBimestre().getId()
+                nota.getBimestre().getId(),
+                nota.getDescricao()
         );
     }
 
@@ -78,6 +87,14 @@ public class NotaDTO {
         this.bimestreId = bimestreId;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     @Override
     public String toString() {
         return "NotaDTO{" +
@@ -86,6 +103,7 @@ public class NotaDTO {
                 ", alunoId=" + alunoId +
                 ", disciplinaId=" + disciplinaId +
                 ", bimestreId=" + bimestreId +
+                ", descricao='" + descricao + '\'' +
                 '}';
     }
 }

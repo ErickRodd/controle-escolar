@@ -1,20 +1,15 @@
 package com.hbsis.controle.escolar.turmas;
 
 import com.hbsis.controle.escolar.alunos.Aluno;
-import com.hbsis.controle.escolar.alunos.AlunoService;
 import com.hbsis.controle.escolar.turnos.Turno;
 import com.hbsis.controle.escolar.turnos.TurnoService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class TurmaService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TurmaService.class);
     private final ITurmaRepository iTurmaRepository;
     private final TurnoService turnoService;
 
@@ -27,7 +22,7 @@ public class TurmaService {
 
         Turma turma = new Turma(
                 turmaDTO.getCodigo(),
-                getTurno(turmaDTO.getTurnoId()),
+                findTurno(turmaDTO.getTurnoId()),
                 turmaDTO.getAlunos()
         );
 
@@ -36,11 +31,11 @@ public class TurmaService {
         return TurmaDTO.of(turma);
     }
 
-    public void deleteAluno(Long id){
+    public void deleteAluno(Long id) {
 
-        Optional<Turma> turmaExistente = findByAlunoId(id);
+        Optional<Turma> turmaExistente = iTurmaRepository.findByAlunoList_Id(id);
 
-        if(turmaExistente.isPresent()){
+        if (turmaExistente.isPresent()) {
             List<Aluno> alunoList = turmaExistente.get().getAlunoList();
 
             alunoList.removeIf(al -> al.getId().equals(id));
@@ -49,17 +44,17 @@ public class TurmaService {
 
             turma.setAlunoList(alunoList);
 
-            turma = iTurmaRepository.save(turma);
+            iTurmaRepository.save(turma);
         }
     }
 
     public TurmaDTO update(TurmaDTO turmaDTO) {
-        Optional<Turma> turmaExistente = this.get(turmaDTO.getId());
+        Optional<Turma> turmaExistente = iTurmaRepository.findById(turmaDTO.getId());
 
         Turma turmaNova = turmaExistente.get();
 
         turmaNova.setCodigo(turmaDTO.getCodigo());
-        turmaNova.setTurno(turnoService.getOptional(turmaDTO.getTurnoId()).get());
+        turmaNova.setTurno(turnoService.findByIdOptional(turmaDTO.getTurnoId()).get());
         turmaNova.setAlunoList(turmaDTO.getAlunos());
 
         turmaNova = this.iTurmaRepository.save(turmaNova);
@@ -67,42 +62,39 @@ public class TurmaService {
         return TurmaDTO.of(turmaNova);
     }
 
-    public TurmaDTO findById(Long id){
+    public TurmaDTO findById(Long id) {
         Optional<Turma> turmaOptional = this.iTurmaRepository.findById(id);
 
-        if(turmaOptional.isPresent()){
+        if (turmaOptional.isPresent()) {
             return TurmaDTO.of(turmaOptional.get());
         }
 
         throw new IllegalArgumentException("Turma não encontrada.");
     }
 
-    public Optional<Turma> get(Long id) {
-        return iTurmaRepository.findById(id);
-    }
-
-    public List<Turma> getAll() {
-        LOGGER.info("Listando todos as turmas...");
-
+    public List<Turma> findAll() {
         return this.iTurmaRepository.findAll();
     }
 
     public void delete(Long id) {
         if (this.iTurmaRepository.existsById(id)) {
-            LOGGER.info("Excluindo turma de ID [{}]...", id);
-
             this.iTurmaRepository.deleteById(id);
         } else {
-
             throw new IllegalArgumentException(String.format("Turma de ID [%s] não existe.", id));
         }
     }
 
-    public Optional<Turma> findByAlunoId(Long id){
-        return iTurmaRepository.findByAlunoList_Id(id);
+    public Turma findByAlunoId(Long id) {
+        Optional<Turma> turmaOptional = iTurmaRepository.findByAlunoList_Id(id);
+
+        return turmaOptional.get();
     }
 
-    public Turno getTurno(Long id) {
-        return this.turnoService.getOptional(id).get();
+    public boolean existsByAlunoId(Long id) {
+        return iTurmaRepository.existsByAlunoList_Id(id);
+    }
+
+    public Turno findTurno(Long id) {
+        return this.turnoService.findByIdOptional(id).get();
     }
 }

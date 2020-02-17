@@ -1,7 +1,5 @@
 package com.hbsis.controle.escolar.professores;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,7 +7,6 @@ import java.util.Optional;
 
 @Service
 public class ProfessorService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProfessorService.class);
     private IProfessorRepository iProfessorRepository;
 
     public ProfessorService(IProfessorRepository iProfessorRepository) {
@@ -18,8 +15,7 @@ public class ProfessorService {
 
     public ProfessorDTO save(ProfessorDTO professorDTO) {
         this.validateExistencia(professorDTO.getCpf());
-
-        LOGGER.info("Cadastrando novo professor...");
+        this.validateExistenciaEmail(professorDTO.getEmail());
 
         Professor professor = new Professor(
                 professorDTO.getNome(),
@@ -35,9 +31,15 @@ public class ProfessorService {
     }
 
     public ProfessorDTO update(ProfessorDTO professorDTO) {
-        LOGGER.info("Atualizando professor de ID [{}]", professorDTO.getId());
-
         Optional<Professor> professorExistente = this.iProfessorRepository.findById(professorDTO.getId());
+
+        if (!professorDTO.getCpf().equals(professorExistente.get().getCpf())) {
+            validateExistencia(professorDTO.getCpf());
+        }
+
+        if (!professorDTO.getEmail().equals(professorExistente.get().getEmail())) {
+            validateExistenciaEmail(professorDTO.getEmail());
+        }
 
         Professor professorNovo = professorExistente.get();
         professorNovo.setNome(professorDTO.getNome());
@@ -51,7 +53,7 @@ public class ProfessorService {
         return ProfessorDTO.of(professorNovo);
     }
 
-    public ProfessorDTO get(Long id) {
+    public ProfessorDTO findById(Long id) {
         Optional<Professor> professorOptional = this.iProfessorRepository.findById(id);
 
         if (professorOptional.isPresent()) {
@@ -61,13 +63,12 @@ public class ProfessorService {
         throw new IllegalArgumentException(String.format("Professor de ID [%s] não existe.", id));
     }
 
-    public List<Professor> getAll() {
+    public List<Professor> findAll() {
         return this.iProfessorRepository.findAll();
     }
 
     public void delete(Long id) {
         if (this.iProfessorRepository.existsById(id)) {
-            LOGGER.info("Excluindo professor de ID [{}]", id);
 
             this.iProfessorRepository.deleteById(id);
         } else {
@@ -79,6 +80,12 @@ public class ProfessorService {
     private void validateExistencia(String cpf) {
         if (this.iProfessorRepository.existsByCpf(cpf)) {
             throw new IllegalArgumentException("CPF já cadastrado.");
+        }
+    }
+
+    private void validateExistenciaEmail(String email) {
+        if (iProfessorRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("E-mail já cadastrado");
         }
     }
 }

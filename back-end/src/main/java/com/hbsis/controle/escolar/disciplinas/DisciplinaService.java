@@ -1,7 +1,5 @@
 package com.hbsis.controle.escolar.disciplinas;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,14 +7,13 @@ import java.util.Optional;
 
 @Service
 public class DisciplinaService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DisciplinaService.class);
     private final IDisciplinaRepository iDisciplinaRepository;
 
     public DisciplinaService(IDisciplinaRepository iDisciplinaRepository) {
         this.iDisciplinaRepository = iDisciplinaRepository;
     }
 
-    public DisciplinaDTO save(DisciplinaDTO disciplinaDTO){
+    public DisciplinaDTO save(DisciplinaDTO disciplinaDTO) {
         validarExistencia(disciplinaDTO.getNome());
 
         Disciplina novaD = new Disciplina(
@@ -28,7 +25,7 @@ public class DisciplinaService {
         return DisciplinaDTO.of(novaD);
     }
 
-    public DisciplinaDTO update(DisciplinaDTO disciplinaDTO){
+    public DisciplinaDTO update(DisciplinaDTO disciplinaDTO) {
         Disciplina existenteD = findById(disciplinaDTO.getId());
 
         existenteD.setNome(disciplinaDTO.getNome());
@@ -52,11 +49,10 @@ public class DisciplinaService {
         return iDisciplinaRepository.findAll();
     }
 
-    public void delete(Long id){
-        if(iDisciplinaRepository.existsById(id)){
+    public void delete(Long id) {
+        if (iDisciplinaRepository.existsById(id)) {
             this.iDisciplinaRepository.deleteById(id);
-        }
-        else{
+        } else {
             throw new IllegalArgumentException("Disciplina não existente.");
         }
     }

@@ -1,0 +1,54 @@
+.submitted .ng-invalid {
+    border-color: red;
+}
+
+.form-control:focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.form-control {
+    border-color: #343a40;
+}
+
+.lupa {
+    cursor: text;
+}
+
+.erro {
+    position: relative;
+}
+
+.erroMsg {
+    right: 0;
+    position: absolute;
+    z-index: 10;
+}
+
+.erroBoletim{
+    left: 122px;
+    width: 80%;
+    position: absolute;
+    z-index: 10;
+}
+
+.form-control:focus {
+    border-color: #cecece;
+    transition: 0.7s;
+}
+
+.input-no-focus{
+    color: #343a40;
+}
+
+.cursor-not-allowed{
+    cursor: not-allowed;
+}
+
+.input-no-focus:focus{
+    border-color: #343a40;
+}
+
+#descricao{
+    resize: none;
+}

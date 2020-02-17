@@ -1,8 +1,5 @@
 package com.hbsis.controle.escolar.alunos;
 
-import com.hbsis.controle.escolar.boletim.Boletim;
-import com.hbsis.controle.escolar.turmas.Turma;
-
 import javax.persistence.*;
 
 @Entity

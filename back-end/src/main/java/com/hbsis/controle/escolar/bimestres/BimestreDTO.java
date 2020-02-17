@@ -19,7 +19,7 @@ public class BimestreDTO {
         this.bimestre = bimestre;
     }
 
-    public static BimestreDTO of (Bimestre bimestre){
+    public static BimestreDTO of(Bimestre bimestre) {
         return new BimestreDTO(
                 bimestre.getId(),
                 bimestre.getBimestre()

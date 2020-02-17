@@ -4,9 +4,7 @@ import com.hbsis.controle.escolar.alunos.Aluno;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.util.List;
 
 public class TurmaDTO {
@@ -31,7 +29,7 @@ public class TurmaDTO {
         this.alunos = alunos;
     }
 
-    public static TurmaDTO of (Turma turma){
+    public static TurmaDTO of(Turma turma) {
         return new TurmaDTO(
                 turma.getId(),
                 turma.getCodigo(),

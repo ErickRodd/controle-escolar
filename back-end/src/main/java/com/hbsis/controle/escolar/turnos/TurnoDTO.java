@@ -12,7 +12,7 @@ public class TurnoDTO {
         this.horario = horario;
     }
 
-    public static TurnoDTO of (Turno turno){
+    public static TurnoDTO of(Turno turno) {
         return new TurnoDTO(
                 turno.getId(),
                 turno.getHorario()
