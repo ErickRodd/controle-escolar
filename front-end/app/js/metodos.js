@@ -8,3 +8,7 @@ function campoNumerico(event) {
         return true;
     }
 };
+
+function campoCpf(event) {
+    $(event).mask('000.000.000-00');
+}

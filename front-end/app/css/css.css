@@ -25,6 +25,13 @@
     z-index: 10;
 }
 
+.erroBoletim{
+    left: 122px;
+    width: 80%;
+    position: absolute;
+    z-index: 10;
+}
+
 .form-control:focus {
     border-color: #cecece;
     transition: 0.7s;

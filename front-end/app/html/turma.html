@@ -40,7 +40,8 @@
                         <select ng-model="turma.alunos"
                             ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }"
                             class="form-control" multiple id="alunos" name="alunos">
-                            <option ng-repeat="aluno in alunoLista" ng-value="{{aluno}}">
+                            <option ng-repeat="aluno in alunoLista" ng-value="{{aluno}}"
+                                onclick="console.log($scope.turma)">
                                 {{aluno.nome + " " + aluno.sobrenome}}
                             </option>
                         </select>
@@ -103,10 +104,10 @@
                                 {{turma.turno.horario}}
                             </td class="align-middle">
                             <td class="align-middle border-left border-bottom  border-dark">
-                                <a title="Editar" class="btn" ng-click="buscarTurma(turma.id)"><img
-                                        src="app\imgs\pencil.svg" alt="Editar" width="22"></a>
-                                <a title="Excluir" class="btn" ng-click="excluir(turma.id)"><img
-                                        src="app\imgs\remove.svg" alt="Excluir" width="22"></a>
+                                <button title="Editar" name="editar" class="acoes btn bg-white" ng-click="buscarTurma(turma.id)"><img
+                                        src="app\imgs\pencil.svg" alt="Editar" width="22"/></button>
+                                <button title="Excluir" class="acoes btn bg-white" ng-click="excluir(turma.id)"><img
+                                        src="app\imgs\remove.svg" alt="Excluir" width="22"></button>
                             </td>
                         </tr>
                     </tbody>

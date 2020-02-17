@@ -36,7 +36,7 @@
                             <input required ng-model="aluno.cpf"
                                 ng-model-options="{ updateOn: 'default blur', debounce: { default: 300, blur: 0 } }"
                                 type="text" class="form-control" id="cpf" name="cpf" minlength="11" maxlength="14"
-                                onkeypress="$(this).mask('000.000.000-00');" autocomplete="off" aria-describedby="erro">
+                                onkeypress="campoCpf(this)" autocomplete="off" aria-describedby="erro">
                             <small id="erro" class="text-danger erroMsg" ng-show="form.cpf.$error.minlength">Informe
                                 um
                                 CPF

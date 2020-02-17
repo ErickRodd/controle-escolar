@@ -36,13 +36,13 @@ angular.module('app').controller('turma', ['$scope', '$http', '$rootScope', '$lo
     };
 
     $scope.buscarTurma = function (id) {
+        $('button.acoes').attr('disabled', true);
+
         $http({
             method: 'GET',
             url: 'http://localhost:8080/turmas/' + id,
             data: id
         }).then(function successCallback(response) {
-
-            // $scope.listarAlunos();
 
             for (i = 0; i < response.data.alunos.length; i++) {
                 $scope.alunoLista.push(response.data.alunos[i]);
@@ -65,6 +65,7 @@ angular.module('app').controller('turma', ['$scope', '$http', '$rootScope', '$lo
         $scope.mostrarAtualizar = false;
         $scope.resetar();
         $scope.listarAlunos();
+        $('button.acoes').attr('disabled', false);
     };
 
     $scope.atualizar = function (obj) {

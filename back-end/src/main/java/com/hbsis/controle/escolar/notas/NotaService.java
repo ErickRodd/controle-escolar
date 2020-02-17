@@ -167,7 +167,7 @@ public class NotaService {
 
     private void validateExistenciaByAlunoAndBimestre(Long alunoId, Long bimestreId) {
         if (!iNotaRepository.existsByAluno_Id(alunoId)) {
-            throw new IllegalArgumentException("Nenhuma nota encontradas para este aluno.");
+            throw new IllegalArgumentException("Nenhuma nota encontrada para este aluno.");
         }
 
         if (!iNotaRepository.existsByAluno_IdAndBimestre_Id(alunoId, bimestreId)) {
