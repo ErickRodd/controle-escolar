@@ -4,8 +4,10 @@
   <li><strong>Back-end</strong></li>
   <ol>
     <li>Clonar o repositório em uma nova pasta.</li>
-    <li>Nessa pasta dar um checkout na branch 'dev'.</li>
-    <li>No IntelliJ, ir em importar um novo projeto e selecionar a pasta 'back-end' dentro da pasta do projeto.</li>
+    <li>Nessa pasta dar um checkout na branch 'dev'(se aparecer a mensagem de Untracked files prevent checkout, deletar a pasta .idea).</li>
+    <li>Fechar esse projeto e ir em 'Import project'.</li>
+    <li>Selecionar a pasta 'back-end' dentro da pasta do projeto.</li>
+    <li>Ao aparecer a mensagem de Non-managed pom.xml file, adicionar como projeto Maven.</li>
     <li>Após terminar de baixar as dependências, abrir o terminal do IntelliJ e entrar no dirétorio 'docker'.</li>
     <li>Digitar o comando 'docker-compose up' e dar um enter.</li>
     <li>Quando o container estiver criado, rodar a aplicação na main.</li>
