@@ -4,26 +4,34 @@
   <li><strong>Back-end</strong></li>
   <ol>
     <li>Clonar o repositório em uma nova pasta.</li>
-    <li>Nessa pasta dar um checkout na branch 'dev'(se aparecer a mensagem de Untracked files prevent checkout, deletar a pasta .idea).</li>
-    <li>Fechar esse projeto e ir em 'Import project'.</li>
-    <li>Selecionar a pasta 'back-end' dentro da pasta do projeto.</li>
-    <li>Ao aparecer a mensagem de Non-managed pom.xml file, adicionar como projeto Maven.</li>
+    <li>Abrir o IntelliJ e ir em importar projeto.</li>
+    <li>Selecionar a pom.xml dentro da pasta onde o repositório foi clonado.</li>
+    <li>Adicionar a pom como projeto Maven.</li>
     <li>Após terminar de baixar as dependências, abrir o terminal do IntelliJ e entrar no dirétorio 'docker'.</li>
-    <li>Digitar o comando 'docker-compose up' e dar um enter.</li>
+    <li>Digitar o comando 'docker-compose -p gestao-escolar up' e dar um enter.</li>
     <li>Quando o container estiver criado, rodar a aplicação na main.</li>
     <li>Já vão estar criados dados para emissão do boletim.</li>
   </ol>
   <br>
   <li><strong>Front-end</strong></li>
   <ol>
-    <li>No VSCode, baixar a extensão Live Server.</li>
-    <li>Abrir a pasta 'front-end' dentro da pasta do projeto.</li>
-    <li>Abrir o arquivo 'index.html' e rodar o Live Server.</li>
+    <li>Em um novo terminal, navegar até dentro da pasta 'front-end'.</li>
+    <li>Instalar o plugin http-server pelo seguinto comando:</li>
+    <strong>npm install -g http-server</strong>
+    <li>Rodar o servidor web pelo comando:</li>
+    <strong>http-server</strong>
+    <li>Abrir um dos links que irá aparecer no console do terminal.</li>
   </ol>
   <br>
   <li><strong>Banco de dados</strong></li>
   <ol>
-    <li>Se quiser acompanhar o banco de dados, fornecedor o server name 'localhost' em algum gerenciador de banco de dados.</li>
-    <li>Logar com o usuário 'sa' e senha 'Hbsis123'.</li>
+    <li>Para acompanhar o banco de dados, abrir o seu gerenciador de banco de dados de preferência e definir uma nova conexão com o nome:</li>
+    <strong>localhost</strong>
+    <li>Porta:</li>
+    <strong>1477</strong>
+    <li>Usuário:</li>
+    <strong>sa</strong>
+    <li>Senha:</li>
+    <strong>Schooling123</strong>
   </ol>
 </ul>
