@@ -1,9 +1,9 @@
 sqlserver:
   image: microsoft/mssql-server-linux
-  container_name: schooling
+  container_name: gestao_escolar_sqlserver
   hostname: schooling
   environment:
     - ACCEPT_EULA=Y
     - SA_PASSWORD=Schooling123
   ports:
-    - 1477:1433
+    - 1476:1433
